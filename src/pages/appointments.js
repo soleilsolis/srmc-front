@@ -1,6 +1,5 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
-import { useAppointment } from '@/hooks/appointment'
 import { useEffect, useState, createElement } from 'react'
 import axios from '@/lib/axios'
 import moment from 'moment'
@@ -30,9 +29,22 @@ const Appointments = () => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
+    const newAppointment = async ({ ...props }) => {
+        await csrf()
+
+        axios
+            .post('/api/appointment', props, config)
+            .then(() => {
+                location.reload()
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+            })
+    }
+
     const fetch = async () => {
         await csrf()
-        
+
         axios
             .get('/api/appointments')
             .then(res => {
@@ -92,7 +104,6 @@ const Appointments = () => {
 
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(!open)
-    const { newAppointment } = useAppointment()
 
     const typeOptions = [
         { value: '', text: 'Choose an option' },
