@@ -56,7 +56,8 @@ const Appointments = () => {
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
                                     <a
                                         href={appointment.payment_link}
-                                        target="_blank">
+                                        target="_blank"
+                                        rel="noreferrer">
                                         <Button
                                             variant="gradient"
                                             className="rounded-full"
@@ -78,8 +79,6 @@ const Appointments = () => {
             })
             .catch(error => {
                 if (error.response.status !== 409) throw error
-
-                router.push('/verify-email')
             })
     }
 
@@ -105,9 +104,6 @@ const Appointments = () => {
     const [doctor_id, setDoctorId] = useState(doctorIdOptions[1].value)
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
-
-
-
 
     const submitForm = async event => {
         event.preventDefault()
@@ -152,10 +148,12 @@ const Appointments = () => {
                             <Select
                                 label="Type"
                                 value={type}
-                                name='type'
+                                name="type"
                                 onChange={event => setType(event)}>
                                 {typeOptions.map(option => (
-                                    <Option value={option.value} key={option.value}>
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
                                         {option.text}
                                     </Option>
                                 ))}
@@ -166,11 +164,12 @@ const Appointments = () => {
                             <Select
                                 label="Doctor"
                                 value={doctor_id}
-                                name='doctor_id'
-
+                                name="doctor_id"
                                 onChange={event => setDoctorId(event)}>
                                 {doctorIdOptions.map(option => (
-                                    <Option value={option.value}  key={option.value}>
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
                                         {option.text}
                                     </Option>
                                 ))}

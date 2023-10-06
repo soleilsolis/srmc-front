@@ -1,12 +1,4 @@
 import axios from '@/lib/axios'
-import { useState } from 'react'
-import {
-    Card,
-    CardBody,
-    CardFooter,
-    Typography,
-    Button,
-} from '@material-tailwind/react'
 
 export const useAppointment = () => {
     const newAppointment = ({ ...props }) => {
@@ -21,7 +13,6 @@ export const useAppointment = () => {
     }
 
     return {
-        newAppointment,
-        indexAppointments,
+        newAppointment
     }
 }
