@@ -49,7 +49,8 @@ export const useAppointment = () => {
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
                                     <a
                                         href={appointment.payment_link}
-                                        target="_blank">
+                                        target="_blank"
+                                        rel="noreferrer">
                                         <Button
                                             variant="gradient"
                                             className="rounded-full"
@@ -71,8 +72,6 @@ export const useAppointment = () => {
             })
             .catch(error => {
                 if (error.response.status !== 409) throw error
-
-                router.push('/verify-email')
             })
 
         return appointments
