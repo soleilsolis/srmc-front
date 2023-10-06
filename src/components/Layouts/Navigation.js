@@ -28,7 +28,7 @@ import {
     PresentationChartBarIcon,
 } from '@heroicons/react/24/outline'
 
-function ProfileMenu({ user }) {
+function ProfileMenu() {
     const { logout } = useAuth()
 
     const profileMenuItems = [
@@ -214,7 +214,7 @@ function NavList() {
     return (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
             <NavListMenu />
-            {navListItems.map(({ label, icon, href }, key) => (
+            {navListItems.map(({ label, icon, href }) => (
                 <Typography
                     key={label}
                     as="a"
