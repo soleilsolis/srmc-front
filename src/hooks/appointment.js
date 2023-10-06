@@ -6,21 +6,17 @@ import {
     CardFooter,
     Typography,
     Button,
-
 } from '@material-tailwind/react'
 
 export const useAppointment = () => {
-    
-    const newAppointment = ({...props}) => {
+    const newAppointment = ({ ...props }) => {
         axios
             .post('/api/appointment', props)
-            .then(res => {
+            .then(() => {
                 location.reload()
             })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
-               
             })
     }
 
@@ -78,7 +74,7 @@ export const useAppointment = () => {
 
                 router.push('/verify-email')
             })
-        
+
         return appointments
     }
 
