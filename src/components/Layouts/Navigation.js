@@ -38,6 +38,20 @@ const Navigation = ({ user }) => {
                                 Dashboard
                             </NavLink>
                         </div>
+                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink
+                                href="/appointments"
+                                active={router.pathname === '/appointments'}>
+                                Appointments
+                            </NavLink>
+                        </div>
+                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink
+                                href="/new-appointment"
+                                active={router.pathname === '/new-appointment'}>
+                                New
+                            </NavLink>
+                        </div>
                     </div>
 
                     {/* Settings Dropdown */}
