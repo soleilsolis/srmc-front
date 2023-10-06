@@ -10,11 +10,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         headers:{
           "Access-Control-Allow-Origin": "*",
         }
-      };
+    };
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
-            .get('/api/user')
+            .get('/api/user', config)
             .then(res => res.data)
             .catch(error => {
                 if (error.response.status !== 409) throw error
@@ -92,13 +92,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const resendEmailVerification = ({ setStatus }) => {
         axios
-            .post('/email/verification-notification')
+            .post('/email/verification-notification', config)
             .then(response => setStatus(response.data.status))
     }
 
     const logout = async () => {
         if (!error) {
-            await axios.post('/logout').then(() => mutate())
+            await axios.post('/logout', config).then(() => mutate())
         }
 
         window.location.pathname = '/login'
