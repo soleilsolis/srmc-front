@@ -6,6 +6,12 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
 
+    const config = {
+        headers:{
+          "Access-Control-Allow-Origin": "*",
+        }
+      };
+
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
             .get('/api/user')
@@ -41,7 +47,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/login', props)
+            .post('/login', props, config)
             .then(() => mutate())
             .catch(error => {
                 if (error.response.status !== 422) throw error
@@ -57,7 +63,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/forgot-password', { email })
+            .post('/forgot-password', { email }, config)
             .then(response => setStatus(response.data.status))
             .catch(error => {
                 if (error.response.status !== 422) throw error
@@ -73,7 +79,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/reset-password', { token: router.query.token, ...props })
+            .post('/reset-password', { token: router.query.token, ...props }, config)
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
             )
