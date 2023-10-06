@@ -1,173 +1,277 @@
-import ApplicationLogo from '@/components/ApplicationLogo'
-import Dropdown from '@/components/Dropdown'
-import Link from 'next/link'
-import NavLink from '@/components/NavLink'
-import ResponsiveNavLink, {
-    ResponsiveNavButton,
-} from '@/components/ResponsiveNavLink'
-import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect, createElement, Fragment } from 'react'
 
-const Navigation = ({ user }) => {
-    const router = useRouter()
+import {
+    Navbar,
+    MobileNav,
+    Typography,
+    Button,
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+    Avatar,
+    Card,
+    IconButton,
+  } from "@material-tailwind/react";
+  import {
+    CubeTransparentIcon,
+    UserCircleIcon,
+    CodeBracketSquareIcon,
+    Square3Stack3DIcon,
+    ChevronDownIcon,
+    Cog6ToothIcon,
+    InboxArrowDownIcon,
+    LifebuoyIcon,
+    PowerIcon,
+    RocketLaunchIcon,
+    Bars2Icon,
+    ClipboardIcon,
+    PresentationChartBarIcon,
+  } from "@heroicons/react/24/outline";
 
+  
+
+   
+function ProfileMenu({ user }) {
     const { logout } = useAuth()
 
-    const [open, setOpen] = useState(false)
-
+      const profileMenuItems = [
+    {
+      label: "My Profile",
+      icon: UserCircleIcon,
+    },
+    {
+      label: "Edit Profile",
+      icon: Cog6ToothIcon,
+    },
+    {
+      label: "Inbox",
+      icon: InboxArrowDownIcon,
+    },
+    {
+      label: "Help",
+      icon: LifebuoyIcon,
+    },
+    {
+      label: "Sign Out",
+      icon: PowerIcon,
+      onclick: logout,
+    },
+  ];
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   
+    const closeMenu = () => setIsMenuOpen(false);
+   
     return (
-        <nav className="bg-white border-b border-gray-100">
-            {/* Primary Navigation Menu */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex">
-                        {/* Logo */}
-                        <div className="flex-shrink-0 flex items-center">
-                            <Link href="/dashboard">
-                                <ApplicationLogo className="block h-10 w-auto fill-current text-gray-600" />
-                            </Link>
-                        </div>
-
-                        {/* Navigation Links */}
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink
-                                href="/dashboard"
-                                active={router.pathname === '/dashboard'}>
-                                Dashboard
-                            </NavLink>
-                        </div>
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink
-                                href="/appointments"
-                                active={router.pathname === '/appointments'}>
-                                Appointments
-                            </NavLink>
-                        </div>
-                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink
-                                href="/new-appointment"
-                                active={router.pathname === '/new-appointment'}>
-                                New
-                            </NavLink>
-                        </div>
-                    </div>
-
-                    {/* Settings Dropdown */}
-                    <div className="hidden sm:flex sm:items-center sm:ml-6">
-                        <Dropdown
-                            align="right"
-                            width="48"
-                            trigger={
-                                <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
-                                    <div>{user?.name}</div>
-
-                                    <div className="ml-1">
-                                        <svg
-                                            className="fill-current h-4 w-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </div>
-                                </button>
-                            }>
-                            {/* Authentication */}
-                            <DropdownButton onClick={logout}>
-                                Logout
-                            </DropdownButton>
-                        </Dropdown>
-                    </div>
-
-                    {/* Hamburger */}
-                    <div className="-mr-2 flex items-center sm:hidden">
-                        <button
-                            onClick={() => setOpen(open => !open)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                            <svg
-                                className="h-6 w-6"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 24 24">
-                                {open ? (
-                                    <path
-                                        className="inline-flex"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                ) : (
-                                    <path
-                                        className="inline-flex"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                )}
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Responsive Navigation Menu */}
-            {open && (
-                <div className="block sm:hidden">
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            href="/dashboard"
-                            active={router.pathname === '/dashboard'}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    {/* Responsive Settings Options */}
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="flex items-center px-4">
-                            <div className="flex-shrink-0">
-                                <svg
-                                    className="h-10 w-10 fill-current text-gray-400"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                                    />
-                                </svg>
-                            </div>
-
-                            <div className="ml-3">
-                                <div className="font-medium text-base text-gray-800">
-                                    {user?.name}
-                                </div>
-                                <div className="font-medium text-sm text-gray-500">
-                                    {user?.email}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            {/* Authentication */}
-                            <ResponsiveNavButton onClick={logout}>
-                                Logout
-                            </ResponsiveNavButton>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </nav>
-    )
+      <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+        <MenuHandler>
+          <Button
+            variant="text"
+            color="blue-gray"
+            className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+          >
+            <Avatar
+              variant="circular"
+              size="sm"
+              alt="tania andrew"
+              className="border border-gray-900 p-0.5"
+              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            />
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`h-3 w-3 transition-transform ${
+                isMenuOpen ? "rotate-180" : ""
+              }`}
+            />
+          </Button>
+        </MenuHandler>
+        <MenuList className="p-1">
+          {profileMenuItems.map(({ label, icon, onclick }, key) => {
+            const isLastItem = key === profileMenuItems.length - 1;
+            return (
+              <MenuItem
+                key={label}
+                onClick={onclick}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
+              >
+                {createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                  
+                >
+                  {label}
+                </Typography>
+              </MenuItem>
+            );
+          })}
+        </MenuList>
+      </Menu>
+    );
+  }
+   
+  // nav list menu
+  const navListMenuItems = [
+    {
+      title: "@material-tailwind/html",
+      description:
+        "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+    },
+    {
+      title: "@material-tailwind/react",
+      description:
+        "Learn how to use @material-tailwind/react, packed with rich components for React.",
+    },
+    {
+      title: "Material Tailwind PRO",
+      description:
+        "A complete set of UI Elements for building faster websites in less time.",
+    },
+  ];
+   
+  function NavListMenu() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   
+    const renderItems = navListMenuItems.map(({ title, description }) => (
+      <a href="#" key={title}>
+        <MenuItem>
+          <Typography variant="h6" color="blue-gray" className="mb-1">
+            {title}
+          </Typography>
+          <Typography variant="small" color="gray" className="font-normal">
+            {description}
+          </Typography>
+        </MenuItem>
+      </a>
+    ));
+   
+    return (
+      <Fragment>
+        <Menu allowHover open={isMenuOpen} handler={setIsMenuOpen}>
+          <MenuHandler>
+            <Typography as="a" href="#" variant="small" className="font-normal">
+              <MenuItem className="hidden items-center gap-2 text-blue-gray-900 lg:flex lg:rounded-full">
+                <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+                <ChevronDownIcon
+                  strokeWidth={2}
+                  className={`h-3 w-3 transition-transform ${
+                    isMenuOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </MenuItem>
+            </Typography>
+          </MenuHandler>
+          <MenuList className="hidden w-[36rem] grid-cols-7 gap-3 overflow-visible lg:grid">
+            <Card
+              color="blue"
+              shadow={false}
+              variant="gradient"
+              className="col-span-3 grid h-full w-full place-items-center rounded-md"
+            >
+              <RocketLaunchIcon strokeWidth={1} className="h-28 w-28" />
+            </Card>
+            <ul className="col-span-4 flex w-full flex-col gap-1">
+              {renderItems}
+            </ul>
+          </MenuList>
+        </Menu>
+        <MenuItem className="flex items-center gap-2 text-blue-gray-900 lg:hidden">
+          <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Pages{" "}
+        </MenuItem>
+        <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
+          {renderItems}
+        </ul>
+      </Fragment>
+    );
+  }
+   
+  // nav list component
+  const navListItems = [
+    {
+      label: "Dashboard",
+      icon: PresentationChartBarIcon,
+      href: "/appointments",
+    },
+    {
+      label: "Appointments",
+      icon: ClipboardIcon,
+      href: "/appointments",
+    },
+  ];
+   
+function NavList() {
+  return (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
+      <NavListMenu />
+      {navListItems.map(({ label, icon, href }, key) => (
+        <Typography
+          key={label}
+          as="a"
+          href={href}
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
+          <MenuItem className="flex items-center gap-2 lg:rounded-full">
+            {createElement(icon, { className: "h-[18px] w-[18px]" })}{" "}
+            {label}
+          </MenuItem>
+        </Typography>
+      ))}
+    </ul>
+  );
 }
 
-export default Navigation
+export default function Navigation() {
+    const [isNavOpen, setIsNavOpen] = useState(false);
+   
+    const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
+   
+    useEffect(() => {
+      window.addEventListener(
+        "resize",
+        () => window.innerWidth >= 960 && setIsNavOpen(false),
+      );
+    }, []);
+   
+    return (
+      <Navbar className="mx-auto max-w-screen-7xl p-2 mb-4 lg:rounded-full lg:pl-6">
+        <div className="relative max-w-screen-3xl xl:px-16 md:px-0 mx-auto flex items-center text-blue-gray-900 ">
+          <Typography
+            as="a"
+            href="#"
+            className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
+          >
+            Material Tailwind
+          </Typography>
+          <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
+            <NavList />
+          </div>
+          <IconButton
+            size="sm"
+            color="blue-gray"
+            variant="text"
+            onClick={toggleIsNavOpen}
+            className="ml-auto mr-2 lg:hidden"
+          >
+            <Bars2Icon className="h-6 w-6" />
+          </IconButton>
+          <ProfileMenu />
+        </div>
+        <MobileNav open={isNavOpen} className="overflow-scroll">
+          <NavList />
+        </MobileNav>
+      </Navbar>
+    );
+  }
+

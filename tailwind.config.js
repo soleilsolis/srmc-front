@@ -7,7 +7,7 @@ module.exports = withMT({
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Onest', ...defaultTheme.fontFamily.sans],
             },
         },
     },

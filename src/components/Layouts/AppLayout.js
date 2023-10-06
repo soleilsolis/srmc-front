@@ -1,22 +1,26 @@
 import Navigation from '@/components/Layouts/Navigation'
 import { useAuth } from '@/hooks/auth'
+import { Typography } from '@material-tailwind/react'
 
 const AppLayout = ({ header, children }) => {
     const { user } = useAuth({ middleware: 'auth' })
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <Navigation user={user} />
+        <div className="min-h-screen bg-gray-50 pt-2">
+            <div className='px-2'><Navigation user={user} /></div>
 
             {/* Page Heading */}
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {header}
+            <header>
+                <div className="max-w-screen-xl  mx-auto pt-6 pb-4 px-4 sm:px-6 lg:px-8">
+                    
+                    <Typography variant='h4' className='text-gray-800 '>{header}</Typography>
                 </div>
             </header>
 
             {/* Page Content */}
-            <main>{children}</main>
+            <main className="max-w-screen-xl mx-auto ">
+                <div className="sm:px-6 ">{children}</div>
+            </main>
         </div>
     )
 }

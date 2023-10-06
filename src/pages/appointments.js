@@ -1,77 +1,216 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
 import { useAppointment } from '@/hooks/appointment'
-import { useEffect, useState } from 'react'
-import useSWR from 'swr'
+import { useEffect, useState, createElement } from 'react'
 import axios from '@/lib/axios'
+import moment from 'moment'
+
 import {
     Card,
     CardBody,
     CardFooter,
     Typography,
     Button,
-  } from "@material-tailwind/react";
+    Spinner,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+    Select,
+    Option,
+    Input,
+} from '@material-tailwind/react'
+
+import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Appointments = () => {
+    const [appointments, getAppointments] = useState(
+        <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />,
+    )
 
-    const [appointments, getAppointments] = useState([]);
-
-
-    async function x () {
+    const fetch = () => {
         axios
-        .get('/api/appointments')
-        .then(res => {
-            
-            getAppointments(res.data.data)
-        })
-        .catch(error => {
-            if (error.response.status !== 409) throw error
+            .get('/api/appointments')
+            .then(res => {
+                getAppointments(
+                    <div className="grid lg:grid-cols-3 gap-2 md:gap-4 md:grid-cols-2 grid-cols-1">
+                        {res.data.data.map(appointment => (
+                            <Card className="transition ease-in-out mt-6 w-full ">
+                                <CardBody>
+                                    <Typography
+                                        variant="medium"
+                                        color="blue-gray">
+                                        #{appointment.id}
+                                    </Typography>
+                                    <Typography variant="h5" color="blue-gray">
+                                        {moment(
+                                            appointment.scheduled_at,
+                                        ).format('MMMM Do, YYYY')}
+                                    </Typography>
+                                    <Typography
+                                        variant="medium"
+                                        color="blue-gray">
+                                        Dr. Meredith Grey
+                                    </Typography>
+                                </CardBody>
+                                <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
+                                    <a
+                                        href={appointment.payment_link}
+                                        target="_blank">
+                                        <Button
+                                            variant="gradient"
+                                            className="rounded-full"
+                                            color="cyan">
+                                            Pay Now
+                                        </Button>
+                                    </a>
+                                    <Button
+                                        variant="text"
+                                        className="rounded-full"
+                                        color="cyan">
+                                        Details
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </div>,
+                )
+            })
+            .catch(error => {
+                if (error.response.status !== 409) throw error
 
-            router.push('/verify-email')
+                router.push('/verify-email')
+            })
+    }
+
+    useEffect(fetch, [])
+
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(!open)
+    const { newAppointment } = useAppointment()
+
+    const typeOptions = [
+        { value: '', text: 'Choose an option' },
+        { value: '1', text: 'In Person' },
+        { value: '2', text: 'Teleconsultation' },
+    ]
+
+    const doctorIdOptions = [
+        { value: '', text: 'Choose an option' },
+        { value: '1', text: 'Meredith Grey' },
+        { value: '2', text: 'Richard Burke' },
+    ]
+
+    const [type, setType] = useState(typeOptions[1].value)
+    const [doctor_id, setDoctorId] = useState(doctorIdOptions[1].value)
+    const [date, setDate] = useState('')
+    const [time, setTime] = useState('')
+
+
+
+
+    const submitForm = async event => {
+        event.preventDefault()
+
+        newAppointment({
+            type,
+            doctor_id,
+            date,
+            time,
         })
     }
-   
-    useEffect(() => {
-        x();
-    }, []);
-
 
     return (
         <AppLayout
             header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Appointments
-                </h2>
+                <div className="inline-flex w-full">
+                    My Appointments
+                    <Button
+                        color="cyan"
+                        className="flex items-center gap-3 rounded-full ml-auto"
+                        onClick={handleOpen}>
+                        {createElement(PlusIcon, {
+                            className: 'h-[18px] w-[18px]',
+                        })}
+                        New
+                    </Button>
+                </div>
             }>
             <Head>
                 <title>Appointments - SRMC</title>
             </Head>
-            
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className=" overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="">
-                            <div className='grid grid-cols-4 gap-4'>
-                            {appointments.map((appointment) => (
-                                 <Card className="mt-6 w-full">
-                                 <CardBody>
-                                   <Typography variant="h5" color="blue-gray" className="mb-2">
-                                     #{appointment.id}
-                                   </Typography>
-                                   <Typography>
-                                   { 'paid at: '+appointment.verified_at ?? 'not yet paid' }
-                                   </Typography>
-                                 </CardBody>
-                                 <CardFooter className="pt-0">
-                                   <a className='text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700' href={appointment.payment_link} >Pay Now</a>
-                                 </CardFooter>
-                               </Card>
-                            ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+            <div className="px-2 overflow-hidden">
+                <div className="pb-10">{appointments}</div>
             </div>
+
+            <Dialog open={open} handler={handleOpen}>
+                <DialogHeader>New Appointment</DialogHeader>
+                <DialogBody>
+                    <form>
+                        <div className="mb-6">
+                            <Select
+                                label="Type"
+                                value={type}
+                                name='type'
+                                onChange={event => setType(event)}>
+                                {typeOptions.map(option => (
+                                    <Option value={option.value} key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+
+                        <div className="mb-6">
+                            <Select
+                                label="Doctor"
+                                value={doctor_id}
+                                name='doctor_id'
+
+                                onChange={event => setDoctorId(event)}>
+                                {doctorIdOptions.map(option => (
+                                    <Option value={option.value}  key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Date"
+                                type="date"
+                                onChange={event => setDate(event.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Time"
+                                type="time"
+                                onChange={event => setTime(event.target.value)}
+                            />
+                        </div>
+                    </form>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        color="black"
+                        onClick={handleOpen}
+                        className="mr-1 rounded-full">
+                        <span>Cancel</span>
+                    </Button>
+                    <Button
+                        variant="gradient"
+                        color="cyan"
+                        className="rounded-full"
+                        onClick={submitForm}>
+                        <span>Confirm</span>
+                    </Button>
+                </DialogFooter>
+            </Dialog>
         </AppLayout>
     )
 }
