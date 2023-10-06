@@ -35,7 +35,9 @@ const Appointments = () => {
                 getAppointments(
                     <div className="grid lg:grid-cols-3 gap-2 md:gap-4 md:grid-cols-2 grid-cols-1">
                         {res.data.data.map(appointment => (
-                            <Card key={appointment.id} className="transition ease-in-out mt-6 w-full ">
+                            <Card 
+                                key={appointment.id} 
+                                className="transition ease-in-out mt-6 w-full ">
                                 <CardBody>
                                     <Typography
                                         variant="medium"
