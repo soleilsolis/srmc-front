@@ -27,6 +27,12 @@ const Appointments = () => {
         <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />,
     )
 
+    const config = {
+        headers:{
+          "Access-Control-Allow-Origin": "*",
+        }
+    };
+
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
     const newAppointment = async ({ ...props }) => {
