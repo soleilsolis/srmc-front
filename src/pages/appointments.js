@@ -28,7 +28,11 @@ const Appointments = () => {
         <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />,
     )
 
-    const fetch = () => {
+    const csrf = () => axios.get('/sanctum/csrf-cookie', config)
+
+    const fetch = async () => {
+        await csrf()
+        
         axios
             .get('/api/appointments')
             .then(res => {

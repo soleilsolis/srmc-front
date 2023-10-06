@@ -6,8 +6,12 @@ export const useAppointment = () => {
           "Access-Control-Allow-Origin": "*",
         }
     };
-    
-    const newAppointment = ({ ...props }) => {
+
+    const csrf = () => axios.get('/sanctum/csrf-cookie', config)
+
+    const newAppointment = async ({ ...props }) => {
+        await csrf()
+
         axios
             .post('/api/appointment', props, config)
             .then(() => {
