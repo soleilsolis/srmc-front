@@ -78,7 +78,7 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    {appointment.verified_at != null ? (
+                                    {appointment.verified_at == null ? (
                                         <a
                                             href={appointment.payment_link}
                                             target="_blank"
