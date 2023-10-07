@@ -7,10 +7,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
 
     const config = {
-        headers:{
-          "Access-Control-Allow-Origin": "*",
-        }
-    };
+        headers: {
+            "Access-Control-Allow-Origin": '*',
+        },
+    }
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
@@ -79,7 +79,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/reset-password', { token: router.query.token, ...props }, config)
+            .post(
+                '/reset-password',
+                { token: router.query.token, ...props },
+                config,
+            )
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
             )
