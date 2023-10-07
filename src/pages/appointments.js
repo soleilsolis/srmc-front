@@ -91,7 +91,12 @@ const Appointments = () => {
                                             </Button>
                                         </a>
                                     ) : (
-                                        ''
+                                        <Button
+                                            variant="gradient"
+                                            className="rounded-full"
+                                            color="gray">
+                                            Paid
+                                        </Button>
                                     )}
                                     <Button
                                         variant="text"
