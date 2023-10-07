@@ -2,10 +2,10 @@ import axios from '@/lib/axios'
 
 export const useAppointment = () => {
     const config = {
-        headers:{
-          "Access-Control-Allow-Origin": "*",
-        }
-    };
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    }
 
     const newAppointment = async ({ ...props }) => {
         const csrf = () => axios.get('/sanctum/csrf-cookie', config)
