@@ -78,27 +78,17 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    {appointment.verified_at == null ? (
+                                    <a
+                                        href={appointment.payment_link}
+                                        target="_blank"
+                                        rel="noreferrer">
                                         <Button
                                             variant="gradient"
                                             className="rounded-full"
-                                            color="black"
-                                            disabled>
-                                            Paid
+                                            color="cyan">
+                                            Pay Now
                                         </Button>
-                                    ) : (
-                                        <a
-                                            href={appointment.payment_link}
-                                            target="_blank"
-                                            rel="noreferrer">
-                                            <Button
-                                                variant="gradient"
-                                                className="rounded-full"
-                                                color="cyan">
-                                                Pay Now
-                                            </Button>
-                                        </a>
-                                    )}
+                                    </a>
                                     <Button
                                         variant="text"
                                         className="rounded-full"
