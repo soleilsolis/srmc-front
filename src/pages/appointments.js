@@ -28,10 +28,10 @@ const Appointments = () => {
     )
 
     const config = {
-        headers:{
-          "Access-Control-Allow-Origin": "*",
-        }
-    };
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    }
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
@@ -78,17 +78,27 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    <a
-                                        href={appointment.payment_link}
-                                        target="_blank"
-                                        rel="noreferrer">
+                                    {appointment.verified_at ? (
+                                        <a
+                                            href={appointment.payment_link}
+                                            target="_blank"
+                                            rel="noreferrer">
+                                            <Button
+                                                variant="gradient"
+                                                className="rounded-full"
+                                                color="cyan">
+                                                Pay Now
+                                            </Button>
+                                        </a>
+                                    ) : (
                                         <Button
                                             variant="gradient"
                                             className="rounded-full"
-                                            color="cyan">
-                                            Pay Now
+                                            color="black"
+                                            disabled>
+                                            Paid
                                         </Button>
-                                    </a>
+                                    )}
                                     <Button
                                         variant="text"
                                         className="rounded-full"

@@ -7,7 +7,6 @@ export const useAppointment = () => {
         }
     };
 
-
     const newAppointment = async ({ ...props }) => {
         const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
