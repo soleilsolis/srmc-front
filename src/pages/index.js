@@ -21,7 +21,7 @@ export default function Home() {
                     <div className="py-4 text-center">
                         {user ? (
                             <Link
-                                href="/dashboard"
+                                href="/appointments"
                                 className="text-xl text-cyan-700">
                                 Dashboard
                             </Link>
