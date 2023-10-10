@@ -8,7 +8,6 @@ import { useAppointment } from '@/hooks/appointment'
 
 import {
     Card,
-    Chip,
     CardBody,
     CardFooter,
     Typography,
