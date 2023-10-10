@@ -1,5 +1,5 @@
 module.exports = {
-    root: false,
+    root: true,
     parser: '@babel/eslint-parser',
     settings: {
         react: {
