@@ -8,6 +8,7 @@ import { useAppointment } from '@/hooks/appointment'
 
 import {
     Card,
+    Chip,
     CardBody,
     CardFooter,
     Typography,
@@ -65,14 +66,14 @@ const Appointments = () => {
     }
 
     const [openCancelForm, setOpenCancelForm] = useState(false)
-    const handleCancelForm = () => {
-        setXid(currentAppointment.id)
+    const handleCancelForm = id => {
+        setXid(id)
         setOpenCancelForm(!openCancelForm)
     }
 
     const [openAcceptForm, setOpenAcceptForm] = useState(false)
-    const handleAcceptForm = () => {
-        setXid(currentAppointment.id)
+    const handleAcceptForm = id => {
+        setXid(id)
         setOpenAcceptForm(!openAcceptForm)
     }
 
@@ -123,12 +124,11 @@ const Appointments = () => {
             })
     }
 
-    const cardControl = (appointment, bool) => {
+    const cardControl = appointment => {
         if (
             appointment.verified_at === null &&
             appointment.accepted_at !== null &&
-            appointment.cancelled_at === null &&
-            bool === true
+            appointment.cancelled_at === null
         ) {
             return (
                 <a
@@ -146,7 +146,7 @@ const Appointments = () => {
         } else if (appointment.cancelled_at !== null) {
             return (
                 <Button
-                    variant="gradient"
+                    variant="text"
                     className="rounded-full"
                     color="red"
                     disabled>
@@ -156,7 +156,7 @@ const Appointments = () => {
         } else if (appointment.verified_at !== null) {
             return (
                 <Button
-                    variant="gradient"
+                    variant="text"
                     className="rounded-full"
                     color="black"
                     disabled>
@@ -165,10 +165,7 @@ const Appointments = () => {
             )
         } else {
             return (
-                <Button
-                    variant="gradient"
-                    className="rounded-full"
-                    color="yellow">
+                <Button variant="text" className="rounded-full" color="yellow">
                     Pending
                 </Button>
             )
@@ -229,11 +226,41 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    {cardControl(
-                                        appointment,
-                                        user && user.type == 'patient'
-                                            ? false
-                                            : true,
+                                    {user && user.type === 'patient' ? (
+                                        cardControl(appointment)
+                                    ) : appointment.cancelled_at === null ? (
+                                        <div className="inline-flex gap-1">
+                                            <Button
+                                                variant="gradient"
+                                                color="cyan"
+                                                className="rounded-full"
+                                                onClick={() =>
+                                                    handleAcceptForm(
+                                                        appointment.id,
+                                                    )
+                                                }>
+                                                <span>Accept</span>
+                                            </Button>
+                                            <Button
+                                                variant="gradient"
+                                                color="red"
+                                                className="rounded-full"
+                                                onClick={() =>
+                                                    handleCancelForm(
+                                                        appointment.id,
+                                                    )
+                                                }>
+                                                <span>Cancel</span>
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <Button
+                                            variant="text"
+                                            className="rounded-full"
+                                            color="red"
+                                            disabled>
+                                            Cancelled
+                                        </Button>
                                     )}
 
                                     <Button
@@ -256,7 +283,9 @@ const Appointments = () => {
             })
     }
 
-    useEffect(fetch, [])
+    useEffect(() => {
+        fetch()
+    }, [])
 
     return (
         <AppLayout

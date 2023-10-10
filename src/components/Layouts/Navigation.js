@@ -236,6 +236,7 @@ function NavList() {
 
 export default function Navigation() {
     const [isNavOpen, setIsNavOpen] = useState(false)
+    const { user } = useAuth()
 
     const toggleIsNavOpen = () => setIsNavOpen(cur => !cur)
 
@@ -252,12 +253,13 @@ export default function Navigation() {
                 <Typography
                     as="a"
                     href="#"
-                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium">
+                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium inline-flex text-red-500 items-center gap-3 text-xl">
                     <img
                         className="h-10"
                         src="/ic_splashlogo.png"
                         alt="nature image"
                     />
+                    {user && user.type === 'doctor' ? 'Doctor' : ''}
                 </Typography>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
                     <NavList />
