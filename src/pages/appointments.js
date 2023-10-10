@@ -232,17 +232,28 @@ const Appointments = () => {
                                         cardControl(appointment)
                                     ) : appointment.cancelled_at === null ? (
                                         <div className="inline-flex gap-1">
-                                            <Button
-                                                variant="gradient"
-                                                color="cyan"
-                                                className="rounded-full"
-                                                onClick={() =>
-                                                    handleAcceptForm(
-                                                        appointment.id,
-                                                    )
-                                                }>
-                                                <span>Accept</span>
-                                            </Button>
+                                            {appointment.accepted_at ===
+                                            null ? (
+                                                <Button
+                                                    variant="gradient"
+                                                    color="cyan"
+                                                    className="rounded-full"
+                                                    onClick={() =>
+                                                        handleAcceptForm(
+                                                            appointment.id,
+                                                        )
+                                                    }>
+                                                    <span>Accept</span>
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="gradient"
+                                                    color="cyan"
+                                                    className="rounded-full"
+                                                    disabled>
+                                                    <span>Accepted</span>
+                                                </Button>
+                                            )}
                                             <Button
                                                 variant="gradient"
                                                 color="red"
