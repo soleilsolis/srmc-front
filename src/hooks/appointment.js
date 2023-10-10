@@ -1,4 +1,5 @@
 import axios from '@/lib/axios'
+import useSWR from 'swr'
 
 export const useAppointment = () => {
     const config = {
@@ -7,22 +8,36 @@ export const useAppointment = () => {
         },
     }
 
-    const newAppointment = async ({ ...props }) => {
-        const csrf = () => axios.get('/sanctum/csrf-cookie', config)
+    const { data: doctors, error, mutate } = useSWR('/api/users/doctors', () =>
+        axios.get('/api/users/doctors', config).then(res => res.data.data),
+    )
 
+    const csrf = () => axios.get('/sanctum/csrf-cookie', config)
+
+    const cancelAppointment = async id => {
         await csrf()
 
         axios
-            .post('/api/appointment', props, config)
-            .then(() => {
-                location.reload()
-            })
+            .put(`/api/appointment/cancel/${id}`, config)
+            .then(() => location.reload())
+    }
+
+    const acceptAppointment = async ({ setErrors, id, ...props}) => {
+        await csrf()
+
+        axios
+            .patch(`/api/appointment/${id}`, props, config)
+            .then(() => location.reload())
             .catch(error => {
                 if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
             })
     }
 
     return {
-        newAppointment,
+        doctors,
+        cancelAppointment,
+        acceptAppointment,
     }
 }
