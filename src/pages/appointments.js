@@ -207,7 +207,7 @@ const Appointments = () => {
                                     <Typography
                                         variant="small"
                                         color="blue-gray">
-                                        Dr. Meredith Grey
+                                        {appointment.doctor_name}
                                     </Typography>
                                     <Typography
                                         variant="large"
