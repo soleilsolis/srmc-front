@@ -8,6 +8,7 @@ import { useAppointment } from '@/hooks/appointment'
 
 import {
     Card,
+    Chip,
     CardBody,
     CardFooter,
     Typography,
@@ -145,7 +146,7 @@ const Appointments = () => {
         } else if (appointment.cancelled_at !== null) {
             return (
                 <Button
-                    variant="text"
+                    variant="gradient"
                     className="rounded-full"
                     color="red"
                     disabled>
@@ -155,7 +156,7 @@ const Appointments = () => {
         } else if (appointment.verified_at !== null) {
             return (
                 <Button
-                    variant="text"
+                    variant="gradient"
                     className="rounded-full"
                     color="black"
                     disabled>
@@ -164,7 +165,10 @@ const Appointments = () => {
             )
         } else {
             return (
-                <Button variant="text" className="rounded-full" color="yellow">
+                <Button
+                    variant="gradient"
+                    className="rounded-full"
+                    color="yellow">
                     Pending
                 </Button>
             )
@@ -254,7 +258,7 @@ const Appointments = () => {
                                         </div>
                                     ) : (
                                         <Button
-                                            variant="text"
+                                            variant="gradient"
                                             className="rounded-full"
                                             color="red"
                                             disabled>
