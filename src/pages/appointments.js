@@ -423,29 +423,6 @@ const Appointments = () => {
                         className="mr-1 rounded-full">
                         <span>Close</span>
                     </Button>
-
-                    {user &&
-                    user.type === 'doctor' &&
-                    currentAppointment.cancelled_at === null ? (
-                        <div className="inline-flex gap-1">
-                            <Button
-                                variant="gradient"
-                                color="red"
-                                className="rounded-full"
-                                onClick={handleCancelForm}>
-                                <span>Cancel</span>
-                            </Button>
-                            <Button
-                                variant="gradient"
-                                color="cyan"
-                                className="rounded-full"
-                                onClick={handleAcceptForm}>
-                                <span>Accept</span>
-                            </Button>
-                        </div>
-                    ) : (
-                        ''
-                    )}
                 </DialogFooter>
             </Dialog>
 
