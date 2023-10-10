@@ -228,7 +228,7 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    {user && user.type === 'patient' ? (
+                                    {appointment.user_type === 'patient' ? (
                                         cardControl(appointment)
                                     ) : appointment.cancelled_at === null ? (
                                         <div className="inline-flex gap-1">
