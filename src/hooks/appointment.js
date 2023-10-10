@@ -39,5 +39,7 @@ export const useAppointment = () => {
         doctors,
         cancelAppointment,
         acceptAppointment,
+        error,
+        mutate
     }
 }
