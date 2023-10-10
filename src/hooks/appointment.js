@@ -8,7 +8,7 @@ export const useAppointment = () => {
         },
     }
 
-    const { data: doctors } = useSWR('/api/users/doctors', () =>
+    const { data: doctors, error, mutate } = useSWR('/api/users/doctors', () =>
         axios.get('/api/users/doctors', config).then(res => res.data.data),
     )
 
@@ -22,7 +22,7 @@ export const useAppointment = () => {
             .then(() => location.reload())
     }
 
-    const acceptAppointment = async ({ setErrors, id, ...props }) => {
+    const acceptAppointment = async ({ setErrors, id, ...props}) => {
         await csrf()
 
         axios
@@ -39,7 +39,5 @@ export const useAppointment = () => {
         doctors,
         cancelAppointment,
         acceptAppointment,
-        error,
-        mutate,
     }
 }
