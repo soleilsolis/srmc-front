@@ -5,13 +5,7 @@ import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import { useAppointment } from '@/hooks/appointment'
 
-import {
-    Button,
-    Select,
-    Option,
-} from '@material-tailwind/react'
-
-import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { Button, Select, Option } from '@material-tailwind/react'
 
 import InputError from '@/components/InputError'
 
