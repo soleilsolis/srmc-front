@@ -5,7 +5,7 @@ import axios from '@/lib/axios'
 import moment from 'moment'
 import { useAuth } from '@/hooks/auth'
 import { useAppointment } from '@/hooks/appointment'
-
+import Link from 'next/link'
 import {
     Card,
     CardBody,
