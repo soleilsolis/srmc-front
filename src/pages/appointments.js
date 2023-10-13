@@ -55,7 +55,6 @@ const Appointments = () => {
     const [start_time, setStartTime] = useState('')
     const [end_time, setEndTime] = useState('')
     const [errors, setErrors] = useState([])
-    const [dateList, setDates] = useState([])
 
     const [currentAppointment, setCurrentAppointment] = useState([])
     const [xid, setXid] = useState(0)
@@ -299,7 +298,7 @@ const Appointments = () => {
                 <div className="inline-flex w-full">
                     My Appointments
                     {user && user.type === 'patient' ? (
-                        <a href="/new-appointment" className=" ml-auto">
+                        <Link href="/new-appointment" className=" ml-auto">
                             <Button
                                 color="cyan"
                                 className="flex items-center gap-3 rounded-full">
@@ -308,7 +307,7 @@ const Appointments = () => {
                                 })}
                                 New
                             </Button>
-                        </a>
+                        </Link>
                     ) : (
                         ''
                     )}
