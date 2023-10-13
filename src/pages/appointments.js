@@ -30,7 +30,13 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 
 const Appointments = () => {
     const { user } = useAuth({ middleware: 'auth' })
-    const { doctors, cancelAppointment, acceptAppointment } = useAppointment()
+    const {
+        doctors,
+        newAppointment,
+        cancelAppointment,
+        acceptAppointment,
+        availableDates,
+    } = useAppointment()
 
     const typeOptions = [
         { value: '', text: 'Choose an option' },
@@ -46,10 +52,11 @@ const Appointments = () => {
 
     const [type, setType] = useState(typeOptions[1].value)
     const [doctor_id, setDoctorId] = useState(doctorIdOptions[1].value)
-    const [date, setDate] = useState('')
+    const [date, setDate] = useState(1)
     const [start_time, setStartTime] = useState('')
     const [end_time, setEndTime] = useState('')
     const [errors, setErrors] = useState([])
+    const [dateList, setDates] = useState([])
 
     const [currentAppointment, setCurrentAppointment] = useState([])
     const [xid, setXid] = useState(0)
@@ -109,19 +116,6 @@ const Appointments = () => {
     }
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
-
-    const newAppointment = async ({ ...props }) => {
-        await csrf()
-
-        axios
-            .post('/api/appointment', props, config)
-            .then(() => location.reload())
-            .catch(error => {
-                if (error.response.status !== 422) throw error
-
-                setErrors(error.response.data.errors)
-            })
-    }
 
     const cardControl = appointment => {
         if (
@@ -306,15 +300,16 @@ const Appointments = () => {
                 <div className="inline-flex w-full">
                     My Appointments
                     {user && user.type === 'patient' ? (
-                        <Button
-                            color="cyan"
-                            className="flex items-center gap-3 rounded-full ml-auto"
-                            onClick={handleOpenAppointmentForm}>
-                            {createElement(PlusIcon, {
-                                className: 'h-[18px] w-[18px]',
-                            })}
-                            New
-                        </Button>
+                        <a href="/new-appointment" className=" ml-auto">
+                            <Button
+                                color="cyan"
+                                className="flex items-center gap-3 rounded-full">
+                                {createElement(PlusIcon, {
+                                    className: 'h-[18px] w-[18px]',
+                                })}
+                                New
+                            </Button>
+                        </a>
                     ) : (
                         ''
                     )}
@@ -374,11 +369,18 @@ const Appointments = () => {
                         </div>
 
                         <div className="mb-6">
-                            <Input
+                            <Select
                                 label="Date"
-                                type="date"
-                                onChange={event => setDate(event.target.value)}
-                            />
+                                name="date"
+                                value={date}
+                                onChange={event => setDate(event)}>
+                                <Option value="1" key="2">
+                                    asdfasd
+                                </Option>
+                                <Option value="2" key="2">
+                                    asdfasd
+                                </Option>
+                            </Select>
 
                             <InputError
                                 messages={errors.date}
