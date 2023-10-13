@@ -1,5 +1,6 @@
 import { useAuth } from '@/hooks/auth'
 import { useState, useEffect, createElement, Fragment } from 'react'
+import Link from 'next/link'
 
 import {
     Navbar,
@@ -134,7 +135,7 @@ function NavListMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const renderItems = navListMenuItems.map(({ title, description }) => (
-        <a href="#" key={title}>
+        <Link href="#" key={title}>
             <MenuItem>
                 <Typography variant="h6" color="blue-gray" className="mb-1">
                     {title}
@@ -146,7 +147,7 @@ function NavListMenu() {
                     {description}
                 </Typography>
             </MenuItem>
-        </a>
+        </Link>
     ))
 
     return (

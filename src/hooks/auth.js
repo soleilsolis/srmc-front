@@ -15,7 +15,12 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         axios
             .get('/api/user', config)
-            .then(res => res.data)
+            .then(res => {
+                if (res.data.email_verified_at === null)
+                    router.push('/verify-email')
+
+                return res.data
+            })
             .catch(error => {
                 if (error.response.status !== 409) throw error
 

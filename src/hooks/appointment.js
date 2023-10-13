@@ -26,7 +26,7 @@ export const useAppointment = () => {
 
         axios
             .post('/api/appointment', props, config)
-            .then(() => location.reload())
+            .then(() => location.href('/appointments'))
             .catch(error => {
                 if (error.response.status !== 422) throw error
 
