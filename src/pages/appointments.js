@@ -35,7 +35,6 @@ const Appointments = () => {
         newAppointment,
         cancelAppointment,
         acceptAppointment,
-        availableDates,
     } = useAppointment()
 
     const typeOptions = [

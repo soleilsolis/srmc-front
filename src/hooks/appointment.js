@@ -14,17 +14,8 @@ export const useAppointment = () => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
-    const availableDates = async id => {
-        await csrf()
-
-        axios
-            .get(`/api/users/doctors/${id}/dates`, config)
-            .then(res => res.data.data)
-    }
-
     const cancelAppointment = async id => {
         await csrf()
-                
         axios
             .put(`/api/appointment/cancel/${id}`, config)
             .then(() => location.reload())
@@ -58,7 +49,6 @@ export const useAppointment = () => {
 
     return {
         doctors,
-        availableDates,
         cancelAppointment,
         acceptAppointment,
         newAppointment,
