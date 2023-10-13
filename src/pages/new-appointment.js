@@ -176,7 +176,7 @@ const NewAppointment = () => {
                         {timeList}
                     </Select>
 
-                    <InputError messages={errors.date} className="mt-2" />
+                    <InputError messages={errors.time} className="mt-2" />
                 </div>
             </form>
 
