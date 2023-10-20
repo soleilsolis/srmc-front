@@ -19,7 +19,6 @@ import {
     DialogFooter,
     Select,
     Option,
-    Input,
 } from '@material-tailwind/react'
 
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
@@ -52,8 +51,6 @@ const Appointments = () => {
     const [type, setType] = useState(typeOptions[1].value)
     const [doctor_id, setDoctorId] = useState(doctorIdOptions[1].value)
     const [date, setDate] = useState(1)
-    const [start_time, setStartTime] = useState('')
-    const [end_time, setEndTime] = useState('')
     const [errors, setErrors] = useState([])
 
     const [currentAppointment, setCurrentAppointment] = useState([])
@@ -97,8 +94,6 @@ const Appointments = () => {
 
         acceptAppointment({
             id: xid,
-            start_time,
-            end_time,
             setErrors,
         })
     }
@@ -221,7 +216,20 @@ const Appointments = () => {
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
                                     {appointment.user_type === 'patient' ? (
-                                        cardControl(appointment)
+                                        <>
+                                            {cardControl(appointment)}
+                                            <Button
+                                                variant="gradient"
+                                                color="red"
+                                                className="rounded-full"
+                                                onClick={() =>
+                                                    handleCancelForm(
+                                                        appointment.id,
+                                                    )
+                                                }>
+                                                <span>Cancel</span>
+                                            </Button>
+                                        </>
                                     ) : appointment.cancelled_at === null ? (
                                         <div className="inline-flex gap-1">
                                             {appointment.accepted_at ===
@@ -246,17 +254,6 @@ const Appointments = () => {
                                                     <span>Accepted</span>
                                                 </Button>
                                             )}
-                                            <Button
-                                                variant="gradient"
-                                                color="red"
-                                                className="rounded-full"
-                                                onClick={() =>
-                                                    handleCancelForm(
-                                                        appointment.id,
-                                                    )
-                                                }>
-                                                <span>Cancel</span>
-                                            </Button>
                                         </div>
                                     ) : (
                                         <Button
@@ -268,15 +265,15 @@ const Appointments = () => {
                                         </Button>
                                     )}
 
-                                    <Button
-                                        variant="text"
-                                        className="rounded-full"
-                                        color="cyan"
-                                        onClick={() =>
-                                            handleOpenDetailForm(appointment)
-                                        }>
-                                        Details
-                                    </Button>
+                                    <Link
+                                        href={'/appointment/' + appointment.id}>
+                                        <Button
+                                            variant="text"
+                                            className="rounded-full"
+                                            color="cyan">
+                                            Details
+                                        </Button>
+                                    </Link>
                                 </CardFooter>
                             </Card>
                         ))}
@@ -437,7 +434,7 @@ const Appointments = () => {
                 </DialogBody>
                 <DialogFooter>
                     <div className="inline-flex gap-1">
-                        {user && user.type === 'doctor' ? (
+                        {user && user.type === 'patient' ? (
                             <div className="inline-flex gap-1">
                                 <Button
                                     variant="gradient"
@@ -468,41 +465,7 @@ const Appointments = () => {
                 <DialogHeader>
                     Accept Appointment #{currentAppointment.id}
                 </DialogHeader>
-                <DialogBody>
-                    <form>
-                        <div className="mb-6">
-                            <Input
-                                label="Start Time"
-                                name="start_time"
-                                type="time"
-                                onChange={event =>
-                                    setStartTime(event.target.value)
-                                }
-                            />
-
-                            <InputError
-                                messages={errors.start_time}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mb-6">
-                            <Input
-                                label="End Time"
-                                name="end_time"
-                                type="time"
-                                onChange={event =>
-                                    setEndTime(event.target.value)
-                                }
-                            />
-
-                            <InputError
-                                messages={errors.end_time}
-                                className="mt-2"
-                            />
-                        </div>
-                    </form>
-                </DialogBody>
+                <DialogBody></DialogBody>
                 <DialogFooter>
                     <div className="inline-flex gap-1">
                         {user && user.type === 'doctor' ? (

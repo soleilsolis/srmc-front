@@ -55,7 +55,6 @@ const NewAppointment = () => {
 
     const populateDateList = async id => {
         axios.get(`/api/users/doctor/${id}/dates`).then(res => {
-            console.log(res.data.data)
             setDateList(
                 res.data.data.map(date =>
                     typeof date.date !== 'undefined' ? (

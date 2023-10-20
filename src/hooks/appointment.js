@@ -14,10 +14,15 @@ export const useAppointment = () => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
+    const getAppointment = async id => {
+        await csrf()
+        axios.get(`/api/appointment/${id}`, config).then(res => res.data.data)
+    }
+
     const cancelAppointment = async id => {
         await csrf()
         axios
-            .put(`/api/appointment/cancel/${id}`, config)
+            .patch(`/api/appointment/cancel/${id}`, config)
             .then(() => location.reload())
     }
 
@@ -26,10 +31,9 @@ export const useAppointment = () => {
 
         axios
             .post('/api/appointment', props, config)
-            .then(() => location.href('/appointments'))
+            .then(() => (location.href = '/appointments'))
             .catch(error => {
                 if (error.response.status !== 422) throw error
-
                 setErrors(error.response.data.errors)
             })
     }
@@ -38,7 +42,7 @@ export const useAppointment = () => {
         await csrf()
 
         axios
-            .patch(`/api/appointment/${id}`, props, config)
+            .put(`/api/appointment/${id}`, props, config)
             .then(() => location.reload())
             .catch(error => {
                 if (error.response.status !== 422) throw error
@@ -52,5 +56,6 @@ export const useAppointment = () => {
         cancelAppointment,
         acceptAppointment,
         newAppointment,
+        getAppointment,
     }
 }
