@@ -28,57 +28,6 @@ const Appointments = () => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
-    const cardControl = appointment => {
-        if (
-            appointment.verified_at === null &&
-            appointment.accepted_at !== null &&
-            appointment.cancelled_at === null
-        ) {
-            return (
-                <a
-                    href={appointment.payment_link}
-                    target="_blank"
-                    rel="noreferrer">
-                    <Button
-                        variant="gradient"
-                        className="rounded-full"
-                        color="cyan">
-                        Pay Now
-                    </Button>
-                </a>
-            )
-        } else if (appointment.cancelled_at !== null) {
-            return (
-                <Button
-                    variant="gradient"
-                    className="rounded-full"
-                    color="red"
-                    disabled>
-                    Cancelled
-                </Button>
-            )
-        } else if (appointment.verified_at !== null) {
-            return (
-                <Button
-                    variant="gradient"
-                    className="rounded-full"
-                    color="black"
-                    disabled>
-                    Paid
-                </Button>
-            )
-        } else {
-            return (
-                <Button
-                    variant="gradient"
-                    className="rounded-full"
-                    color="yellow">
-                    Pending
-                </Button>
-            )
-        }
-    }
-
     const fetch = async () => {
         await csrf()
 
@@ -133,56 +82,6 @@ const Appointments = () => {
                                     </Typography>
                                 </CardBody>
                                 <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    {appointment.user_type === 'patient' ? (
-                                        <>
-                                            {cardControl(appointment)}
-                                            <Button
-                                                variant="gradient"
-                                                color="red"
-                                                className="rounded-full"
-                                                onClick={() =>
-                                                    handleCancelForm(
-                                                        appointment.id,
-                                                    )
-                                                }>
-                                                <span>Cancel</span>
-                                            </Button>
-                                        </>
-                                    ) : appointment.cancelled_at === null ? (
-                                        <div className="inline-flex gap-1">
-                                            {appointment.accepted_at ===
-                                            null ? (
-                                                <Button
-                                                    variant="gradient"
-                                                    color="cyan"
-                                                    className="rounded-full"
-                                                    onClick={() =>
-                                                        handleAcceptForm(
-                                                            appointment.id,
-                                                        )
-                                                    }>
-                                                    <span>Accept</span>
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    variant="gradient"
-                                                    color="cyan"
-                                                    className="rounded-full"
-                                                    disabled>
-                                                    <span>Accepted</span>
-                                                </Button>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <Button
-                                            variant="gradient"
-                                            className="rounded-full"
-                                            color="red"
-                                            disabled>
-                                            Cancelled
-                                        </Button>
-                                    )}
-
                                     <Link
                                         href={'/appointment/' + appointment.id}>
                                         <Button
