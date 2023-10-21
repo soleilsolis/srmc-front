@@ -197,7 +197,6 @@ function NavListMenu() {
     )
 }
 
-// nav list component
 const navListItems = [
     {
         label: 'Dashboard',
@@ -208,6 +207,11 @@ const navListItems = [
         label: 'Appointments',
         icon: ClipboardIcon,
         href: '/appointments',
+    },
+    {
+        label: 'Follow Up',
+        icon: ClipboardIcon,
+        href: '/follow',
     },
 ]
 

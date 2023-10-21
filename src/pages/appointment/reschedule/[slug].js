@@ -3,19 +3,18 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAppointment } from '@/hooks/appointment'
+import Link from 'next/link'
 
-import { Button, Select, Option } from '@material-tailwind/react'
+import { Button, Select, Option, IconButton } from '@material-tailwind/react'
+import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 
 import InputError from '@/components/InputError'
 
-const NewAppointment = () => {
-    const { newAppointment } = useAppointment()
+import { useRouter } from 'next/router'
 
-    const typeOptions = [
-        { value: '', text: 'Choose an option' },
-        { value: '1', text: 'In Person' },
-        { value: '2', text: 'Teleconsultation' },
-    ]
+const NewAppointment = () => {
+    const router = useRouter()
+    const { rescheduleAppointment } = useAppointment()
 
     const doctorIdOptions = [
         { value: '', text: 'Choose an option' },
@@ -23,9 +22,9 @@ const NewAppointment = () => {
         { value: '2', text: 'Richard Burke' },
     ]
 
-    const [type, setType] = useState(typeOptions[1].value)
+    const id = router.query.slug
+
     const [doctor_id, setDoctorId] = useState(doctorIdOptions[1].value)
-    const [doctorList, setDoctorList] = useState('')
     const [dateList, setDateList] = useState('')
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
@@ -36,9 +35,8 @@ const NewAppointment = () => {
     const submitForm = async event => {
         event.preventDefault()
 
-        newAppointment({
-            type,
-            doctor_id,
+        rescheduleAppointment({
+            appointment_id: id,
             date,
             time,
             setErrors,
@@ -76,57 +74,41 @@ const NewAppointment = () => {
         })
     }
 
-    useEffect(async () => {
-        axios.get('/api/users/doctors').then(res => {
-            setDoctorList(
-                res.data.data.map(doctor => (
-                    <Option value={doctor.id} key={doctor.id}>
-                        {doctor.name}
-                    </Option>
-                )),
-            )
-        })
-    }, [])
+    const config = {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    }
+
+    useEffect(() => {
+        async function fetchData(id) {
+            if (typeof id != 'undefined') {
+                axios.get(`/api/appointment/${id}`, config).then(res => {
+                    populateDateList(res.data.data.doctor_id)
+                    setDoctorId(res.data.data.doctor_id)
+                })
+            }
+        }
+        fetchData(id)
+    }, [id])
 
     return (
         <AppLayout
-            header={<div className="inline-flex w-full">New Appointment</div>}>
+            header={
+                <div className="inline-flex w-full">
+                    <Link href={`/appointment/${router.query.slug}`}>
+                        <IconButton variant="text">
+                            <ArrowLongLeftIcon className="w-5"></ArrowLongLeftIcon>
+                        </IconButton>
+                    </Link>
+                    Reschedule Appointment #{router.query.slug}
+                </div>
+            }>
             <Head>
-                <title>Appointments - SRMC</title>
+                <title>Reschedule Appointment - SRMC</title>
             </Head>
 
             <form>
-                <div className="mb-6">
-                    <Select
-                        label="Type"
-                        value={type}
-                        name="type"
-                        onChange={event => setType(event)}>
-                        {typeOptions.map(option => (
-                            <Option value={option.value} key={option.value}>
-                                {option.text}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
-
-                <div className="mb-6">
-                    <Select
-                        label="Doctor"
-                        name="doctor_id"
-                        onChange={event => {
-                            setDoctorId(event)
-                            populateDateList(event)
-                            setTimeList([])
-                            setDate('')
-                            setTime('')
-                        }}>
-                        {doctorList}
-                    </Select>
-
-                    <InputError messages={errors.doctor_id} className="mt-2" />
-                </div>
-
                 <div className="mb-6">
                     <Select
                         label="Date"

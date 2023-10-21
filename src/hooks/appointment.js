@@ -26,6 +26,42 @@ export const useAppointment = () => {
             .then(() => location.reload())
     }
 
+    const rescheduleAppointment = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        axios
+            .put(
+                `/api/appointment/reschedule/${props.appointment_id}`,
+                props,
+                config,
+            )
+            .then(
+                () => (location.href = `/appointment/${props.appointment_id}`),
+            )
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
+    const followUpAppointment = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        axios
+            .put(
+                `/api/appointment/followUp/${props.appointment_id}`,
+                props,
+                config,
+            )
+            .then(
+                () => (location.href = `/appointment/${props.appointment_id}`),
+            )
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
     const newAppointment = async ({ setErrors, ...props }) => {
         await csrf()
 
@@ -57,5 +93,7 @@ export const useAppointment = () => {
         acceptAppointment,
         newAppointment,
         getAppointment,
+        rescheduleAppointment,
+        followUpAppointment,
     }
 }

@@ -106,41 +106,101 @@ const Page = () => {
                     <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />
                 ) : (
                     <>
-                        <Typography variant="h5" className="mb-5">
-                            Details
-                        </Typography>
+                        <div>
+                            <Typography variant="h5" className="mb-5">
+                                Details
+                            </Typography>
 
-                        <Typography variant="medium" color="blue-gray">
-                            #{appointment.id}
-                        </Typography>
-                        <Typography
-                            variant="h5"
-                            color="blue-gray"
-                            className="inline-flex items-center gap-2">
-                            <CalendarDaysIcon
-                                strokeWidth={1}
-                                className="h-8 w-8"
-                            />
-                            {moment(appointment.scheduled_at).format(
-                                'MMM Do, YYYY',
-                            )}
-                        </Typography>
-                        <Typography variant="small" color="blue-gray">
-                            {appointment.doctor_name}
-                        </Typography>
-                        <Typography variant="large" color="blue-gray">
-                            {appointment.start_time !== null ? (
-                                moment(appointment.start_time, 'HH:mm').format(
-                                    'h:mm a',
-                                ) +
-                                ' - ' +
-                                moment(appointment.end_time, 'HH:mm').format(
-                                    'h:mm a',
-                                )
-                            ) : (
-                                <span>&nbsp;</span>
-                            )}
-                        </Typography>
+                            <Typography variant="medium" color="blue-gray">
+                                #{appointment.id}
+                            </Typography>
+                            <Typography
+                                variant="h5"
+                                color="blue-gray"
+                                className="inline-flex items-center gap-2">
+                                <CalendarDaysIcon
+                                    strokeWidth={1}
+                                    className="h-8 w-8"
+                                />
+                                {moment(appointment.scheduled_at).format(
+                                    'MMM Do, YYYY',
+                                )}
+                            </Typography>
+                            <Typography variant="small" color="blue-gray">
+                                {appointment.doctor_name}
+                            </Typography>
+                            <Typography variant="large" color="blue-gray">
+                                {appointment.start_time !== null ? (
+                                    moment(
+                                        appointment.start_time,
+                                        'HH:mm',
+                                    ).format('h:mm a') +
+                                    ' - ' +
+                                    moment(
+                                        appointment.end_time,
+                                        'HH:mm',
+                                    ).format('h:mm a')
+                                ) : (
+                                    <span>&nbsp;</span>
+                                )}
+                            </Typography>
+                        </div>
+
+                        {appointment.followed_up_at != null ? (
+                            <div className="my-5">
+                                <Typography
+                                    variant="h5"
+                                    color="blue-gray"
+                                    className="inline-flex items-center gap-2">
+                                    <CalendarDaysIcon
+                                        strokeWidth={1}
+                                        className="h-8 w-8"
+                                    />
+                                    {moment(appointment.followed_up_at).format(
+                                        'MMM Do, YYYY',
+                                    )}
+                                </Typography>
+                                <Typography variant="large" color="blue-gray">
+                                    {appointment.start_time !== null ? (
+                                        moment(
+                                            appointment.follow_up_start_time,
+                                            'HH:mm',
+                                        ).format('h:mm a') +
+                                        ' - ' +
+                                        moment(
+                                            appointment.follow_up_end_time,
+                                            'HH:mm',
+                                        ).format('h:mm a')
+                                    ) : (
+                                        <span>&nbsp;</span>
+                                    )}
+                                </Typography>
+                            </div>
+                        ) : (
+                            ''
+                        )}
+
+                        {user && user.type === 'patient' ? (
+                            <Link
+                                className="my-5"
+                                href={`/appointment/reschedule/${id}`}>
+                                <Button
+                                    color="black"
+                                    className="my-5 rounded-full">
+                                    Reschedule
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Link
+                                className="my-5"
+                                href={`/appointment/follow/${id}`}>
+                                <Button
+                                    color="black"
+                                    className="my-5 rounded-full">
+                                    Follow Up
+                                </Button>
+                            </Link>
+                        )}
 
                         <Typography variant="h5" className="my-5">
                             Diagnosis
