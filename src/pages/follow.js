@@ -1,6 +1,6 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
-import { useEffect, useState, createElement } from 'react'
+import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import moment from 'moment'
 import Link from 'next/link'
@@ -16,18 +16,6 @@ import {
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 
 const Appointments = () => {
-    const [openCancelForm, setOpenCancelForm] = useState(false)
-    const handleCancelForm = id => {
-        setXid(id)
-        setOpenCancelForm(!openCancelForm)
-    }
-
-    const [openAcceptForm, setOpenAcceptForm] = useState(false)
-    const handleAcceptForm = id => {
-        setXid(id)
-        setOpenAcceptForm(!openAcceptForm)
-    }
-
     const [appointments, getAppointments] = useState(
         <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />,
     )
