@@ -31,6 +31,7 @@ const NewAppointment = () => {
     const [timeList, setTimeList] = useState('')
 
     const [errors, setErrors] = useState([])
+    const [prescriptions, setPrescriptions] = useState()
 
     const submitForm = async event => {
         event.preventDefault()
@@ -84,6 +85,17 @@ const NewAppointment = () => {
         async function fetchData(id) {
             if (typeof id != 'undefined') {
                 axios.get(`/api/appointment/${id}`, config).then(res => {
+                    setPrescriptions(res.data.data)
+                })
+            }
+        }
+        fetchData(id)
+    }, [id])
+
+    useEffect(() => {
+        async function fetchData(id) {
+            if (typeof id != 'undefined') {
+                axios.get(`/api/prescriptions/appointment/${id}`, config).then(res => {
                     populateDateList(res.data.data.doctor_id)
                     setDoctorId(res.data.data.doctor_id)
                 })
