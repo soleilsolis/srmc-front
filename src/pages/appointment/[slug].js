@@ -16,6 +16,8 @@ import {
     DialogBody,
     DialogFooter,
     DialogHeader,
+    Card,
+    CardBody,
 } from '@material-tailwind/react'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -32,7 +34,7 @@ const Page = () => {
     const { user } = useAuth({ middleware: 'auth' })
 
     const { newDiagnosis, editDiagnosis } = useDiagnosis()
-    const { newPrescription } = usePrescription()
+    const { newPrescription, deletePrescription } = usePrescription()
 
     const [findings, setFindings] = useState('')
     const [notes, setNotes] = useState('')
@@ -40,12 +42,18 @@ const Page = () => {
     const [appointmentId, setAppointmentId] = useState('')
     const [appointment, setAppointment] = useState()
     const [prescribedAt, setPrescribedAt] = useState()
+    const [prescriptions, setPrescriptions] = useState([])
+    const [prescriptionId, setPrescriptionId] = useState([])
 
     const [errors, setErrors] = useState([])
 
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => setOpen(!open)
+
+    const [removeOpen, setRemoveOpen] = useState(false)
+
+    const handleRemoveOpen = () => setRemoveOpen(!removeOpen)
 
     const [medicationName, setMedicationName] = useState()
     const [dosage, setDosage] = useState()
@@ -88,6 +96,15 @@ const Page = () => {
         })
     }
 
+    const removePrescription = async event => {
+        event.preventDefault()
+
+        deletePrescription({
+            id: prescriptionId,
+            setErrors,
+        })
+    }
+
     const config = {
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -105,6 +122,10 @@ const Page = () => {
                     const appointment = res.data.data
                     setAppointment(appointment)
                     setAppointmentId(appointment.id)
+
+                    if (appointment.prescriptions != null) {
+                        setPrescriptions(appointment.prescriptions)
+                    }
 
                     if (appointment.diagnosis != null) {
                         setFindings(appointment.diagnosis.findings)
@@ -144,7 +165,7 @@ const Page = () => {
                                     Details
                                 </Typography>
 
-                                <Typography variant="medium" color="blue-gray">
+                                <Typography variant="lead" color="blue-gray">
                                     #{appointment.id}
                                 </Typography>
                                 <Typography
@@ -162,7 +183,7 @@ const Page = () => {
                                 <Typography variant="small" color="blue-gray">
                                     {appointment.doctor_name}
                                 </Typography>
-                                <Typography variant="large" color="blue-gray">
+                                <Typography variant="lead" color="blue-gray">
                                     {appointment.start_time !== null ? (
                                         moment(
                                             appointment.start_time,
@@ -219,9 +240,7 @@ const Page = () => {
                                 <Link
                                     className="my-5"
                                     href={`/appointment/reschedule/${id}`}>
-                                    <Button
-                                        color="black"
-                                        className="my-5 rounded-full">
+                                    <Button className="my-5 rounded-full">
                                         Reschedule
                                     </Button>
                                 </Link>
@@ -229,9 +248,7 @@ const Page = () => {
                                 <Link
                                     className="my-5"
                                     href={`/appointment/follow/${id}`}>
-                                    <Button
-                                        color="black"
-                                        className="my-5 rounded-full">
+                                    <Button className="my-5 rounded-full">
                                         Follow Up
                                     </Button>
                                 </Link>
@@ -301,8 +318,50 @@ const Page = () => {
                         </div>
                         <div>
                             <Typography variant="h5" className="mb-2">
-                                Prescription
+                                Prescriptions
                             </Typography>
+
+                            <Card className="my-2">
+                                <CardBody>
+                                    {prescriptions.map(prescription => (
+                                        <div>
+                                            <Typography
+                                                variant="h6"
+                                                className="mb-2 flex justify-between gap-2">
+                                                <span className="flex gap-2">
+                                                    {
+                                                        prescription.medication_name
+                                                    }{' '}
+                                                    ({prescription.dosage}
+                                                    {prescription.unit})
+                                                    <span
+                                                        className="text-red-500 cursor-pointer"
+                                                        onClick={() => {
+                                                            handleRemoveOpen()
+                                                            setPrescriptionId(
+                                                                prescription.id,
+                                                            )
+                                                        }}>
+                                                        Delete
+                                                    </span>
+                                                </span>
+
+                                                <div className="text-cyan-600">
+                                                    {
+                                                        prescription.administration_type
+                                                    }{' '}
+                                                </div>
+                                            </Typography>
+                                            <Typography variant="small">
+                                                {prescription.frequency} for{' '}
+                                                {prescription.duration} days
+                                            </Typography>
+                                            <hr className="my-3" />
+                                        </div>
+                                    ))}
+                                </CardBody>
+                            </Card>
+
                             <Button
                                 color="cyan"
                                 onClick={handleOpen}
@@ -407,7 +466,7 @@ const Page = () => {
                                 label="Prescribed At"
                                 name="prescribed_at"
                                 value={prescribedAt}
-                                type='date'
+                                type="date"
                                 onChange={event =>
                                     setPrescribedAt(event.target.value)
                                 }
@@ -431,6 +490,30 @@ const Page = () => {
                         variant="gradient"
                         color="cyan"
                         onClick={submitPrescription}>
+                        <span>Confirm</span>
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            <Dialog open={removeOpen} size="xs" handler={handleRemoveOpen}>
+                <DialogHeader>Delete Prescription</DialogHeader>
+                <DialogBody>
+                    <Typography variant="h4" className="text-red-600">
+                        Are you sure you want to delete this prescription?
+                    </Typography>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        variant="text"
+                        onClick={() => handleRemoveOpen()}
+                        className="mr-1 rounded-full">
+                        <span>Cancel</span>
+                    </Button>
+                    <Button
+                        className="rounded-full"
+                        variant="gradient"
+                        color="red"
+                        onClick={removePrescription}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>

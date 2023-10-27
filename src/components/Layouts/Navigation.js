@@ -27,6 +27,7 @@ import {
     Bars2Icon,
     ClipboardIcon,
     PresentationChartBarIcon,
+    UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
 function ProfileMenu() {
@@ -202,39 +203,55 @@ const navListItems = [
         label: 'Dashboard',
         icon: PresentationChartBarIcon,
         href: '/appointments',
+        type: ['patient', 'doctor', 'admin'],
     },
     {
         label: 'Appointments',
         icon: ClipboardIcon,
         href: '/appointments',
+        type: ['patient', 'doctor'],
     },
     {
         label: 'Follow Up',
         icon: ClipboardIcon,
         href: '/follow',
+        type: ['doctor'],
+    },
+    {
+        label: 'Users',
+        icon: UserGroupIcon,
+        href: '/admin/users',
+        type: ['admin'],
     },
 ]
 
-function NavList() {
+function NavList(props) {
     return (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
             <NavListMenu />
-            {navListItems.map(({ label, icon, href }) => (
-                <Typography
-                    key={label}
-                    as="a"
-                    href={href}
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal">
-                    <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                        {createElement(icon, {
-                            className: 'h-[18px] w-[18px]',
-                        })}{' '}
-                        {label}
-                    </MenuItem>
-                </Typography>
-            ))}
+            {navListItems
+                .filter(item => {
+                    return (
+                        item.type.find(element => element == props.type) !==
+                        undefined
+                    )
+                })
+                .map(({ label, icon, href }) => (
+                    <Typography
+                        key={label}
+                        as="a"
+                        href={href}
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal">
+                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                            {createElement(icon, {
+                                className: 'h-[18px] w-[18px]',
+                            })}{' '}
+                            {label}
+                        </MenuItem>
+                    </Typography>
+                ))}
         </ul>
     )
 }
@@ -267,7 +284,7 @@ export default function Navigation() {
                     {user && user.type === 'doctor' ? 'Doctor' : ''}
                 </Typography>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
-                    <NavList />
+                    <NavList type={user ? user.type : ''} />
                 </div>
                 <IconButton
                     size="sm"
@@ -280,7 +297,7 @@ export default function Navigation() {
                 <ProfileMenu />
             </div>
             <MobileNav open={isNavOpen} className="overflow-scroll">
-                <NavList />
+                <NavList type={user ? user.type : ''} />
             </MobileNav>
         </Navbar>
     )

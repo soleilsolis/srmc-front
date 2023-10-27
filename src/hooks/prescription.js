@@ -21,7 +21,20 @@ export const usePrescription = () => {
             })
     }
 
+    const deletePrescription = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        axios
+            .delete(`/api/prescription/${props.id}`, props, config)
+            .then(() => location.reload())
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
     return {
         newPrescription,
+        deletePrescription,
     }
 }
