@@ -326,7 +326,7 @@ const Page = () => {
                             <Card className="my-2">
                                 <CardBody key={'n'}>
                                     {prescriptions.map(prescription => (
-                                        <div>
+                                        <>
                                             <Typography
                                                 variant="h6"
                                                 className="mb-2 flex justify-between gap-2">
@@ -359,7 +359,7 @@ const Page = () => {
                                                 {prescription.duration} days
                                             </Typography>
                                             <hr className="my-3" />
-                                        </div>
+                                        </>
                                     ))}
                                 </CardBody>
                             </Card>
