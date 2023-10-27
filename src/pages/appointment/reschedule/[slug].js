@@ -100,7 +100,7 @@ const NewAppointment = () => {
                 <div className="inline-flex w-full">
                     <Link href={`/appointment/${router.query.slug}`}>
                         <IconButton variant="text">
-                            <ArrowLongLeftIcon className="w-5"></ArrowLongLeftIcon>
+                            <ArrowLongLeftIcon className="w-5" />
                         </IconButton>
                     </Link>
                     Reschedule Appointment #{router.query.slug}

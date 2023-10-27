@@ -144,7 +144,7 @@ const Page = () => {
                 <div className="inline-flex w-full gap-3">
                     <Link href="/appointments">
                         <IconButton variant="text">
-                            <ArrowLongLeftIcon className="w-5"></ArrowLongLeftIcon>
+                            <ArrowLongLeftIcon className="w-5" />
                         </IconButton>
                     </Link>
                     Appointment {router.query.slug}
@@ -269,7 +269,8 @@ const Page = () => {
                                                     setFindings(
                                                         event.target.value,
                                                     )
-                                                }></Textarea>
+                                                }
+                                            />
                                             <InputError
                                                 messages={errors.findings}
                                                 className="mt-2"
@@ -283,7 +284,8 @@ const Page = () => {
                                                 value={notes}
                                                 onChange={event =>
                                                     setNotes(event.target.value)
-                                                }></Textarea>
+                                                }
+                                            />
 
                                             <InputError
                                                 messages={errors.notes}
@@ -322,7 +324,7 @@ const Page = () => {
                             </Typography>
 
                             <Card className="my-2">
-                                <CardBody>
+                                <CardBody key={'n'}>
                                     {prescriptions.map(prescription => (
                                         <div>
                                             <Typography

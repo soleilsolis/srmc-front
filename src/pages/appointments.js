@@ -465,7 +465,7 @@ const Appointments = () => {
                 <DialogHeader>
                     Accept Appointment #{currentAppointment.id}
                 </DialogHeader>
-                <DialogBody></DialogBody>
+                <DialogBody> </DialogBody>
                 <DialogFooter>
                     <div className="inline-flex gap-1">
                         {user && user.type === 'doctor' ? (
