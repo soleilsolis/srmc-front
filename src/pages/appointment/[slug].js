@@ -336,16 +336,21 @@ const Page = () => {
                                                     }{' '}
                                                     ({prescription.dosage}
                                                     {prescription.unit})
-                                                    <span
-                                                        className="text-red-500 cursor-pointer"
-                                                        onClick={() => {
-                                                            handleRemoveOpen()
-                                                            setPrescriptionId(
-                                                                prescription.id,
-                                                            )
-                                                        }}>
-                                                        Delete
-                                                    </span>
+                                                    {user &&
+                                                    user.type === 'doctor' ? (
+                                                        <span
+                                                            className="text-red-500 cursor-pointer"
+                                                            onClick={() => {
+                                                                handleRemoveOpen()
+                                                                setPrescriptionId(
+                                                                    prescription.id,
+                                                                )
+                                                            }}>
+                                                            Delete
+                                                        </span>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                 </span>
 
                                                 <div className="text-cyan-600">
@@ -363,13 +368,16 @@ const Page = () => {
                                     ))}
                                 </CardBody>
                             </Card>
-
-                            <Button
-                                color="cyan"
-                                onClick={handleOpen}
-                                className="mr-1 my-2 rounded-full">
-                                <span>Add Prescription</span>
-                            </Button>
+                            {user && user.type === 'doctor' ? (
+                                <Button
+                                    color="cyan"
+                                    onClick={handleOpen}
+                                    className="mr-1 my-2 rounded-full">
+                                    <span>Add Prescription</span>
+                                </Button>
+                            ) : (
+                                ''
+                            )}
                         </div>
                     </div>
                 )}
