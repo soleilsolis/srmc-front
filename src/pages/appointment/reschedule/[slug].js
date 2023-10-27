@@ -31,7 +31,6 @@ const NewAppointment = () => {
     const [timeList, setTimeList] = useState('')
 
     const [errors, setErrors] = useState([])
-    const [prescriptions, setPrescriptions] = useState()
 
     const submitForm = async event => {
         event.preventDefault()
@@ -80,17 +79,6 @@ const NewAppointment = () => {
             'Access-Control-Allow-Origin': '*',
         },
     }
-
-    useEffect(() => {
-        async function fetchData(id) {
-            if (typeof id != 'undefined') {
-                axios.get(`/api/appointment/${id}`, config).then(res => {
-                    setPrescriptions(res.data.data)
-                })
-            }
-        }
-        fetchData(id)
-    }, [id])
 
     useEffect(() => {
         async function fetchData(id) {
