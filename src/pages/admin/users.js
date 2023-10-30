@@ -20,6 +20,7 @@ import {
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useUsers } from '@/hooks/users'
+import Link from 'next/link'
 
 const TABS = [
     {
@@ -71,27 +72,26 @@ const Users = () => {
                         <div className="mb-8 flex items-center justify-between gap-8">
                             <div>
                                 <Typography variant="h5" color="blue-gray">
-                                    Members list
+                                    Users list
                                 </Typography>
                                 <Typography
                                     color="gray"
                                     className="mt-1 font-normal">
-                                    See information about all members
+                                    See information about all Users
                                 </Typography>
                             </div>
                             <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                                <Button variant="outlined" size="sm">
-                                    view all
-                                </Button>
-                                <Button
-                                    className="flex items-center gap-3"
-                                    size="sm">
-                                    <UserPlusIcon
-                                        strokeWidth={2}
-                                        className="h-4 w-4"
-                                    />{' '}
-                                    Add member
-                                </Button>
+                                <Link href="/admin/users/new">
+                                    <Button
+                                        className="flex items-center gap-3"
+                                        size="sm">
+                                        <UserPlusIcon
+                                            strokeWidth={2}
+                                            className="h-4 w-4"
+                                        />{' '}
+                                        Add User
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">

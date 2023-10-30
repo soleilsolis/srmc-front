@@ -166,7 +166,7 @@ const Page = () => {
                                 </Typography>
 
                                 <Typography variant="lead" color="blue-gray">
-                                    #{appointment.id}
+                                    #{appointment.id} - {appointment.user_name}
                                 </Typography>
                                 <Typography
                                     variant="h5"

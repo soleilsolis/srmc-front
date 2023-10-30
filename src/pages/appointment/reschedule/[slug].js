@@ -84,7 +84,7 @@ const NewAppointment = () => {
         async function fetchData(id) {
             if (typeof id != 'undefined') {
                 axios
-                    .get(`/api/prescriptions/appointment/${id}`, config)
+                    .get(`/api/appointment/${id}`, config)
                     .then(res => {
                         populateDateList(res.data.data.doctor_id)
                         setDoctorId(res.data.data.doctor_id)
