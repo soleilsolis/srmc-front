@@ -178,7 +178,7 @@ const Appointments = () => {
                                         variant="medium"
                                         color="blue-gray">
                                         #{appointment.id} -{' '}
-                                        {appointment.user_name} 
+                                        {appointment.user_name}
                                     </Typography>
                                     <Typography
                                         variant="h5"

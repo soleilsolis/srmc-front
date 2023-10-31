@@ -83,12 +83,10 @@ const NewAppointment = () => {
     useEffect(() => {
         async function fetchData(id) {
             if (typeof id != 'undefined') {
-                axios
-                    .get(`/api/appointment/${id}`, config)
-                    .then(res => {
-                        populateDateList(res.data.data.doctor_id)
-                        setDoctorId(res.data.data.doctor_id)
-                    })
+                axios.get(`/api/appointment/${id}`, config).then(res => {
+                    populateDateList(res.data.data.doctor_id)
+                    setDoctorId(res.data.data.doctor_id)
+                })
             }
         }
         fetchData(id)

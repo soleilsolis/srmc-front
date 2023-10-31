@@ -243,9 +243,8 @@ function NavList(props) {
                     )
                 })
                 .map(({ label, icon, href }) => (
-                    <Link href={href}>
+                    <Link href={href} key={label}>
                         <Typography
-                            key={label}
                             variant="small"
                             color="blue-gray"
                             className="font-normal">
