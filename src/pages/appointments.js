@@ -219,17 +219,23 @@ const Appointments = () => {
                                     {appointment.user_type === 'patient' ? (
                                         <>
                                             {cardControl(appointment)}
-                                            <Button
-                                                variant="gradient"
-                                                color="red"
-                                                className="rounded-full"
-                                                onClick={() =>
-                                                    handleCancelForm(
-                                                        appointment.id,
-                                                    )
-                                                }>
-                                                <span>Cancel</span>
-                                            </Button>
+
+                                            {appointment.cancelled_at ===
+                                            null ? (
+                                                <Button
+                                                    variant="gradient"
+                                                    color="red"
+                                                    className="rounded-full"
+                                                    onClick={() =>
+                                                        handleCancelForm(
+                                                            appointment.id,
+                                                        )
+                                                    }>
+                                                    <span>Cancel</span>
+                                                </Button>
+                                            ) : (
+                                                ''
+                                            )}
                                         </>
                                     ) : appointment.cancelled_at === null ? (
                                         <div className="inline-flex gap-1">

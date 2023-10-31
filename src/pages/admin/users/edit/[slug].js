@@ -8,7 +8,6 @@ import {
     Select,
     Option,
     Button,
-    Switch,
 } from '@material-tailwind/react'
 import { useUsers } from '@/hooks/users'
 import InputError from '@/components/InputError'
@@ -25,9 +24,6 @@ const NewUser = () => {
     const [address, setAddress] = useState()
     const [type, setType] = useState()
     const [sex, setSex] = useState()
-    const [verified, setVerified] = useState(false)
-
-    const handleVerified = () => setVerified(!verified)
 
     const [errors, setErrors] = useState([])
 
@@ -57,7 +53,6 @@ const NewUser = () => {
             address,
             type,
             sex,
-            verified,
             setErrors,
         })
     }
@@ -65,7 +60,7 @@ const NewUser = () => {
     return (
         <AppLayout header="New User">
             <Head>
-                <title>New User - SRMC</title>
+                <title>Edit User - SRMC</title>
             </Head>
 
             <Card>
@@ -106,12 +101,6 @@ const NewUser = () => {
                             <InputError
                                 messages={errors.email}
                                 className="mt-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <Switch
-                                label="Email Verified"
-                                onClick={handleVerified}
                             />
                         </div>
                         <div className="mb-6">

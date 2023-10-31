@@ -21,6 +21,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useAppointment } from '@/hooks/appointment'
 import Link from 'next/link'
+import moment from 'moment'
 
 const TABS = [
     {
@@ -45,7 +46,7 @@ const TABS = [
     },
 ]
 
-const TABLE_HEAD = ['', 'Patient', 'Doctor', 'Status', 'Paid', '']
+const TABLE_HEAD = ['', 'Patient', 'Doctor', 'Schedule', 'Status', 'Paid', '']
 
 const Appointments = () => {
     const { appointmentsQuery } = useAppointment()
@@ -148,6 +149,9 @@ const Appointments = () => {
                                             cancelled_at,
                                             verified_at,
                                             check_out,
+                                            scheduled_at,
+                                            start_time,
+                                            end_time,
                                         },
                                         index,
                                     ) => {
@@ -256,6 +260,23 @@ const Appointments = () => {
                                                             </Typography>
                                                         </div>
                                                     </div>
+                                                </td>
+                                                <td className={classes}>
+                                                    {moment(
+                                                        scheduled_at,
+                                                    ).format(
+                                                        'MMM Do, YYYY',
+                                                    )}{' '}
+                                                    <br />
+                                                    {moment(
+                                                        start_time,
+                                                        'HH:mm',
+                                                    ).format('h:mm a') +
+                                                        ' - ' +
+                                                        moment(
+                                                            end_time,
+                                                            'HH:mm',
+                                                        ).format('h:mm a')}
                                                 </td>
                                                 <td className={classes}>
                                                     <div className="w-max">

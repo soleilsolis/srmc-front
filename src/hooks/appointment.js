@@ -23,6 +23,22 @@ export const useAppointment = () => {
         axios.get(`/api/appointment/${id}`, config).then(res => res.data.data)
     }
 
+    const getSummary = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        config['responseType'] = 'blob'
+        axios
+            .post(`/api/appointments/export`, props, config)
+            .then(res => {
+                const href = URL.createObjectURL(res.data)
+                open(href)
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
     const appointmentsQuery = async ({ ...props } = {}) => {
         await csrf()
         return axios.get(`/api/appointments/query/${props.type}/1`, config)
@@ -106,5 +122,6 @@ export const useAppointment = () => {
         rescheduleAppointment,
         followUpAppointment,
         appointmentsQuery,
+        getSummary,
     }
 }
