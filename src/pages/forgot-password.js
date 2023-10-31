@@ -13,7 +13,7 @@ import { useState } from 'react'
 const ForgotPassword = () => {
     const { forgotPassword } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/appointments',
+        redirectIfAuthenticated: '/dashboard',
     })
 
     const [email, setEmail] = useState('')

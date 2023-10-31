@@ -202,14 +202,20 @@ const navListItems = [
     {
         label: 'Dashboard',
         icon: PresentationChartBarIcon,
-        href: '/appointments',
-        type: ['patient', 'doctor', 'admin'],
+        href: '/admin/dashboard',
+        type: ['admin'],
     },
     {
         label: 'Appointments',
         icon: ClipboardIcon,
         href: '/appointments',
         type: ['patient', 'doctor'],
+    },
+    {
+        label: 'Appointments',
+        icon: ClipboardIcon,
+        href: '/admin/appointments',
+        type: ['admin'],
     },
     {
         label: 'Follow Up',
@@ -237,20 +243,20 @@ function NavList(props) {
                     )
                 })
                 .map(({ label, icon, href }) => (
-                    <Typography
-                        key={label}
-                        as="a"
-                        href={href}
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                            {createElement(icon, {
-                                className: 'h-[18px] w-[18px]',
-                            })}{' '}
-                            {label}
-                        </MenuItem>
-                    </Typography>
+                    <Link href={href}>
+                        <Typography
+                            key={label}
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal">
+                            <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                                {createElement(icon, {
+                                    className: 'h-[18px] w-[18px]',
+                                })}{' '}
+                                {label}
+                            </MenuItem>
+                        </Typography>
+                    </Link>
                 ))}
         </ul>
     )
@@ -274,7 +280,7 @@ export default function Navigation() {
             <div className="relative max-w-screen-3xl xl:px-16 md:px-0 mx-auto flex items-center text-blue-gray-900 ">
                 <Typography
                     as="a"
-                    href="#"
+                    href="/dashboard"
                     className="mr-4 ml-2 cursor-pointer py-1.5 font-medium inline-flex text-red-500 items-center gap-3 text-xl">
                     <img
                         className="h-10"
@@ -282,6 +288,7 @@ export default function Navigation() {
                         alt="nature image"
                     />
                     {user && user.type === 'doctor' ? 'Doctor' : ''}
+                    {user && user.type === 'admin' ? 'Admin' : ''}
                 </Typography>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
                     <NavList type={user ? user.type : ''} />

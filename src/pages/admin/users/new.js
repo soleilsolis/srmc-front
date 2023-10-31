@@ -1,24 +1,222 @@
 import Head from 'next/head'
 import AppLayout from '@/components/Layouts/AppLayout'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import {
+    CardBody,
+    Card,
+    Input,
+    Select,
+    Option,
+    Button,
+} from '@material-tailwind/react'
+import { useUsers } from '@/hooks/users'
+import InputError from '@/components/InputError'
 
 const NewUser = () => {
+    const { newUser } = useUsers()
+
     const [name, setName] = useState()
     const [title, setTitle] = useState()
     const [email, setEmail] = useState()
-    const [email_verified_at, setEmailVerifiedAt] = useState()
     const [password, setPassword] = useState()
     const [birthdate, setBirthdate] = useState()
     const [contact_number, setContactNumber] = useState()
     const [address, setAddress] = useState()
-    const [slots, setSlots] = useState()
     const [type, setType] = useState()
     const [sex, setSex] = useState()
+
+    const [errors, setErrors] = useState([])
+
+    const typeOptions = [
+        { value: '', text: 'Choose an option' },
+        { value: 'patient', text: 'Patient' },
+        { value: 'doctor', text: 'Doctor' },
+        { value: 'admin', text: 'Admin' },
+    ]
+
+    const sexOptions = [
+        { value: '', text: 'Choose an option' },
+        { value: 'male', text: 'Male' },
+        { value: 'female', text: 'Female' },
+    ]
+
+    const submitForm = async event => {
+        event.preventDefault()
+
+        newUser({
+            name,
+            title,
+            email,
+            password,
+            birthdate,
+            contact_number,
+            address,
+            type,
+            sex,
+            setErrors,
+        })
+    }
+
     return (
         <AppLayout header="New User">
             <Head>
                 <title>New User - SRMC</title>
             </Head>
+
+            <Card>
+                <CardBody>
+                    <form>
+                        <div className="mb-6">
+                            <Input
+                                label="Name"
+                                value={name}
+                                name="name"
+                                onChange={event => setName(event.target.value)}
+                            />
+                            <InputError
+                                messages={errors.name}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Title"
+                                value={title}
+                                name="title"
+                                onChange={event => setTitle(event.target.value)}
+                            />
+                            <InputError
+                                messages={errors.title}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <Input
+                                label="Email"
+                                value={email}
+                                name="email"
+                                onChange={event => setEmail(event.target.value)}
+                            />
+                            <InputError
+                                messages={errors.email}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <Input
+                                label="Password"
+                                type="password"
+                                value={password}
+                                name="password"
+                                onChange={event =>
+                                    setPassword(event.target.value)
+                                }
+                            />
+                            <InputError
+                                messages={errors.password}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Birthdate"
+                                value={birthdate}
+                                name="birthdate"
+                                type="date"
+                                onChange={event =>
+                                    setBirthdate(event.target.value)
+                                }
+                            />
+                            <InputError
+                                messages={errors.birthdate}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Contact Number"
+                                value={contact_number}
+                                name="contact_number"
+                                onChange={event =>
+                                    setContactNumber(event.target.value)
+                                }
+                            />
+                            <InputError
+                                messages={errors.contact_number}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Input
+                                label="Address"
+                                value={address}
+                                name="address"
+                                onChange={event =>
+                                    setAddress(event.target.value)
+                                }
+                            />
+                            <InputError
+                                messages={errors.address}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Select
+                                label="Sex"
+                                value={sex}
+                                name="sex"
+                                onChange={event => setSex(event)}>
+                                {sexOptions.map(option => (
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+
+                            <InputError
+                                messages={errors.type}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Select
+                                label="Type"
+                                value={type}
+                                name="type"
+                                onChange={event => setType(event)}>
+                                {typeOptions.map(option => (
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+
+                            <InputError
+                                messages={errors.type}
+                                className="mt-2"
+                            />
+                        </div>
+                    </form>
+
+                    <Button
+                        variant="gradient"
+                        color="cyan"
+                        className="rounded-full"
+                        onClick={submitForm}>
+                        <span>Submit</span>
+                    </Button>
+                </CardBody>
+            </Card>
         </AppLayout>
     )
 }

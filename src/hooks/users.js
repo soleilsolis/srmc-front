@@ -1,6 +1,9 @@
 import axios from '@/lib/axios'
+import { useRouter } from 'next/navigation'
 
 export const useUsers = () => {
+    const router = useRouter()
+
     const config = {
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -14,7 +17,19 @@ export const useUsers = () => {
         return axios.get(`/api/users/query/${props.type}/1`, config)
     }
 
+    const newUser = async ({ setErrors, ...props }) => {
+        await csrf()
+        axios
+            .post(`/api/users`, props, config)
+            .then(() => router.push(`/admin/users`))
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
     return {
         usersQuery,
+        newUser,
     }
 }
