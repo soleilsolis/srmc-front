@@ -3,11 +3,13 @@ import Head from 'next/head'
 import { Card, CardBody, Input, Button } from '@material-tailwind/react'
 import { useAppointment } from '@/hooks/appointment'
 import { useState } from 'react'
+import InputError from '@/components/InputError'
 
 const Summary = () => {
     const { getSummary } = useAppointment()
     const [start_date, setStartDate] = useState()
     const [end_date, setEndDate] = useState()
+    const [errors, setErrors] = useState([])
 
     const submitForm = () =>
         getSummary({
@@ -17,12 +19,11 @@ const Summary = () => {
         })
 
     return (
-        <AppLayout
-            header={<div className="inline-flex w-full">Export Summary</div>}>
+        <AppLayout header="Export Appointment Summary to Excel File">
             <Head>
                 <title>Export Summary - SRMC</title>
             </Head>
-            <div className="md:px-0 px-2">
+            <div className="md:px-0 px-2 pb-10">
                 <Card>
                     <CardBody>
                         <form>
@@ -35,6 +36,11 @@ const Summary = () => {
                                     onChange={event =>
                                         setStartDate(event.target.value)
                                     }
+                                />
+
+                                <InputError
+                                    messages={errors.start_date}
+                                    className="mt-2"
                                 />
                             </div>
                             <div className="mb-6">

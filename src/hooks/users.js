@@ -17,6 +17,13 @@ export const useUsers = () => {
         return axios.get(`/api/users/query/${props.type}/1`, config)
     }
 
+    const getUser = async ({ setUser, ...props } = {}) => {
+        await csrf()
+        return axios
+            .get(`/api/user/${props.id}`, config)
+            .then(res => setUser(res.data.data))
+    }
+
     const newUser = async ({ setErrors, ...props }) => {
         await csrf()
         axios
@@ -31,5 +38,6 @@ export const useUsers = () => {
     return {
         usersQuery,
         newUser,
+        getUser,
     }
 }

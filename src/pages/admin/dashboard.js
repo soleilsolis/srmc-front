@@ -12,7 +12,7 @@ const Dashboard = () => {
             <Head>
                 <title>Dashboard - SRMC</title>
             </Head>
-            <div className="md:px-0 px-2">
+            <div className="md:px-0 px-2 pb-10">
                 {stats ? (
                     <>
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

@@ -3,6 +3,7 @@ import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
 import { useDiagnosis } from '@/hooks/diagnosis'
 import { usePrescription } from '@/hooks/prescription'
+import { useAppointment } from '@/hooks/appointment'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/auth'
 import {
@@ -35,6 +36,7 @@ const Page = () => {
 
     const { newDiagnosis, editDiagnosis } = useDiagnosis()
     const { newPrescription, deletePrescription } = usePrescription()
+    const { checkInAppointment, checkOutAppointment } = useAppointment()
 
     const [findings, setFindings] = useState('')
     const [notes, setNotes] = useState('')
@@ -96,6 +98,18 @@ const Page = () => {
         })
     }
 
+    const submitCheckIn = async () => {
+        checkInAppointment({
+            id: appointmentId,
+        })
+    }
+
+    const submitCheckOut = async () => {
+        checkOutAppointment({
+            id: appointmentId,
+        })
+    }
+
     const removePrescription = async event => {
         event.preventDefault()
 
@@ -154,169 +168,239 @@ const Page = () => {
                 <title>Appointment {router.query.slug} - SRMC</title>
             </Head>
 
-            <div className="md:px-0 px-2">
+            <div className="md:px-0 px-2 pb-10 pb-10">
                 {!appointment ? (
                     <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />
                 ) : (
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
                         <div>
-                            <div>
-                                <Typography variant="h5" className="mb-5">
-                                    Details
-                                </Typography>
+                            <Typography variant="h5" className="mb-2">
+                                Details
+                            </Typography>
+                            <Card>
+                                <CardBody>
+                                    <div>
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray">
+                                            #{appointment.id} -{' '}
+                                            {appointment.user_name}
+                                        </Typography>
+                                        <Typography
+                                            variant="h5"
+                                            color="blue-gray"
+                                            className="inline-flex items-center gap-2">
+                                            <CalendarDaysIcon
+                                                strokeWidth={1}
+                                                className="h-8 w-8"
+                                            />
+                                            {moment(
+                                                appointment.scheduled_at,
+                                            ).format('MMM Do, YYYY')}
+                                        </Typography>
+                                        <Typography
+                                            variant="small"
+                                            color="blue-gray">
+                                            {appointment.doctor_name}
+                                        </Typography>
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray">
+                                            {appointment.start_time !== null ? (
+                                                moment(
+                                                    appointment.start_time,
+                                                    'HH:mm',
+                                                ).format('h:mm A') +
+                                                ' - ' +
+                                                moment(
+                                                    appointment.end_time,
+                                                    'HH:mm',
+                                                ).format('h:mm A')
+                                            ) : (
+                                                <span>&nbsp;</span>
+                                            )}
+                                        </Typography>
+                                    </div>
 
-                                <Typography variant="lead" color="blue-gray">
-                                    #{appointment.id} - {appointment.user_name}
-                                </Typography>
-                                <Typography
-                                    variant="h5"
-                                    color="blue-gray"
-                                    className="inline-flex items-center gap-2">
-                                    <CalendarDaysIcon
-                                        strokeWidth={1}
-                                        className="h-8 w-8"
-                                    />
-                                    {moment(appointment.scheduled_at).format(
-                                        'MMM Do, YYYY',
-                                    )}
-                                </Typography>
-                                <Typography variant="small" color="blue-gray">
-                                    {appointment.doctor_name}
-                                </Typography>
-                                <Typography variant="lead" color="blue-gray">
-                                    {appointment.start_time !== null ? (
-                                        moment(
-                                            appointment.start_time,
-                                            'HH:mm',
-                                        ).format('h:mm a') +
-                                        ' - ' +
-                                        moment(
-                                            appointment.end_time,
-                                            'HH:mm',
-                                        ).format('h:mm a')
+                                    {appointment.followed_up_at != null ? (
+                                        <div className="my-5">
+                                            <Typography
+                                                variant="h5"
+                                                color="blue-gray"
+                                                className="inline-flex items-center gap-2">
+                                                <CalendarDaysIcon
+                                                    strokeWidth={1}
+                                                    className="h-8 w-8"
+                                                />
+                                                {moment(
+                                                    appointment.followed_up_at,
+                                                ).format('MMM Do, YYYY')}
+                                            </Typography>
+                                            <Typography
+                                                variant="large"
+                                                color="blue-gray">
+                                                {appointment.start_time !==
+                                                null ? (
+                                                    moment(
+                                                        appointment.follow_up_start_time,
+                                                        'HH:mm',
+                                                    ).format('h:mm A') +
+                                                    ' - ' +
+                                                    moment(
+                                                        appointment.follow_up_end_time,
+                                                        'HH:mm',
+                                                    ).format('h:mm A')
+                                                ) : (
+                                                    <span>&nbsp;</span>
+                                                )}
+                                            </Typography>
+                                        </div>
                                     ) : (
-                                        <span>&nbsp;</span>
+                                        ''
                                     )}
-                                </Typography>
-                            </div>
 
-                            {appointment.followed_up_at != null ? (
-                                <div className="my-5">
-                                    <Typography
-                                        variant="h5"
-                                        color="blue-gray"
-                                        className="inline-flex items-center gap-2">
-                                        <CalendarDaysIcon
-                                            strokeWidth={1}
-                                            className="h-8 w-8"
-                                        />
-                                        {moment(
-                                            appointment.followed_up_at,
-                                        ).format('MMM Do, YYYY')}
-                                    </Typography>
-                                    <Typography
-                                        variant="large"
-                                        color="blue-gray">
-                                        {appointment.start_time !== null ? (
-                                            moment(
-                                                appointment.follow_up_start_time,
-                                                'HH:mm',
-                                            ).format('h:mm a') +
-                                            ' - ' +
-                                            moment(
-                                                appointment.follow_up_end_time,
-                                                'HH:mm',
-                                            ).format('h:mm a')
-                                        ) : (
-                                            <span>&nbsp;</span>
-                                        )}
-                                    </Typography>
-                                </div>
-                            ) : (
-                                ''
-                            )}
+                                    <div className="my-5">
+                                        <Typography
+                                            color="blue-gray"
+                                            variant="lead">
+                                            Checked In:{' '}
+                                            {appointment.check_in !== null
+                                                ? moment(
+                                                      appointment.check_in,
+                                                      'HH:mm',
+                                                  ).format('h:mm A')
+                                                : ''}
+                                        </Typography>
 
-                            {user && user.type === 'patient' ? (
-                                <Link
-                                    className="my-5"
-                                    href={`/appointment/reschedule/${id}`}>
-                                    <Button className="my-5 rounded-full">
-                                        Reschedule
-                                    </Button>
-                                </Link>
-                            ) : (
-                                <Link
-                                    className="my-5"
-                                    href={`/appointment/follow/${id}`}>
-                                    <Button className="my-5 rounded-full">
-                                        Follow Up
-                                    </Button>
-                                </Link>
-                            )}
+                                        <Typography
+                                            color="blue-gray"
+                                            variant="lead">
+                                            Checked Out:{' '}
+                                            {appointment.check_out !== null
+                                                ? moment(
+                                                      appointment.check_out,
+                                                      'HH:mm',
+                                                  ).format('h:mm A')
+                                                : ''}
+                                        </Typography>
+                                    </div>
+
+                                    {appointment.check_in === null ? (
+                                        <Button
+                                            className="rounded-full"
+                                            onClick={submitCheckIn}>
+                                            Check In
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
+
+                                    {appointment.check_out === null &&
+                                    appointment.check_in !== null ? (
+                                        <Button
+                                            className="rounded-full"
+                                            onClick={submitCheckOut}>
+                                            Check Out
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
+
+                                    {user && user.type === 'patient' ? (
+                                        <Link
+                                            href={`/appointment/reschedule/${id}`}>
+                                            <Button className="my-5 rounded-full">
+                                                Reschedule
+                                            </Button>
+                                        </Link>
+                                    ) : (
+                                        <Link
+                                            href={`/appointment/follow/${id}`}>
+                                            <Button className="mt-5 rounded-full">
+                                                Follow Up
+                                            </Button>
+                                        </Link>
+                                    )}
+                                </CardBody>
+                            </Card>
+
+                            <div className="my-2"></div>
 
                             <Typography variant="h5" className="my-5">
                                 Diagnosis
                             </Typography>
-                            {user && user.type === 'doctor' ? (
-                                <>
-                                    <form>
-                                        <div className="w-96 max-w-96 mb-5">
-                                            <Textarea
-                                                label="Findings"
-                                                name="findings"
-                                                value={findings}
-                                                onChange={event =>
-                                                    setFindings(
-                                                        event.target.value,
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                messages={errors.findings}
-                                                className="mt-2"
-                                            />
-                                        </div>
+                            <Card>
+                                <CardBody>
+                                    {user && user.type === 'doctor' ? (
+                                        <>
+                                            <form>
+                                                <div className="w-full mb-5">
+                                                    <Textarea
+                                                        label="Findings"
+                                                        name="findings"
+                                                        value={findings}
+                                                        onChange={event =>
+                                                            setFindings(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    />
+                                                    <InputError
+                                                        messages={
+                                                            errors.findings
+                                                        }
+                                                        className="mt-2"
+                                                    />
+                                                </div>
 
-                                        <div className="w-96 max-w-96 mb-5">
-                                            <Textarea
-                                                label="Notes"
-                                                name="notes"
-                                                value={notes}
-                                                onChange={event =>
-                                                    setNotes(event.target.value)
-                                                }
-                                            />
+                                                <div className="w-full mb-5">
+                                                    <Textarea
+                                                        label="Notes"
+                                                        name="notes"
+                                                        value={notes}
+                                                        onChange={event =>
+                                                            setNotes(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                        }
+                                                    />
 
-                                            <InputError
-                                                messages={errors.notes}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                    </form>
+                                                    <InputError
+                                                        messages={errors.notes}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                            </form>
 
-                                    <Button
-                                        color="cyan"
-                                        className="rounded-full"
-                                        onClick={submitForm}>
-                                        Save
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Typography variant="h6">
-                                        Findings
-                                    </Typography>
-                                    <Typography
-                                        variant="paragraph"
-                                        className="mb-10">
-                                        {findings}
-                                    </Typography>
-                                    <Typography variant="h6">Notes</Typography>
-                                    <Typography variant="paragraph">
-                                        {notes}
-                                    </Typography>
-                                </>
-                            )}
+                                            <Button
+                                                color="cyan"
+                                                className="rounded-full"
+                                                onClick={submitForm}>
+                                                Save
+                                            </Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Typography variant="h6">
+                                                Findings
+                                            </Typography>
+                                            <Typography
+                                                variant="paragraph"
+                                                className="mb-10">
+                                                {findings}
+                                            </Typography>
+                                            <Typography variant="h6">
+                                                Notes
+                                            </Typography>
+                                            <Typography variant="paragraph">
+                                                {notes}
+                                            </Typography>
+                                        </>
+                                    )}
+                                </CardBody>
+                            </Card>
                         </div>
                         <div>
                             <Typography variant="h5" className="mb-2">
@@ -328,6 +412,7 @@ const Page = () => {
                                     {prescriptions.map(prescription => (
                                         <>
                                             <Typography
+                                                color="blue-gray"
                                                 variant="h6"
                                                 className="mb-2 flex justify-between gap-2">
                                                 <span className="flex gap-2">
@@ -366,18 +451,18 @@ const Page = () => {
                                             <hr className="my-3" />
                                         </>
                                     ))}
+                                    {user && user.type === 'doctor' ? (
+                                        <Button
+                                            color="cyan"
+                                            onClick={handleOpen}
+                                            className="mr-1 my-2 rounded-full">
+                                            <span>Add Prescription</span>
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
                                 </CardBody>
                             </Card>
-                            {user && user.type === 'doctor' ? (
-                                <Button
-                                    color="cyan"
-                                    onClick={handleOpen}
-                                    className="mr-1 my-2 rounded-full">
-                                    <span>Add Prescription</span>
-                                </Button>
-                            ) : (
-                                ''
-                            )}
                         </div>
                     </div>
                 )}

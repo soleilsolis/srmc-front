@@ -23,6 +23,22 @@ export const useAppointment = () => {
         axios.get(`/api/appointment/${id}`, config).then(res => res.data.data)
     }
 
+    const checkInAppointment = async ({ ...props }) => {
+        await csrf()
+
+        axios
+            .patch(`/api/appointment/checkIn/${props.id}`)
+            .then(() => location.reload())
+    }
+
+    const checkOutAppointment = async ({ ...props }) => {
+        await csrf()
+
+        axios
+            .patch(`/api/appointment/checkOut/${props.id}`)
+            .then(() => location.reload())
+    }
+
     const getSummary = async ({ setErrors, ...props }) => {
         await csrf()
 
@@ -123,5 +139,7 @@ export const useAppointment = () => {
         followUpAppointment,
         appointmentsQuery,
         getSummary,
+        checkInAppointment,
+        checkOutAppointment,
     }
 }

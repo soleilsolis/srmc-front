@@ -9,10 +9,12 @@ import {
     Option,
     Button,
     Switch,
+    IconButton,
 } from '@material-tailwind/react'
 import { useUsers } from '@/hooks/users'
 import InputError from '@/components/InputError'
-
+import Link from 'next/link'
+import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 const NewUser = () => {
     const { newUser } = useUsers()
 
@@ -63,7 +65,17 @@ const NewUser = () => {
     }
 
     return (
-        <AppLayout header="New User">
+        <AppLayout
+            header={
+                <div className="inline-flex w-full gap-3">
+                    <Link href="/admin/users">
+                        <IconButton variant="text">
+                            <ArrowLongLeftIcon className="w-5" />
+                        </IconButton>
+                    </Link>
+                    New User
+                </div>
+            }>
             <Head>
                 <title>New User - SRMC</title>
             </Head>

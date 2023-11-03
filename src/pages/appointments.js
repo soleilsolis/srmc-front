@@ -204,12 +204,12 @@ const Appointments = () => {
                                             moment(
                                                 appointment.start_time,
                                                 'HH:mm',
-                                            ).format('h:mm a') +
+                                            ).format('h:mm A') +
                                             ' - ' +
                                             moment(
                                                 appointment.end_time,
                                                 'HH:mm',
-                                            ).format('h:mm a')
+                                            ).format('h:mm A')
                                         ) : (
                                             <span>&nbsp;</span>
                                         )}
