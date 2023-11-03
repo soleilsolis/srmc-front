@@ -35,18 +35,16 @@ export const useSupply = () => {
         ...props
     }) => {
         await csrf()
-        axios
-            .get(`/api/supply/${props.id}`, config)
-            .then(res => {
-                const supply = res.data.data
-                setName(supply.name)
-                setSupplyCategoryId(supply.supply_category_id)
-                setQuantity(supply.quantity)
-                setUnit(supply.unit)
-                setCost(supply.cost)
-                setExpiresAt(supply.expires_at)
-                setRemaining(supply.quantity - supply.deducted)
-            })
+        axios.get(`/api/supply/${props.id}`, config).then(res => {
+            const supply = res.data.data
+            setName(supply.name)
+            setSupplyCategoryId(supply.supply_category_id)
+            setQuantity(supply.quantity)
+            setUnit(supply.unit)
+            setCost(supply.cost)
+            setExpiresAt(supply.expires_at)
+            setRemaining(supply.quantity - supply.deducted)
+        })
     }
 
     const newSupply = async ({ setErrors, ...props }) => {

@@ -97,8 +97,7 @@ const Supply = () => {
                                     {TABS.map(({ label, value }) => (
                                         <Tab
                                             key={value}
-                                            value={value}
-                                            onClick={() => getSupplies(value)}>
+                                            value={value}>
                                             &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                         </Tab>
                                     ))}
