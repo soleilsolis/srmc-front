@@ -191,15 +191,18 @@ const Register = () => {
                             type="number"
                             value={contactNumber}
                             className="block mt-1 w-full"
-                            onChange={event =>
-                                setContactNumber(event.target.value)
-                            }
                             onInput={event => {
-                                console.log(
-                                    event.target.value.match(
-                                        '/^(?!(?:0|0.0|0.00)$)[+]?d+(.d|.d[0-9])?$/',
-                                    ),
+                                let text = event.target.value.match(
+                                    /^[0-9]{0,11}/g,
                                 )
+
+                                text == ''
+                                    ? setContactNumber(
+                                          event.target.value == ''
+                                              ? ''
+                                              : contactNumber,
+                                      )
+                                    : setContactNumber(text)
                             }}
                             required
                             autoComplete="contact_number"
