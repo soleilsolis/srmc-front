@@ -19,6 +19,7 @@ import {
     DialogHeader,
     Card,
     CardBody,
+    Alert,
 } from '@material-tailwind/react'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -61,6 +62,7 @@ const Page = () => {
     const [O2_sat, setO2sat] = useState()
     const [GCS, setGCS] = useState()
     const [errors, setErrors] = useState([])
+    const [alertz, setAlertz] = useState()
 
     const [open, setOpen] = useState(false)
 
@@ -138,6 +140,12 @@ const Page = () => {
         sendPrescription({
             id: appointment.id,
         })
+
+        setAlertz(
+            <Alert color="green" className="mt-5" onClick={() => setAlertz()}>
+                Email sent to patient.
+            </Alert>,
+        )
     }
 
     const submitVitals = async event => {
@@ -505,6 +513,8 @@ const Page = () => {
                                                 onClick={emailThis}>
                                                 Email to Patient
                                             </Button>
+
+                                            {alertz}
                                         </>
                                     ) : (
                                         ''

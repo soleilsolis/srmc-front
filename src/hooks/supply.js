@@ -27,7 +27,6 @@ export const useSupply = () => {
     const getSupply = async ({
         setName,
         setSupplyCategoryId,
-        setQuantity,
         setUnit,
         setCost,
         setExpiresAt,
