@@ -22,6 +22,7 @@ import {
     UserPlusIcon,
     MagnifyingGlassIcon,
     EyeIcon,
+    ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 const Supply = () => {
@@ -41,12 +42,12 @@ const Supply = () => {
 
     const TABLE_HEAD = [
         '',
-        'Name',
+        'Vaccine Type',
         'Category',
         'Cost',
         'Quantity',
         'Remaining',
-        'Expires At',
+        'Expiration Date',
         'Actions',
     ]
 
@@ -183,7 +184,16 @@ const Supply = () => {
                                                     {quantity}
                                                 </td>
                                                 <td className={classes}>
-                                                    {quantity - deducted}
+                                                    {quantity - deducted <=
+                                                    10 ? (
+                                                        <span className="text-red-500 flex">
+                                                            {quantity -
+                                                                deducted}
+                                                            <ExclamationTriangleIcon className="w-4 h-4"></ExclamationTriangleIcon>
+                                                        </span>
+                                                    ) : (
+                                                        quantity - deducted
+                                                    )}
                                                 </td>
                                                 <td className={classes}>
                                                     {moment(expires_at).format(

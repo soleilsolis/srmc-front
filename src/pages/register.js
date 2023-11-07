@@ -1,10 +1,8 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
-import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
+import { Input, Button, Select, Option } from '@material-tailwind/react'
 import InputError from '@/components/InputError'
-import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useState } from 'react'
@@ -15,6 +13,21 @@ const Register = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
+    const patientTypeOptions = [
+        {
+            value: null,
+            label: 'Regular',
+        },
+        {
+            value: 'PWD',
+            label: 'Person With Disability',
+        },
+        {
+            value: 'Senior',
+            label: 'Senior Citizen',
+        },
+    ]
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -23,6 +36,7 @@ const Register = () => {
     const [address, setAddress] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [errors, setErrors] = useState([])
+    const [patientType, setPatientType] = useState()
 
     const submitForm = event => {
         event.preventDefault()
@@ -35,6 +49,7 @@ const Register = () => {
             birthdate,
             address,
             contact_number: contactNumber,
+            patient_type: patientType,
             setErrors,
         })
     }
@@ -50,9 +65,8 @@ const Register = () => {
                 <form onSubmit={submitForm}>
                     {/* Name */}
                     <div>
-                        <Label htmlFor="name">Name</Label>
-
                         <Input
+                            label="Name"
                             id="name"
                             type="text"
                             value={name}
@@ -65,11 +79,24 @@ const Register = () => {
                         <InputError messages={errors.name} className="mt-2" />
                     </div>
 
+                    <div className="mt-4">
+                        <Select
+                            label="Patient Type"
+                            id="patient_type"
+                            onChange={event => setPatientType(event)}
+                            required>
+                            {patientTypeOptions.map(option => (
+                                <Option key={option.value} value={option.value}>
+                                    {option.label}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+
                     {/* Email Address */}
                     <div className="mt-4">
-                        <Label htmlFor="email">Email</Label>
-
                         <Input
+                            label="Email"
                             id="email"
                             type="email"
                             value={email}
@@ -83,9 +110,8 @@ const Register = () => {
 
                     {/* Password */}
                     <div className="mt-4">
-                        <Label htmlFor="password">Password</Label>
-
                         <Input
+                            label="Password"
                             id="password"
                             type="password"
                             value={password}
@@ -103,11 +129,8 @@ const Register = () => {
 
                     {/* Confirm Password */}
                     <div className="mt-4">
-                        <Label htmlFor="passwordConfirmation">
-                            Confirm Password
-                        </Label>
-
                         <Input
+                            label=" Confirm Password"
                             id="passwordConfirmation"
                             type="password"
                             value={passwordConfirmation}
@@ -126,9 +149,8 @@ const Register = () => {
 
                     {/* birthdate */}
                     <div className="mt-4">
-                        <Label htmlFor="birthdate">Birthdate</Label>
-
                         <Input
+                            label="Birthdate"
                             id="birthdate"
                             type="date"
                             value={birthdate}
@@ -145,9 +167,8 @@ const Register = () => {
                     </div>
 
                     <div className="mt-4">
-                        <Label htmlFor="address">Address</Label>
-
                         <Input
+                            label="Address"
                             id="address"
                             type="text"
                             value={address}
@@ -164,9 +185,8 @@ const Register = () => {
                     </div>
 
                     <div className="mt-4">
-                        <Label htmlFor="contact_number">Contact Number</Label>
-
                         <Input
+                            label="Contact Number"
                             id="contact_number"
                             type="number"
                             value={contactNumber}
@@ -191,7 +211,12 @@ const Register = () => {
                             Already registered?
                         </Link>
 
-                        <Button className="ml-4">Register</Button>
+                        <Button
+                            className="ml-4 rounded-full"
+                            color="cyan"
+                            type="submit">
+                            Register
+                        </Button>
                     </div>
                 </form>
             </AuthCard>

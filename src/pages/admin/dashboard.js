@@ -47,16 +47,6 @@ const Dashboard = () => {
                                     </Typography>
                                 </CardBody>
                             </Card>
-                            <Card>
-                                <CardBody>
-                                    <Typography variant="h2" color="blue-gray">
-                                        {stats.shown}
-                                    </Typography>
-                                    <Typography variant="h6" color="blue-gray">
-                                        Show Up
-                                    </Typography>
-                                </CardBody>
-                            </Card>
                         </div>
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 mt-4">
                             <Card className="h-full w-full lg:col-span-2 col-span-4">

@@ -123,7 +123,7 @@ const Appointments = () => {
                     rel="noreferrer">
                     <Button
                         variant="gradient"
-                        className="rounded-full"
+                        className="rounded-full mr-2"
                         color="cyan">
                         Pay Now
                     </Button>
@@ -176,9 +176,22 @@ const Appointments = () => {
                                 <CardBody>
                                     <Typography
                                         variant="medium"
-                                        color="blue-gray">
-                                        #{appointment.id} -{' '}
+                                        color="blue-gray"
+                                        className="flex justify-between items-center">
+                                        {appointment.id} -{' '}
                                         {appointment.user_name}
+                                        <Link
+                                            href={
+                                                '/appointment/' + appointment.id
+                                            }
+                                            className="block">
+                                            <Button
+                                                variant="text"
+                                                className="rounded-full block"
+                                                color="cyan">
+                                                Details
+                                            </Button>
+                                        </Link>
                                     </Typography>
                                     <Typography
                                         variant="h5"
@@ -215,7 +228,7 @@ const Appointments = () => {
                                         )}
                                     </Typography>
                                 </CardBody>
-                                <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
+                                <CardFooter className="pt-0 flex-row-reverse md:flex-row">
                                     {appointment.user_type === 'patient' ? (
                                         <>
                                             {cardControl(appointment)}
@@ -271,16 +284,6 @@ const Appointments = () => {
                                             Cancelled
                                         </Button>
                                     )}
-
-                                    <Link
-                                        href={'/appointment/' + appointment.id}>
-                                        <Button
-                                            variant="text"
-                                            className="rounded-full"
-                                            color="cyan">
-                                            Details
-                                        </Button>
-                                    </Link>
                                 </CardFooter>
                             </Card>
                         ))}

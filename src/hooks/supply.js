@@ -39,7 +39,6 @@ export const useSupply = () => {
             const supply = res.data.data
             setName(supply.name)
             setSupplyCategoryId(supply.supply_category_id)
-            setQuantity(supply.quantity)
             setUnit(supply.unit)
             setCost(supply.cost)
             setExpiresAt(supply.expires_at)
@@ -83,6 +82,18 @@ export const useSupply = () => {
             })
     }
 
+    const renewSupply = async ({ setErrors, ...props }) => {
+        await csrf()
+        axios
+            .patch(`/api/supply/renew/${props.id}`, props, config)
+            .then(() => location.reload())
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+
+                setErrors(error.response.data.errors)
+            })
+    }
+
     return {
         indexSupplies,
         getSupply,
@@ -90,5 +101,6 @@ export const useSupply = () => {
         deductSupply,
         indexSupplyCategories,
         editSupply,
+        renewSupply,
     }
 }

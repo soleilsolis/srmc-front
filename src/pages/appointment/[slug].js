@@ -36,7 +36,11 @@ const Page = () => {
 
     const { newDiagnosis, editDiagnosis } = useDiagnosis()
     const { newPrescription, deletePrescription } = usePrescription()
-    const { checkInAppointment, checkOutAppointment } = useAppointment()
+    const {
+        checkInAppointment,
+        checkOutAppointment,
+        newVitals,
+    } = useAppointment()
 
     const [findings, setFindings] = useState('')
     const [notes, setNotes] = useState('')
@@ -46,7 +50,12 @@ const Page = () => {
     const [prescribedAt, setPrescribedAt] = useState()
     const [prescriptions, setPrescriptions] = useState([])
     const [prescriptionId, setPrescriptionId] = useState([])
-
+    const [bp, setbp] = useState()
+    const [hr, sethr] = useState()
+    const [rr, setrr] = useState()
+    const [temperature, settemperature] = useState()
+    const [O2_sat, setO2sat] = useState()
+    const [GCS, setGCS] = useState()
     const [errors, setErrors] = useState([])
 
     const [open, setOpen] = useState(false)
@@ -119,6 +128,21 @@ const Page = () => {
         })
     }
 
+    const submitVitals = async event => {
+        event.preventDefault()
+
+        newVitals({
+            id: appointmentId,
+            bp,
+            hr,
+            rr,
+            temperature,
+            O2_sat,
+            GCS,
+            setErrors,
+        })
+    }
+
     const config = {
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -168,7 +192,7 @@ const Page = () => {
                 <title>Appointment {router.query.slug} - SRMC</title>
             </Head>
 
-            <div className="md:px-0 px-2 pb-10 pb-10">
+            <div className="md:px-0 px-2 pb-10">
                 {!appointment ? (
                     <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />
                 ) : (
@@ -285,7 +309,9 @@ const Page = () => {
                                         </Typography>
                                     </div>
 
-                                    {appointment.check_in === null ? (
+                                    {appointment.check_in === null &&
+                                    user &&
+                                    user.type === 'doctor' ? (
                                         <Button
                                             className="rounded-full"
                                             onClick={submitCheckIn}>
@@ -296,7 +322,9 @@ const Page = () => {
                                     )}
 
                                     {appointment.check_out === null &&
-                                    appointment.check_in !== null ? (
+                                    appointment.check_in !== null &&
+                                    user &&
+                                    user.type === 'doctor' ? (
                                         <Button
                                             className="rounded-full"
                                             onClick={submitCheckOut}>
@@ -316,7 +344,7 @@ const Page = () => {
                                     ) : (
                                         <Link
                                             href={`/appointment/follow/${id}`}>
-                                            <Button className="mt-5 rounded-full">
+                                            <Button className="block mt-5 rounded-full">
                                                 Follow Up
                                             </Button>
                                         </Link>
@@ -453,7 +481,7 @@ const Page = () => {
                                     ))}
                                     {user && user.type === 'doctor' ? (
                                         <Button
-                                            color="cyan"
+                                            color="black"
                                             onClick={handleOpen}
                                             className="mr-1 my-2 rounded-full">
                                             <span>Add Prescription</span>
@@ -461,6 +489,122 @@ const Page = () => {
                                     ) : (
                                         ''
                                     )}
+                                </CardBody>
+                            </Card>
+
+                            <Typography variant="h5" className="my-5">
+                                Vital Signs
+                            </Typography>
+                            <Card>
+                                <CardBody>
+                                    <form>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="BP"
+                                                name="bp"
+                                                value={appointment.bp}
+                                                onChange={event => {
+                                                    setbp(event.target.value)
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.bp}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="HR (BPM)"
+                                                name="hr"
+                                                value={appointment.hr}
+                                                onChange={event => {
+                                                    sethr(event.target.value)
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.hr}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="RR"
+                                                name="rr"
+                                                value={appointment.rr}
+                                                onChange={event => {
+                                                    setrr(event.target.value)
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.rr}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="Temperature (C)"
+                                                name="temperature"
+                                                value={appointment.temperature}
+                                                type="number"
+                                                onChange={event => {
+                                                    settemperature(
+                                                        event.target.value,
+                                                    )
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.temperature}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="O2 Saturation (%)"
+                                                name="O2_sat"
+                                                value={appointment.O2_sat}
+                                                type="number"
+                                                onChange={event => {
+                                                    setO2sat(event.target.value)
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.O2_sat}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        <div className="mb-6">
+                                            <Input
+                                                label="GCS"
+                                                name="GCS"
+                                                value={appointment.GCS}
+                                                type="number"
+                                                onChange={event => {
+                                                    setGCS(event.target.value)
+                                                    setErrors([])
+                                                }}
+                                            />
+                                            <InputError
+                                                messages={errors.GCS}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                        {user.type == 'doctor' ? (
+                                            <Button
+                                                className="rounded-full"
+                                                variant="gradient"
+                                                color="cyan"
+                                                onClick={submitVitals}>
+                                                <span>Save</span>
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </form>
                                 </CardBody>
                             </Card>
                         </div>

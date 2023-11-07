@@ -4,7 +4,6 @@ import {
     MagnifyingGlassIcon,
     PlusCircleIcon,
 } from '@heroicons/react/24/outline'
-import { UserPlusIcon } from '@heroicons/react/24/solid'
 import {
     Card,
     CardHeader,
@@ -83,19 +82,6 @@ const Appointments = () => {
                                     className="mt-1 font-normal">
                                     See information about all Appointments
                                 </Typography>
-                            </div>
-                            <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                                <Link href="/admin/appointments/new">
-                                    <Button
-                                        className="flex items-center gap-3"
-                                        size="sm">
-                                        <UserPlusIcon
-                                            strokeWidth={2}
-                                            className="h-4 w-4"
-                                        />{' '}
-                                        New Appointment
-                                    </Button>
-                                </Link>
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">

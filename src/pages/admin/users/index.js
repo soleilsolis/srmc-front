@@ -45,7 +45,7 @@ const TABS = [
     },
 ]
 
-const TABLE_HEAD = ['User', 'Function', 'Status', 'Joined', '']
+const TABLE_HEAD = ['', 'User', '', 'Status', 'Joined', '']
 
 const Users = () => {
     const { usersQuery } = useUsers()
@@ -146,6 +146,7 @@ const Users = () => {
                                             type,
                                             email_verified_at,
                                             date,
+                                            custom_id,
                                         },
                                         index,
                                     ) => {
@@ -157,6 +158,9 @@ const Users = () => {
 
                                         return (
                                             <tr key={name}>
+                                                <td className={classes}>
+                                                    {custom_id ?? id}
+                                                </td>
                                                 <td className={classes}>
                                                     <div className="flex items-center gap-3">
                                                         <Avatar

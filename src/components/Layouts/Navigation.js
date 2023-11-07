@@ -130,7 +130,7 @@ const navListItems = [
         label: 'Appointments',
         icon: ClipboardIcon,
         href: '/admin/appointments',
-        type: ['admin'],
+        type: ['admin', 'staff'],
     },
     {
         label: 'Follow Up',

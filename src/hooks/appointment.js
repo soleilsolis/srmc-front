@@ -115,6 +115,18 @@ export const useAppointment = () => {
             })
     }
 
+    const newVitals = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        axios
+            .post(`/api/appointment/vitals/${props.id}`, props, config)
+            .then(() => location.reload())
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
     const acceptAppointment = async ({ setErrors, id, ...props }) => {
         await csrf()
 
@@ -141,5 +153,6 @@ export const useAppointment = () => {
         getSummary,
         checkInAppointment,
         checkOutAppointment,
+        newVitals,
     }
 }
