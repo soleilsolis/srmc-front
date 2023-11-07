@@ -33,8 +33,16 @@ export const usePrescription = () => {
             })
     }
 
+    const sendPrescription = async ({ ...props }) => {
+        await csrf()
+        axios
+            .post(`/api/appointment/prescriptions/send/${props.id}`, config)
+            .then(res => res.data.data)
+    }
+
     return {
         newPrescription,
         deletePrescription,
+        sendPrescription,
     }
 }

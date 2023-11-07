@@ -35,7 +35,11 @@ const Page = () => {
     const { user } = useAuth({ middleware: 'auth' })
 
     const { newDiagnosis, editDiagnosis } = useDiagnosis()
-    const { newPrescription, deletePrescription } = usePrescription()
+    const {
+        newPrescription,
+        deletePrescription,
+        sendPrescription,
+    } = usePrescription()
     const {
         checkInAppointment,
         checkOutAppointment,
@@ -125,6 +129,14 @@ const Page = () => {
         deletePrescription({
             id: prescriptionId,
             setErrors,
+        })
+    }
+
+    const emailThis = async event => {
+        event.preventDefault()
+
+        sendPrescription({
+            id: appointment.id,
         })
     }
 
@@ -480,12 +492,20 @@ const Page = () => {
                                         </>
                                     ))}
                                     {user && user.type === 'doctor' ? (
-                                        <Button
-                                            color="black"
-                                            onClick={handleOpen}
-                                            className="mr-1 my-2 rounded-full">
-                                            <span>Add Prescription</span>
-                                        </Button>
+                                        <>
+                                            <Button
+                                                color="black"
+                                                onClick={handleOpen}
+                                                className="mr-1 my-2 rounded-full">
+                                                <span>Add Prescription</span>
+                                            </Button>
+
+                                            <Button
+                                                className="block mt-5 rounded-full"
+                                                onClick={emailThis}>
+                                                Email to Patient
+                                            </Button>
+                                        </>
                                     ) : (
                                         ''
                                     )}
