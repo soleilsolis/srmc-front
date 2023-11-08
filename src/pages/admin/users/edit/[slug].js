@@ -9,6 +9,7 @@ import {
     Option,
     Button,
     IconButton,
+    Typography,
 } from '@material-tailwind/react'
 import { useUsers } from '@/hooks/users'
 import InputError from '@/components/InputError'
@@ -17,6 +18,35 @@ import { PlusIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
+const TABLE_HEAD = ['Name', 'Job', 'Employed', '']
+
+const TABLE_ROWS = [
+    {
+        name: 'John Michael',
+        job: 'Manager',
+        date: '23/04/18',
+    },
+    {
+        name: 'Alexa Liras',
+        job: 'Developer',
+        date: '23/04/18',
+    },
+    {
+        name: 'Laurent Perrier',
+        job: 'Executive',
+        date: '19/09/17',
+    },
+    {
+        name: 'Michael Levi',
+        job: 'Developer',
+        date: '24/12/08',
+    },
+    {
+        name: 'Richard Gran',
+        job: 'Manager',
+        date: '04/10/21',
+    },
+]
 const EditUser = () => {
     const router = useRouter()
     const id = router.query.slug
@@ -93,7 +123,7 @@ const EditUser = () => {
                             <div className="mb-6">
                                 <Input
                                     label="Name"
-                                    value={name}
+                                    value={user.name}
                                     name="name"
                                     onChange={event =>
                                         setName(event.target.value)
@@ -259,6 +289,80 @@ const EditUser = () => {
                             Walk In Appointment
                         </Button>
                     </Link>
+
+                    <Card className="w-full  mt-10">
+                        <table className="w-full overflow-scroll min-w-max table-auto text-left">
+                            <thead>
+                                <tr>
+                                    {TABLE_HEAD.map(head => (
+                                        <th
+                                            key={head}
+                                            className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal leading-none opacity-70">
+                                                {head}
+                                            </Typography>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {user.schedules != undefined
+                                    ? user.schedules.map(
+                                          ({ name, job, date }, index) => {
+                                              const isLast =
+                                                  index ===
+                                                  TABLE_ROWS.length - 1
+                                              const classes = isLast
+                                                  ? 'p-4'
+                                                  : 'p-4 border-b border-blue-gray-50'
+
+                                              return (
+                                                  <tr key={name}>
+                                                      <td className={classes}>
+                                                          <Typography
+                                                              variant="small"
+                                                              color="blue-gray"
+                                                              className="font-normal">
+                                                              {name}
+                                                          </Typography>
+                                                      </td>
+                                                      <td className={classes}>
+                                                          <Typography
+                                                              variant="small"
+                                                              color="blue-gray"
+                                                              className="font-normal">
+                                                              {job}
+                                                          </Typography>
+                                                      </td>
+                                                      <td className={classes}>
+                                                          <Typography
+                                                              variant="small"
+                                                              color="blue-gray"
+                                                              className="font-normal">
+                                                              {date}
+                                                          </Typography>
+                                                      </td>
+                                                      <td className={classes}>
+                                                          <Typography
+                                                              as="a"
+                                                              href="#"
+                                                              variant="small"
+                                                              color="blue-gray"
+                                                              className="font-medium">
+                                                              Edit
+                                                          </Typography>
+                                                      </td>
+                                                  </tr>
+                                              )
+                                          },
+                                      )
+                                    : ''}
+                            </tbody>
+                        </table>
+                    </Card>
                 </div>
             </div>
         </AppLayout>
