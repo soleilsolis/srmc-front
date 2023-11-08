@@ -60,7 +60,7 @@ const NewSupply = () => {
                             <Input
                                 name="name"
                                 value={name}
-                                label="Name"
+                                label="Item Name"
                                 onChange={event => setName(event.target.value)}
                             />
                             <InputError messages={errors.name}></InputError>

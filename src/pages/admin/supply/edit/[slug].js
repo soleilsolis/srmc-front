@@ -125,7 +125,7 @@ const EditSupply = () => {
                                 <Input
                                     name="name"
                                     value={name}
-                                    label="Name"
+                                    label="Item Name"
                                     onChange={event =>
                                         setName(event.target.value)
                                     }
@@ -213,7 +213,7 @@ const EditSupply = () => {
                             <PlusIcon className="w-4 h-4" />
                             Renew
                         </Button>
-                        {quantity - deducted > 0 ? (
+                        {quantity - deducted >= 0 ? (
                             <Button
                                 onClick={handleOpen}
                                 variant="gradient"

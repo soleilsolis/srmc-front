@@ -11,7 +11,6 @@ import {
     TabsHeader,
     Tabs,
     Tab,
-    Input,
     CardFooter,
     Tooltip,
     IconButton,
@@ -20,39 +19,48 @@ import {
 import moment from 'moment'
 import {
     UserPlusIcon,
-    MagnifyingGlassIcon,
     EyeIcon,
     ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+
+const TABS = [
+    {
+        label: 'All',
+        value: 'all',
+    },
+    {
+        label: 'Out-of-Stock',
+        value: 'outOfStock',
+    },
+    {
+        label: 'Expired',
+        value: 'expired',
+    },
+]
+
+const TABLE_HEAD = [
+    '',
+    'Item Type',
+    'Category',
+    'Unit',
+    'Cost',
+    'Quantity',
+    'Remaining',
+    'Expiration Date',
+    'Actions',
+]
+
 const Supply = () => {
     const { indexSupplies } = useSupply()
     const [supplies, setSupplies] = useState([])
 
-    const TABS = [
-        {
-            label: 'All',
-            value: 'all',
-        },
-        {
-            label: 'Expired',
-            value: 'expired',
-        },
-    ]
-
-    const TABLE_HEAD = [
-        '',
-        'Vaccine Type',
-        'Category',
-        'Cost',
-        'Quantity',
-        'Remaining',
-        'Expiration Date',
-        'Actions',
-    ]
+    const getSupplies = type => {
+        indexSupplies({ type, setSupplies })
+    }
 
     useEffect(() => {
-        indexSupplies({ setSupplies })
+        getSupplies('all')
     }, [])
 
     return (
@@ -96,20 +104,15 @@ const Supply = () => {
                             <Tabs value="all" className="w-full md:w-max">
                                 <TabsHeader>
                                     {TABS.map(({ label, value }) => (
-                                        <Tab key={value} value={value}>
+                                        <Tab
+                                            key={value}
+                                            value={value}
+                                            onClick={() => getSupplies(value)}>
                                             &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                         </Tab>
                                     ))}
                                 </TabsHeader>
                             </Tabs>
-                            <div className="w-full md:w-72">
-                                <Input
-                                    label="Search"
-                                    icon={
-                                        <MagnifyingGlassIcon className="h-5 w-5" />
-                                    }
-                                />
-                            </div>
                         </div>
                     </CardHeader>
                     <CardBody className="overflow-scroll px-0">
@@ -176,9 +179,11 @@ const Supply = () => {
                                                 <td className={classes}>
                                                     {category.name}
                                                 </td>
-
                                                 <td className={classes}>
-                                                    {unit + ' ' + cost}
+                                                    {unit}
+                                                </td>
+                                                <td className={classes}>
+                                                    {cost}
                                                 </td>
                                                 <td className={classes}>
                                                     {quantity}

@@ -3,9 +3,9 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAppointment } from '@/hooks/appointment'
-
-import { Button, Select, Option } from '@material-tailwind/react'
-
+import Link from 'next/link'
+import { Button, Select, Option, IconButton } from '@material-tailwind/react'
+import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import InputError from '@/components/InputError'
 
 const NewAppointment = () => {
@@ -76,7 +76,7 @@ const NewAppointment = () => {
         })
     }
 
-    useEffect(async () => {
+    useEffect(() => {
         axios.get('/api/users/doctors').then(res => {
             setDoctorList(
                 res.data.data.map(doctor => (
@@ -90,7 +90,16 @@ const NewAppointment = () => {
 
     return (
         <AppLayout
-            header={<div className="inline-flex w-full">New Appointment</div>}>
+            header={
+                <div className="inline-flex w-full gap-3">
+                    <Link href="/appointments">
+                        <IconButton variant="text">
+                            <ArrowLongLeftIcon className="w-5" />
+                        </IconButton>
+                    </Link>
+                    New Appointment
+                </div>
+            }>
             <Head>
                 <title>Appointments - SRMC</title>
             </Head>

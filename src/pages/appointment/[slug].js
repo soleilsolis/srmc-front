@@ -517,7 +517,7 @@ const Page = () => {
                                             {alertz}
                                         </>
                                     ) : (
-                                        ''
+                                        <></>
                                     )}
                                 </CardBody>
                             </Card>
@@ -528,111 +528,178 @@ const Page = () => {
                             <Card>
                                 <CardBody>
                                     <form>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="BP"
-                                                name="bp"
-                                                value={appointment.bp}
-                                                onChange={event => {
-                                                    setbp(event.target.value)
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.bp}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="HR (BPM)"
-                                                name="hr"
-                                                value={appointment.hr}
-                                                onChange={event => {
-                                                    sethr(event.target.value)
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.hr}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="RR"
-                                                name="rr"
-                                                value={appointment.rr}
-                                                onChange={event => {
-                                                    setrr(event.target.value)
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.rr}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="Temperature (C)"
-                                                name="temperature"
-                                                value={appointment.temperature}
-                                                type="number"
-                                                onChange={event => {
-                                                    settemperature(
-                                                        event.target.value,
-                                                    )
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.temperature}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="O2 Saturation (%)"
-                                                name="O2_sat"
-                                                value={appointment.O2_sat}
-                                                type="number"
-                                                onChange={event => {
-                                                    setO2sat(event.target.value)
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.O2_sat}
-                                                className="mt-2"
-                                            />
-                                        </div>
-                                        <div className="mb-6">
-                                            <Input
-                                                label="GCS"
-                                                name="GCS"
-                                                value={appointment.GCS}
-                                                type="number"
-                                                onChange={event => {
-                                                    setGCS(event.target.value)
-                                                    setErrors([])
-                                                }}
-                                            />
-                                            <InputError
-                                                messages={errors.GCS}
-                                                className="mt-2"
-                                            />
-                                        </div>
                                         {user.type == 'doctor' ? (
-                                            <Button
-                                                className="rounded-full"
-                                                variant="gradient"
-                                                color="cyan"
-                                                onClick={submitVitals}>
-                                                <span>Save</span>
-                                            </Button>
+                                            <>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="BP"
+                                                        name="bp"
+                                                        value={appointment.bp}
+                                                        onChange={event => {
+                                                            setbp(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={errors.bp}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="HR (BPM)"
+                                                        name="hr"
+                                                        value={appointment.hr}
+                                                        onChange={event => {
+                                                            sethr(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={errors.hr}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="RR"
+                                                        name="rr"
+                                                        value={appointment.rr}
+                                                        onChange={event => {
+                                                            setrr(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={errors.rr}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="Temperature (C)"
+                                                        name="temperature"
+                                                        value={
+                                                            appointment.temperature
+                                                        }
+                                                        type="number"
+                                                        onChange={event => {
+                                                            settemperature(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={
+                                                            errors.temperature
+                                                        }
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="O2 Saturation (%)"
+                                                        name="O2_sat"
+                                                        value={
+                                                            appointment.O2_sat
+                                                        }
+                                                        type="number"
+                                                        onChange={event => {
+                                                            setO2sat(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={errors.O2_sat}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <div className="mb-6">
+                                                    <Input
+                                                        label="GCS"
+                                                        name="GCS"
+                                                        value={appointment.GCS}
+                                                        type="number"
+                                                        onChange={event => {
+                                                            setGCS(
+                                                                event.target
+                                                                    .value,
+                                                            )
+                                                            setErrors([])
+                                                        }}
+                                                    />
+                                                    <InputError
+                                                        messages={errors.GCS}
+                                                        className="mt-2"
+                                                    />
+                                                </div>
+                                                <Button
+                                                    className="rounded-full"
+                                                    variant="gradient"
+                                                    color="cyan"
+                                                    onClick={submitVitals}>
+                                                    <span>Save</span>
+                                                </Button>
+                                            </>
                                         ) : (
-                                            ''
+                                            <>
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        BP:
+                                                    </span>{' '}
+                                                    {appointment.bp}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        HR (BPM):
+                                                    </span>{' '}
+                                                    {appointment.hr}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        RR:
+                                                    </span>{' '}
+                                                    {appointment.rr}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        Temperature (C):
+                                                    </span>{' '}
+                                                    {appointment.temperature}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        O2 Saturation (%):
+                                                    </span>{' '}
+                                                    {appointment.O2_sat}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                                <Typography variant="small">
+                                                    <span className="text-bold">
+                                                        GCS:
+                                                    </span>{' '}
+                                                    {appointment.GCS}
+                                                </Typography>
+                                                <hr className="my-3" />
+                                            </>
                                         )}
                                     </form>
                                 </CardBody>

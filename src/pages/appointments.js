@@ -233,8 +233,8 @@ const Appointments = () => {
                                         <>
                                             {cardControl(appointment)}
 
-                                            {appointment.cancelled_at ===
-                                            null ? (
+                                            {appointment.cancelled_at &&
+                                            !appointment.passed === null ? (
                                                 <Button
                                                     variant="gradient"
                                                     color="red"

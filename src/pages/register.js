@@ -188,7 +188,7 @@ const Register = () => {
                         <Input
                             label="Contact Number"
                             id="contact_number"
-                            type="number"
+                            type="text"
                             value={contactNumber}
                             className="block mt-1 w-full"
                             onInput={event => {

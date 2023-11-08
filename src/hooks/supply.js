@@ -17,10 +17,10 @@ export const useSupply = () => {
             .then(res => setSupplyCategories(res.data.data))
     }
 
-    const indexSupplies = async ({ setSupplies }) => {
+    const indexSupplies = async ({ setSupplies, ...props }) => {
         await csrf()
         axios
-            .get(`/api/supplies`, config)
+            .get(`/api/supplies/${props.type}`, config)
             .then(res => setSupplies(res.data.data))
     }
 
