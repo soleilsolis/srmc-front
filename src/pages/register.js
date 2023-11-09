@@ -1,7 +1,13 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import { Input, Button, Select, Option } from '@material-tailwind/react'
+import {
+    Input,
+    Button,
+    Select,
+    Option,
+    Typography,
+} from '@material-tailwind/react'
 import InputError from '@/components/InputError'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
@@ -37,6 +43,7 @@ const Register = () => {
     const [contactNumber, setContactNumber] = useState('')
     const [errors, setErrors] = useState([])
     const [patientType, setPatientType] = useState()
+    const [valid_id_number, setValidIdNumber] = useState()
 
     const submitForm = event => {
         event.preventDefault()
@@ -48,6 +55,7 @@ const Register = () => {
             password_confirmation: passwordConfirmation,
             birthdate,
             address,
+            valid_id_number,
             contact_number: contactNumber,
             patient_type: patientType,
             setErrors,
@@ -83,7 +91,10 @@ const Register = () => {
                         <Select
                             label="Patient Type"
                             id="patient_type"
-                            onChange={event => setPatientType(event)}
+                            onChange={event => {
+                                setPatientType(event)
+                                setValidIdNumber(null)
+                            }}
                             required>
                             {patientTypeOptions.map(option => (
                                 <Option key={option.value} value={option.value}>
@@ -92,6 +103,28 @@ const Register = () => {
                             ))}
                         </Select>
                     </div>
+
+                    {patientType != null ? (
+                        <div className="mt-4">
+                            <Input
+                                label="ID Number"
+                                id="valid_id_number"
+                                type="text"
+                                value={valid_id_number}
+                                className="block mt-1 w-full"
+                                onChange={event =>
+                                    setValidIdNumber(event.target.value)
+                                }
+                            />
+
+                            <InputError
+                                messages={errors.valid_id_number}
+                                className="mt-2"
+                            />
+                        </div>
+                    ) : (
+                        ''
+                    )}
 
                     {/* Email Address */}
                     <div className="mt-4">
@@ -116,15 +149,26 @@ const Register = () => {
                             type="password"
                             value={password}
                             className="block mt-1 w-full"
-                            onChange={event => setPassword(event.target.value)}
+                            onChange={event => {
+                                setPassword(event.target.value)
+                                errors.password = undefined
+                            }}
                             required
                             autoComplete="new-password"
                         />
-
-                        <InputError
-                            messages={errors.password}
-                            className="mt-2"
-                        />
+                        {errors.password != undefined ? (
+                            <InputError
+                                messages={errors.password}
+                                className="mt-2"
+                            />
+                        ) : (
+                            <Typography variant="small">
+                                <i>
+                                    Password must include at least 8 characters
+                                    and one special character{' '}
+                                </i>{' '}
+                            </Typography>
+                        )}
                     </div>
 
                     {/* Confirm Password */}

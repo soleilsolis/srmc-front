@@ -73,7 +73,7 @@ const Page = () => {
     const handleRemoveOpen = () => setRemoveOpen(!removeOpen)
 
     const [medicationName, setMedicationName] = useState()
-    const [dosage, setDosage] = useState()
+    const [dosage, setDosage] = useState('')
     const [unit, setUnit] = useState()
     const [frequency, setFrequency] = useState()
     const [duration, setDuration] = useState()
@@ -102,7 +102,7 @@ const Page = () => {
 
         newPrescription({
             medication_name: medicationName,
-            dosage,
+            dosage: dosage[0],
             unit,
             frequency,
             duration,
@@ -732,9 +732,20 @@ const Page = () => {
                                 label="Dosage"
                                 name="dosage"
                                 value={dosage}
-                                onChange={event =>
-                                    setDosage(event.target.value)
-                                }
+                                type="text"
+                                onInput={event => {
+                                    let text = event.target.value.match(
+                                        /^[0-9]{0,11}/g,
+                                    )
+
+                                    text == ''
+                                        ? setDosage(
+                                              event.target.value == ''
+                                                  ? ''
+                                                  : dosage,
+                                          )
+                                        : setDosage(text)
+                                }}
                             />
                             <InputError
                                 messages={errors.dosage}
@@ -769,7 +780,7 @@ const Page = () => {
                         </div>
                         <div className="mb-6">
                             <Input
-                                label="Duration"
+                                label="Duration (Days)"
                                 name="duration"
                                 value={duration}
                                 onChange={event =>

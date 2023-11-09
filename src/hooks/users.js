@@ -28,6 +28,8 @@ export const useUsers = () => {
         setAddress,
         setType,
         setSex,
+        setValidIdNumber,
+        setPatientType,
         ...props
     } = {}) => {
         await csrf()
@@ -43,6 +45,8 @@ export const useUsers = () => {
             setAddress(res.data.data.address)
             setType(res.data.data.type)
             setSex(res.data.data.sex)
+            setValidIdNumber(res.data.data.valid_id_number)
+            setPatientType(res.data.data.patient_type)
         })
     }
 

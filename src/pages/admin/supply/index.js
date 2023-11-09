@@ -37,6 +37,14 @@ const TABS = [
         label: 'Expired',
         value: 'expired',
     },
+    {
+        label: 'Vaccine',
+        value: 'type/1',
+    },
+    {
+        label: 'Medical Supplies',
+        value: 'type/2',
+    },
 ]
 
 const TABLE_HEAD = [
@@ -101,14 +109,14 @@ const Supply = () => {
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                            <Tabs value="all" className="w-full md:w-max">
+                            <Tabs value="all" className="w-full md:w-[800px]">
                                 <TabsHeader>
                                     {TABS.map(({ label, value }) => (
                                         <Tab
                                             key={value}
                                             value={value}
                                             onClick={() => getSupplies(value)}>
-                                            &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                            {label}
                                         </Tab>
                                     ))}
                                 </TabsHeader>

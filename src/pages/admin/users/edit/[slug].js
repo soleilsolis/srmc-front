@@ -57,7 +57,24 @@ const EditUser = () => {
     const [address, setAddress] = useState()
     const [type, setType] = useState()
     const [sex, setSex] = useState()
+    const [valid_id_number, setValidIdNumber] = useState()
+    const [patientType, setPatientType] = useState()
+    const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
+    const patientTypeOptions = [
+        {
+            value: null,
+            label: 'Regular',
+        },
+        {
+            value: 'PWD',
+            label: 'Person With Disability',
+        },
+        {
+            value: 'Senior',
+            label: 'Senior Citizen',
+        },
+    ]
     const [errors, setErrors] = useState([])
 
     const [open, setOpen] = useState()
@@ -92,6 +109,8 @@ const EditUser = () => {
             address,
             type,
             sex,
+            patient_type: patientType,
+            valid_id_number,
             setErrors,
         })
     }
@@ -136,6 +155,8 @@ const EditUser = () => {
                 setContactNumber,
                 setAddress,
                 setType,
+                setValidIdNumber,
+                setPatientType,
                 setSex,
             })
 
@@ -158,193 +179,298 @@ const EditUser = () => {
                 <title>Edit User - SRMC</title>
             </Head>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <Card>
-                    <CardBody>
-                        <form>
-                            <div className="mb-6">
-                                <Input
-                                    label="Name"
-                                    value={name}
-                                    name="name"
-                                    onChange={event =>
-                                        setName(event.target.value)
-                                    }
-                                />
-                                <InputError
-                                    messages={errors.name}
-                                    className="mt-2"
-                                />
-                            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
+                <div>
+                    <Card>
+                        <CardBody>
+                            <form>
+                                <div className="mb-6">
+                                    <Input
+                                        label="Name"
+                                        value={name}
+                                        name="name"
+                                        onChange={event =>
+                                            setName(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.name}
+                                        className="mt-2"
+                                    />
+                                </div>
 
-                            <div className="mb-6">
-                                <Input
-                                    label="Title"
-                                    value={title}
-                                    name="title"
-                                    onChange={event =>
-                                        setTitle(event.target.value)
-                                    }
-                                />
-                                <InputError
-                                    messages={errors.title}
-                                    className="mt-2"
-                                />
-                            </div>
-                            <div className="mb-6">
-                                <Input
-                                    label="Email"
-                                    value={email}
-                                    name="email"
-                                    onChange={event =>
-                                        setEmail(event.target.value)
-                                    }
-                                />
-                                <InputError
-                                    messages={errors.email}
-                                    className="mt-2"
-                                />
-                            </div>
+                                <div className="mb-6">
+                                    <Input
+                                        label="Title"
+                                        value={title}
+                                        name="title"
+                                        onChange={event =>
+                                            setTitle(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.title}
+                                        className="mt-2"
+                                    />
+                                </div>
+                                <div className="mb-6">
+                                    <Input
+                                        label="Email"
+                                        value={email}
+                                        name="email"
+                                        onChange={event =>
+                                            setEmail(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.email}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Input
+                                        label="Birthdate"
+                                        value={birthdate}
+                                        name="birthdate"
+                                        type="date"
+                                        onChange={event =>
+                                            setBirthdate(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.birthdate}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Input
+                                        label="Contact Number"
+                                        name="contact_number"
+                                        type="text"
+                                        value={contact_number}
+                                        onInput={event => {
+                                            let text = event.target.value.match(
+                                                /^[0-9]{0,11}/g,
+                                            )
+
+                                            text == ''
+                                                ? setContactNumber(
+                                                      event.target.value == ''
+                                                          ? ''
+                                                          : contact_number,
+                                                  )
+                                                : setContactNumber(text)
+                                        }}
+                                        onChange={event => {
+                                            let text = event.target.value.match(
+                                                /^[0-9]{0,11}/g,
+                                            )
+
+                                            text == ''
+                                                ? setContactNumber(
+                                                      event.target.value == ''
+                                                          ? ''
+                                                          : contact_number,
+                                                  )
+                                                : setContactNumber(text)
+                                        }}
+                                        autoComplete="contact_number"
+                                    />
+                                    <InputError
+                                        messages={errors.contact_number}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Input
+                                        label="Address"
+                                        value={address}
+                                        name="address"
+                                        onChange={event =>
+                                            setAddress(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.address}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Select
+                                        label="Sex"
+                                        value={sex}
+                                        name="sex"
+                                        onChange={event => setSex(event)}>
+                                        {sexOptions.map(option => (
+                                            <Option
+                                                value={option.value}
+                                                key={option.value}>
+                                                {option.text}
+                                            </Option>
+                                        ))}
+                                    </Select>
+
+                                    <InputError
+                                        messages={errors.type}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Select
+                                        label="Type"
+                                        value={type}
+                                        name="type"
+                                        onChange={event => {
+                                            setType(event)
+                                            setPatientType(null)
+                                            setValidIdNumber(null)
+                                        }}>
+                                        {typeOptions.map(option => (
+                                            <Option
+                                                value={option.value}
+                                                key={option.value}>
+                                                {option.text}
+                                            </Option>
+                                        ))}
+                                    </Select>
+
+                                    <InputError
+                                        messages={errors.type}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                {type == 'patient' ? (
+                                    <div className="mb-6">
+                                        <Select
+                                            label="Patient Type"
+                                            name="patient_type"
+                                            value={patientType}
+                                            onChange={event => {
+                                                setPatientType(event)
+                                                setValidIdNumber(null)
+                                            }}
+                                            required>
+                                            {patientTypeOptions.map(option => (
+                                                <Option
+                                                    key={option.value}
+                                                    value={option.value}>
+                                                    {option.label}
+                                                </Option>
+                                            ))}
+                                        </Select>
+
+                                        <InputError
+                                            messages={errors.patient_type}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+
+                                {patientType != null ? (
+                                    <div className="mb-6">
+                                        <Input
+                                            label="ID Number"
+                                            id="valid_id_number"
+                                            type="text"
+                                            value={valid_id_number}
+                                            className="block mt-1 w-full"
+                                            onChange={event =>
+                                                setValidIdNumber(
+                                                    event.target.value,
+                                                )
+                                            }
+                                        />
+
+                                        <InputError
+                                            messages={errors.valid_id_number}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+                            </form>
+
+                            <Button
+                                variant="gradient"
+                                color="cyan"
+                                className="rounded-full"
+                                onClick={submitForm}>
+                                <span>Submit</span>
+                            </Button>
+                        </CardBody>
+                    </Card>
+                    <Typography variant="h5" className="my-6">
+                        Change Password{' '}
+                    </Typography>
+                    <Card>
+                        <CardBody>
                             <div className="mb-6">
                                 <Input
                                     label="Password"
+                                    id="password"
                                     type="password"
                                     value={password}
-                                    name="password"
-                                    onChange={event =>
-                                        setPassword(event.target.value)
-                                    }
-                                />
-                                <InputError
-                                    messages={errors.password}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <div className="mb-6">
-                                <Input
-                                    label="Birthdate"
-                                    value={birthdate}
-                                    name="birthdate"
-                                    type="date"
-                                    onChange={event =>
-                                        setBirthdate(event.target.value)
-                                    }
-                                />
-                                <InputError
-                                    messages={errors.birthdate}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <div className="mb-6">
-                                <Input
-                                    label="Contact Number"
-                                    name="contact_number"
-                                    type="text"
-                                    value={contact_number}
-                                    onInput={event => {
-                                        let text = event.target.value.match(
-                                            /^[0-9]{0,11}/g,
-                                        )
-
-                                        text == ''
-                                            ? setContactNumber(
-                                                  event.target.value == ''
-                                                      ? ''
-                                                      : contact_number,
-                                              )
-                                            : setContactNumber(text)
-                                    }}
+                                    className="block mt-1 w-full"
                                     onChange={event => {
-                                        let text = event.target.value.match(
-                                            /^[0-9]{0,11}/g,
-                                        )
-
-                                        text == ''
-                                            ? setContactNumber(
-                                                  event.target.value == ''
-                                                      ? ''
-                                                      : contact_number,
-                                              )
-                                            : setContactNumber(text)
+                                        setPassword(event.target.value)
+                                        errors.password = undefined
                                     }}
-                                    autoComplete="contact_number"
+                                    required
+                                    autoComplete="new-password"
                                 />
-                                <InputError
-                                    messages={errors.contact_number}
-                                    className="mt-2"
-                                />
+                                {errors.password != undefined ? (
+                                    <InputError
+                                        messages={errors.password}
+                                        className="mt-2"
+                                    />
+                                ) : (
+                                    <Typography variant="small">
+                                        <i>
+                                            Password must include at least 8
+                                            characters and one special character{' '}
+                                        </i>{' '}
+                                    </Typography>
+                                )}
                             </div>
 
                             <div className="mb-6">
                                 <Input
-                                    label="Address"
-                                    value={address}
-                                    name="address"
+                                    label=" Confirm Password"
+                                    id="passwordConfirmation"
+                                    type="password"
+                                    value={passwordConfirmation}
+                                    className="block mt-1 w-full"
                                     onChange={event =>
-                                        setAddress(event.target.value)
+                                        setPasswordConfirmation(
+                                            event.target.value,
+                                        )
                                     }
+                                    required
                                 />
+
                                 <InputError
-                                    messages={errors.address}
+                                    messages={errors.password_confirmation}
                                     className="mt-2"
                                 />
                             </div>
-
-                            <div className="mb-6">
-                                <Select
-                                    label="Sex"
-                                    value={sex}
-                                    name="sex"
-                                    onChange={event => setSex(event)}>
-                                    {sexOptions.map(option => (
-                                        <Option
-                                            value={option.value}
-                                            key={option.value}>
-                                            {option.text}
-                                        </Option>
-                                    ))}
-                                </Select>
-
-                                <InputError
-                                    messages={errors.type}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <div className="mb-6">
-                                <Select
-                                    label="Type"
-                                    value={type}
-                                    name="type"
-                                    onChange={event => setType(event)}>
-                                    {typeOptions.map(option => (
-                                        <Option
-                                            value={option.value}
-                                            key={option.value}>
-                                            {option.text}
-                                        </Option>
-                                    ))}
-                                </Select>
-
-                                <InputError
-                                    messages={errors.type}
-                                    className="mt-2"
-                                />
-                            </div>
-                        </form>
-
-                        <Button
-                            variant="gradient"
-                            color="cyan"
-                            className="rounded-full"
-                            onClick={submitForm}>
-                            <span>Submit</span>
-                        </Button>
-                    </CardBody>
-                </Card>
-
+                            <Button
+                                variant="gradient"
+                                color="cyan"
+                                className="rounded-full">
+                                <span>Submit</span>
+                            </Button>
+                        </CardBody>
+                    </Card>
+                </div>
                 <div>
                     {user.type === 'patient' ? (
                         <Link href={`/admin/appointments/new/${id}`}>
