@@ -15,11 +15,8 @@ import {
     IconButton,
 } from '@material-tailwind/react'
 import {
-    UserCircleIcon,
     ChevronDownIcon,
     Cog6ToothIcon,
-    InboxArrowDownIcon,
-    LifebuoyIcon,
     PowerIcon,
     Bars2Icon,
     ClipboardIcon,
@@ -34,20 +31,8 @@ function ProfileMenu() {
 
     const profileMenuItems = [
         {
-            label: 'My Profile',
-            icon: UserCircleIcon,
-        },
-        {
             label: 'Edit Profile',
             icon: Cog6ToothIcon,
-        },
-        {
-            label: 'Inbox',
-            icon: InboxArrowDownIcon,
-        },
-        {
-            label: 'Help',
-            icon: LifebuoyIcon,
         },
         {
             label: 'Sign Out',
@@ -148,13 +133,13 @@ const navListItems = [
         label: 'Supply',
         icon: ArchiveBoxIcon,
         href: '/admin/supply',
-        type: ['admin'],
+        type: ['admin', 'staff'],
     },
     {
         label: 'Summary',
         icon: DocumentChartBarIcon,
         href: '/admin/summary',
-        type: ['admin'],
+        type: ['admin', 'staff'],
     },
 ]
 

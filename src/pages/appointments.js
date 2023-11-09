@@ -178,7 +178,6 @@ const Appointments = () => {
                                         variant="medium"
                                         color="blue-gray"
                                         className="flex justify-between items-center">
-                                        {appointment.id} -{' '}
                                         {appointment.user_name}
                                         <Link
                                             href={

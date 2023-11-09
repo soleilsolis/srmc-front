@@ -10,61 +10,61 @@ import {
     Button,
     IconButton,
     Typography,
+    Dialog,
+    DialogBody,
+    DialogHeader,
+    DialogFooter,
 } from '@material-tailwind/react'
 import { useUsers } from '@/hooks/users'
+import { useDay } from '@/hooks/day'
 import InputError from '@/components/InputError'
 import { useRouter } from 'next/router'
 import { PlusIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import moment from 'moment'
 
-import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
-const TABLE_HEAD = ['Name', 'Job', 'Employed', '']
+import {
+    ArrowLongLeftIcon,
+    PencilIcon,
+    XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { useSchedule } from '@/hooks/schedule'
+const TABLE_HEAD = ['Day', 'In', 'Out', 'Actions']
 
-const TABLE_ROWS = [
-    {
-        name: 'John Michael',
-        job: 'Manager',
-        date: '23/04/18',
-    },
-    {
-        name: 'Alexa Liras',
-        job: 'Developer',
-        date: '23/04/18',
-    },
-    {
-        name: 'Laurent Perrier',
-        job: 'Executive',
-        date: '19/09/17',
-    },
-    {
-        name: 'Michael Levi',
-        job: 'Developer',
-        date: '24/12/08',
-    },
-    {
-        name: 'Richard Gran',
-        job: 'Manager',
-        date: '04/10/21',
-    },
-]
 const EditUser = () => {
     const router = useRouter()
     const id = router.query.slug
 
-    const { newUser, getUser } = useUsers()
+    const { editUser, getUser } = useUsers()
+    const { getDays } = useDay()
+    const { newSchedule, editSchedule, deleteSchedule } = useSchedule()
+
     const [user, setUser] = useState([])
+    const [days, setDays] = useState([])
+    const [action, setAction] = useState('')
+    const [day_id, setDayId] = useState([])
+    const [schedule_id, setScheduleId] = useState(null)
+
+    const [start_time, setStartTime] = useState()
+    const [end_time, setEndTime] = useState()
 
     const [name, setName] = useState(user.name)
     const [title, setTitle] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [birthdate, setBirthdate] = useState()
-    const [contact_number, setContactNumber] = useState()
+    const [contact_number, setContactNumber] = useState('')
     const [address, setAddress] = useState()
     const [type, setType] = useState()
     const [sex, setSex] = useState()
 
     const [errors, setErrors] = useState([])
+
+    const [open, setOpen] = useState()
+    const handleOpen = () => setOpen(!open)
+
+    const [openDelete, setOpenDelete] = useState()
+    const handleDelete = () => setOpenDelete(!openDelete)
 
     const typeOptions = [
         { value: '', text: 'Choose an option' },
@@ -82,11 +82,11 @@ const EditUser = () => {
     const submitForm = async event => {
         event.preventDefault()
 
-        newUser({
+        editUser({
+            id,
             name,
             title,
             email,
-            password,
             birthdate,
             contact_number,
             address,
@@ -96,8 +96,50 @@ const EditUser = () => {
         })
     }
 
+    const submitSchedule = async event => {
+        event.preventDefault()
+
+        schedule_id != null
+            ? editSchedule({
+                  id: schedule_id,
+                  start_time,
+                  end_time,
+                  setErrors,
+              })
+            : newSchedule({
+                  userId: id,
+                  day_id,
+                  start_time,
+                  end_time,
+                  setErrors,
+              })
+    }
+
+    const submitDeleteSchedule = async event => {
+        event.preventDefault()
+
+        deleteSchedule({
+            id: schedule_id,
+        })
+    }
+
     useEffect(() => {
-        if (typeof id != 'undefined') getUser({ id, setUser })
+        if (typeof id != 'undefined')
+            getUser({
+                id,
+                setUser,
+                setName,
+                setTitle,
+                setEmail,
+                setPassword,
+                setBirthdate,
+                setContactNumber,
+                setAddress,
+                setType,
+                setSex,
+            })
+
+        getDays({ setDays })
     }, [id])
 
     return (
@@ -123,7 +165,7 @@ const EditUser = () => {
                             <div className="mb-6">
                                 <Input
                                     label="Name"
-                                    value={user.name}
+                                    value={name}
                                     name="name"
                                     onChange={event =>
                                         setName(event.target.value)
@@ -198,11 +240,36 @@ const EditUser = () => {
                             <div className="mb-6">
                                 <Input
                                     label="Contact Number"
-                                    value={contact_number}
                                     name="contact_number"
-                                    onChange={event =>
-                                        setContactNumber(event.target.value)
-                                    }
+                                    type="text"
+                                    value={contact_number}
+                                    onInput={event => {
+                                        let text = event.target.value.match(
+                                            /^[0-9]{0,11}/g,
+                                        )
+
+                                        text == ''
+                                            ? setContactNumber(
+                                                  event.target.value == ''
+                                                      ? ''
+                                                      : contact_number,
+                                              )
+                                            : setContactNumber(text)
+                                    }}
+                                    onChange={event => {
+                                        let text = event.target.value.match(
+                                            /^[0-9]{0,11}/g,
+                                        )
+
+                                        text == ''
+                                            ? setContactNumber(
+                                                  event.target.value == ''
+                                                      ? ''
+                                                      : contact_number,
+                                              )
+                                            : setContactNumber(text)
+                                    }}
+                                    autoComplete="contact_number"
                                 />
                                 <InputError
                                     messages={errors.contact_number}
@@ -279,16 +346,34 @@ const EditUser = () => {
                 </Card>
 
                 <div>
-                    <Link href={`/admin/appointments/new/${id}`}>
+                    {user.type === 'patient' ? (
+                        <Link href={`/admin/appointments/new/${id}`}>
+                            <Button
+                                color="cyan"
+                                className="flex items-center gap-3 rounded-full">
+                                {createElement(PlusIcon, {
+                                    className: 'h-[18px] w-[18px]',
+                                })}
+                                Walk In Appointment
+                            </Button>
+                        </Link>
+                    ) : (
                         <Button
                             color="cyan"
-                            className="flex items-center gap-3 rounded-full">
+                            className="flex items-center gap-3 rounded-full"
+                            onClick={() => {
+                                setAction('New')
+                                setScheduleId(null)
+                                setStartTime(null)
+                                setEndTime(null)
+                                setOpen(!open)
+                            }}>
                             {createElement(PlusIcon, {
                                 className: 'h-[18px] w-[18px]',
                             })}
-                            Walk In Appointment
+                            Add Schedule
                         </Button>
-                    </Link>
+                    )}
 
                     <Card className="w-full  mt-10">
                         <table className="w-full overflow-scroll min-w-max table-auto text-left">
@@ -311,22 +396,25 @@ const EditUser = () => {
                             <tbody>
                                 {user.schedules != undefined
                                     ? user.schedules.map(
-                                          ({ name, job, date }, index) => {
+                                          (
+                                              { id, start_time, end_time, day },
+                                              index,
+                                          ) => {
                                               const isLast =
                                                   index ===
-                                                  TABLE_ROWS.length - 1
+                                                  user.schedules.length - 1
                                               const classes = isLast
                                                   ? 'p-4'
                                                   : 'p-4 border-b border-blue-gray-50'
 
                                               return (
-                                                  <tr key={name}>
+                                                  <tr key={id}>
                                                       <td className={classes}>
                                                           <Typography
                                                               variant="small"
                                                               color="blue-gray"
                                                               className="font-normal">
-                                                              {name}
+                                                              {day.name}
                                                           </Typography>
                                                       </td>
                                                       <td className={classes}>
@@ -334,7 +422,12 @@ const EditUser = () => {
                                                               variant="small"
                                                               color="blue-gray"
                                                               className="font-normal">
-                                                              {job}
+                                                              {moment(
+                                                                  start_time,
+                                                                  'HH:mm',
+                                                              ).format(
+                                                                  'h:mm A',
+                                                              )}
                                                           </Typography>
                                                       </td>
                                                       <td className={classes}>
@@ -342,18 +435,53 @@ const EditUser = () => {
                                                               variant="small"
                                                               color="blue-gray"
                                                               className="font-normal">
-                                                              {date}
+                                                              {moment(
+                                                                  end_time,
+                                                                  'HH:mm',
+                                                              ).format(
+                                                                  'h:mm A',
+                                                              )}
                                                           </Typography>
                                                       </td>
                                                       <td className={classes}>
-                                                          <Typography
-                                                              as="a"
-                                                              href="#"
-                                                              variant="small"
-                                                              color="blue-gray"
-                                                              className="font-medium">
-                                                              Edit
-                                                          </Typography>
+                                                          <IconButton
+                                                              variant="text"
+                                                              color="cyan"
+                                                              className="rounded-full"
+                                                              onClick={() => {
+                                                                  setAction(
+                                                                      'Edit ' +
+                                                                          day.name,
+                                                                  )
+                                                                  setStartTime(
+                                                                      start_time,
+                                                                  )
+                                                                  setEndTime(
+                                                                      end_time,
+                                                                  )
+                                                                  setScheduleId(
+                                                                      id,
+                                                                  )
+                                                                  setDayId(null)
+                                                                  setOpen(!open)
+                                                              }}>
+                                                              <PencilIcon className="h-4 w-4" />
+                                                          </IconButton>
+                                                          <IconButton
+                                                              variant="text"
+                                                              color="red"
+                                                              className="rounded-full"
+                                                              onClick={() => {
+                                                                  setScheduleId(
+                                                                      id,
+                                                                  )
+                                                                  setDayId(null)
+                                                                  setOpenDelete(
+                                                                      !openDelete,
+                                                                  )
+                                                              }}>
+                                                              <XMarkIcon className="h-4 w-4" />
+                                                          </IconButton>
                                                       </td>
                                                   </tr>
                                               )
@@ -365,6 +493,98 @@ const EditUser = () => {
                     </Card>
                 </div>
             </div>
+
+            <Dialog handler={handleOpen} open={open}>
+                <DialogHeader>{action} Schedule</DialogHeader>
+                <DialogBody>
+                    <div>
+                        {schedule_id == null ? (
+                            <Select
+                                label="Day"
+                                name="day_id"
+                                onChange={event => setDayId(event)}>
+                                {days.map(day => (
+                                    <Option value={day.id} key={day.id}>
+                                        {day.name}
+                                    </Option>
+                                ))}
+                            </Select>
+                        ) : (
+                            ''
+                        )}
+
+                        <InputError messages={errors.day_id} className="mt-2" />
+                    </div>
+                    <div className="mt-4">
+                        <Input
+                            label="In"
+                            type="time"
+                            name="start_time"
+                            value={start_time}
+                            onChange={event => setStartTime(event.target.value)}
+                        />
+
+                        <InputError
+                            messages={errors.start_time}
+                            className="mt-2"
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <Input
+                            label="Out"
+                            type="time"
+                            name="end_time"
+                            value={end_time}
+                            onChange={event => setEndTime(event.target.value)}
+                        />
+                        <InputError
+                            messages={errors.end_time}
+                            className="mt-2"
+                        />
+                    </div>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        className="rounded-full mr-2"
+                        color="cyan"
+                        variant="text"
+                        onClick={handleOpen}>
+                        Close
+                    </Button>
+
+                    <Button
+                        className="rounded-full"
+                        color="cyan"
+                        onClick={submitSchedule}>
+                        Save
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            <Dialog handler={handleDelete} open={openDelete}>
+                <DialogHeader>Delete Schedule</DialogHeader>
+                <DialogBody>
+                    <Typography variant="h3" color="red">
+                        Are You Sure?
+                    </Typography>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        className="rounded-full mr-2"
+                        color="cyan"
+                        variant="text"
+                        onClick={handleDelete}>
+                        cancel
+                    </Button>
+
+                    <Button
+                        className="rounded-full"
+                        color="red"
+                        onClick={submitDeleteSchedule}>
+                        Delete
+                    </Button>
+                </DialogFooter>
+            </Dialog>
         </AppLayout>
     )
 }

@@ -227,8 +227,7 @@ const Page = () => {
                                         <Typography
                                             variant="lead"
                                             color="blue-gray">
-                                            #{appointment.id} -{' '}
-                                            {appointment.user_name}
+                                            {appointment.patient.name}
                                         </Typography>
                                         <Typography
                                             variant="h5"
