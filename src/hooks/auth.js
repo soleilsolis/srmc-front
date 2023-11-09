@@ -115,7 +115,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     useEffect(() => {
         if (middleware === 'guest' && redirectIfAuthenticated && user)
-            user?.type === 'admin' || user?.type === 'staff'  && user
+            user?.type === 'admin' || (user?.type === 'staff' && user)
                 ? router.push('/admin/dashboard')
                 : router.push(redirectIfAuthenticated)
 
