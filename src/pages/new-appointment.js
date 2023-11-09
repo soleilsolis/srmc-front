@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Button, Select, Option, IconButton } from '@material-tailwind/react'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import InputError from '@/components/InputError'
-
+import moment from 'moment'
 const NewAppointment = () => {
     const { newAppointment } = useAppointment()
 
@@ -69,7 +69,10 @@ const NewAppointment = () => {
                     <Option
                         value={`${time.start_time} - ${time.end_time}`}
                         key={time.id}>
-                        {`${time.start_time} - ${time.end_time}`}
+                        {}
+                        {`${moment(time.start_time).format(
+                            'MMM Do, YYYY',
+                        )} - ${moment(time.end_time).format('MMM Do, YYYY')}`}
                     </Option>
                 )),
             )
