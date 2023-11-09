@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="dist/output.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Icons Link -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
+    />
+    <title>Sto.Rosario Multispecialty Clinic</title>
+    <style>
+      /* Custom CSS for the parallax effect and hero height */
+      .parallax-container {
+        height: 1000px; /* Adjust the height as needed */
+        position: relative;
+      }
+
+      .parallax-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.5
+        ); /* Adjust the color and opacity as needed */
+      }
+
+      .fixed-top-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: white;
+        z-index: 50;
+      }
+
+      @media (min-width: 1024px) {
+        .nav-buttons {
+          margin-left: -130px;
+        }
+      }
+
+      /* Custom CSS for the mobile navigation sidebar */
+      .mobile-nav {
+        display: none; /* Initially hide the sidebar on larger screens */
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          display: none; /* Hide the top bar on smaller screens */
+        }
+
+        .mobile-nav {
+          display: block; /* Display the sidebar on smaller screens */
+        }
+      }
+
+      #scrollToTop {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 99;
+        cursor: pointer;
+        background-color: #00bcd4; /* Cyan background color */
+        padding: 10px;
+        border: none;
+        width: 40px; /* Set the width and height to make it a circle */
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      #scrollToTop i {
+        color: #ffffff; /* White color for the icon */
+      }
+
+      .topbar a:hover {
+        color: #383838; /* Change the color to your desired hover color */
+      }
+
+    </style>
+  </head>
+  <body class="bg-gray-50 p-0">
+    <!-- Topbar -->
+    <div class="topbar bg-white shadow-md p-4">
+  <div
+    class="mx-auto flex flex-col md:flex-row justify-between items-center px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64"
+  >
+    <!-- Logo -->
+    <a
+      href="#"
+      class="text-blue-500 text-2xl font-semibold mb-2 md:mb-0 font-inte"
+    >
+      <img class="h-10" src="/ic_splashlogo.png" alt="" />
+    </a>
+
+    <!-- Centered Navigation Buttons -->
+    <div class="flex items-center space-x-6 md:space-x-4">
+      <a href="#home" class="text-gray-500 text-lg font-bold font-inter"
+        >Home</a
+      >
+      <a href="#about-us" class="text-gray-500 text-lg font-bold font-inter"
+        >About</a
+      >
+      <a
+        href="#our-doctors"
+        class="text-gray-500 text-lg font-bold font-inter"
+        >Our Doctors</a
+      >
+      <a href="#our-services" class="text-gray-500 text-lg font-bold font-inter"
+        >Our Services</a
+      >
+      <a href="https://github.com/ajcatindig/SRMC/releases/download/v1.0.0-Fixed/srmc.apk" target="_blank" referrerpolicy="noreferrer">
+        <button
+          class="flex select-none items-center gap-3 rounded-full bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 text-center align-middle font-sans text-base font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button"
+          data-ripple-light="true"
+        >
+          <i class="fab fa-android mr-2"></i> DOWNLOAD APP
+        </button>
+      </a>
+    </div>
+
+    <!-- Login, Sign Up, and Download APK Links Wrapped in a Div -->
+    <div
+      class="nav-buttons flex space-x-4 md:space-x-6 text-lg items-center"
+    >
+      <a href="/login" class="text-gray-500 text-lg font-bold font-inter"
+        >Login</a
+      >
+      <a href="/register" class="text-gray-500 text-lg font-bold font-inter"
+        >Register</a
+      >
+    </div>
+  </div>
+    </div>
+
+
+    <!-- Mobile Navigation (For Smaller Screens) -->
+    <div class="mobile-nav bg-white shadow-md p-4">
+      <!-- Logo and Hamburger Icon in the Same Row -->
+      <div class="flex justify-between items-center mb-4">
+        <a href="#" class="text-blue-500 text-2xl font-semibold font-inter">
+          <img src="/app_logo.png" alt="" class="h-20" />
+        </a>
+        <button
+          id="mobileNavToggle"
+          class="block md:hidden text-gray-500 hover:text-gray-700"
+        >
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Navigation Sidebar -->
+      <div id="mobileNav" class="hidden">
+        <a href="#home" class="block py-2 text-gray-500 hover-text-black font-inter"
+          >Home</a
+        >
+        <a
+          href="#about-us"
+          class="block py-2 text-gray-500 hover-text-black font-inter"
+          >About</a
+        >
+        <a
+          href="#our-doctors"
+          class="block py-2 text-gray-500 hover-text-black font-inter"
+          >Our Doctors</a
+        >
+        <a href="#our-services" class="block py-2 text-gray-500 hover-text-black font-inter"
+          >Our Services</a
+        >
+        <a href="#" class="block py-2 text-gray-500 hover-text-black font-inter"
+          >Login</a
+        >
+        <a href="#" class="block py-2 text-gray-500 hover-text-black font-inter"
+          >Sign Up</a
+        >
+        <a
+          href="#"
+          class="block py-2 text-white bg-green-700 hover:bg-green-800 rounded-full px-4 py-2 font-inter"
+          >Download APK</a
+        >
+      </div>
+    </div>
+
+    <!-- Additional Sections and Content Can Be Added Below -->
+
+    <script>
+      // JavaScript to toggle the mobile navigation sidebar
+      const mobileNavToggle = document.getElementById("mobileNavToggle");
+      const mobileNav = document.getElementById("mobileNav");
+
+      mobileNavToggle.addEventListener("click", () => {
+        mobileNav.classList.toggle("hidden");
+      });
+    </script>
+
+    <!-- Parallax Hero Section -->
+    <div class="parallax-container" id="home">
+      <!-- Hero Image -->
+      <img src="/doctors.jpg" alt="Hero Image" class="parallax-image" />
+
+      <!-- Overlay with Text -->
+      <div class="overlay h-full">
+        <div
+          class="hero-text px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 overflow-hidden py-48 flex items-center h-full"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-2">
+            <div>
+              <h1
+                class="block font-sans text-7xl font-semibold leading-tight tracking-normal text-inherit antialiased text-white"
+              >
+                Services Tailored For Your Healthcare Needs
+              </h1>
+              <p
+                class="text-lg md:text-2xl lg:text-2xl mt-7 text-white font-light leading-6"
+              >
+                Discover a Range of Patient-Centric Healthcare Services,
+                Ensuring You Receive the Quality Care and Attention You Deserve.
+              </p>
+              <a href="#">
+                <button
+                  class="mt-10 ml-5 scale-125 flex select-none items-center gap-3 rounded-lg bg-gradient-to-tr from-cyan-600 to-cyan-400 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  type="button"
+                  data-ripple-light="true"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                    class="h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                    ></path>
+                  </svg>
+                  Book Appointment
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- start about -->
+    <section
+      class="relative px-4 py-16 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 lg:py-32"
+      id="about-us"
+    >
+      <div class="flex flex-col lg:flex-row lg:-mx-8">
+        <div class="w-full lg:w-1/2 lg:px-8">
+          <h6
+            class="text-lg uppercase font-semibold tracking-widest text-gray-800"
+          >
+            ABOUT US
+          </h6>
+          <h2 class="text-3xl leading-tight font-bold mt-4 text-gray-800">
+            Welcome to Sto.Rosario Multispecialty Clinic
+          </h2>
+          <p class="text-2xl mt-4 font-semibold text-gray-800">
+            Nurturing Health, Empowering Lives
+          </p>
+          <p class="mt-2 leading-relaxed text-xl text-gray-800">
+            At Sto.Rosario Multi-Specialty Clinic, we prioritize a holistic
+            approach to healthcare. We believe that true wellness goes beyond
+            symptom treatment and involves comprehensive care. Our dedicated
+            team of healthcare professionals, characterized by their expertise
+            and compassion, is committed to delivering personalized care and
+            unwavering support to every patient who entrusts their well-being to
+            us.
+          </p>
+        </div>
+
+        <div class="w-full lg:w-1/2 lg:px-8 mt-12 lg:mt-0">
+          <div class="md:flex">
+            <div>
+              <button
+                class="item-center middle none center flex justify-center rounded-full bg-cyan-500 p-3 font-sans text-3xl font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none p-6"
+                data-ripple-light="true"
+              >
+                <i class="far fa-hospital"></i>
+              </button>
+            </div>
+            <div class="md:ml-8 mt-4 md:mt-0">
+              <h4 class="text-2xl font-bold leading-tight text-gray-800">
+                Everything You Need Under One Roof
+              </h4>
+              <p class="mt-2 text-xl leading-relaxed text-gray-800">
+                We offer a variety of services that are tailored to fit your
+                healthcare needs. Whether it's preventive care to keep you in
+                excellent health or specialized treatments to address specific
+                medical conditions.
+              </p>
+            </div>
+          </div>
+
+          <div class="md:flex mt-8">
+            <div>
+              <button
+                class="item-center middle none center flex justify-center rounded-full bg-cyan-500 p-3 font-sans text-3xl font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none p-6"
+                data-ripple-light="true"
+              >
+                <i class="fas fa-stethoscope"></i>
+              </button>
+            </div>
+            <div class="md:ml-8 mt-4 md:mt-0">
+              <h4 class="text-2xl font-bold leading-tight text-gray-800">
+                Our Patient-Focused Approach
+              </h4>
+              <p class="mt-2 text-xl leading-relaxed text-gray-800">
+                We listen to your concerns, involve you in the decision-making
+                process, and create a collaborative approach to your healthcare
+                journey.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- start Our Doctors -->
+    <section
+      class="relative px-4 sm:px-8 lg:px-16 xl:px-32 2xl:px-64 py-20"
+      id="our-doctors"
+    >
+      <div class="px-4 mx-auto max-w-screen-xl text-center lg:px-6">
+        <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-800">
+            Our Doctors
+          </h2>
+          <p class="font-light text-gray-500 sm:text-xl dark:text-gray-800">
+            Our Dedicated Team of Healthcare Professionals
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
+      >
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/Riparip.png"
+            alt="Christian John U. Riparip, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Christian John U. Riparip, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Friday | 1:00 - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:christian.john.riparip@gmail.com">
+              <a
+                href="mailto:christian.john.riparip@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/N. Bautista.png"
+            alt="Nickilor O. Bautista, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Nickilor O. Bautista, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Monday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:nickilor.bautista@gmail.com">
+              <a
+                href="mailto:nickilor.bautista@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/robles.png"
+            alt="Ronilo A. Robles, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Ronilo A. Robles, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Thursday | 4:00 - 7:00 PM</p>
+          <p class="mt-3 text-black font-light">Sunday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:ronilo.robles@gmail.com">
+              <a
+                href="mailto:ronilo.robles@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/R. Bautista.png"
+            alt="Rhem S. Bautista, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Rhem S. Bautista, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Thursday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:rhem.bautista@gmail.com">
+              <a
+                href="mailto:rhem.bautista@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/detorres.png"
+            alt="Rhey Kenneth De Torres, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Rhey Kenneth De Torres, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Sunday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:rhey.kenneth.detorres@gmail.com">
+              <a
+                href="mailto:rhey.kenneth.detorres@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/buenaventura.png"
+            alt="Ruth Ann V. Buenaventura, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Ruth Ann V. Buenaventura, MD
+          </h3>
+          <p>Family Medicine</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">
+            Monday to Sunday | 4:00 - 7:00 PM
+          </p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:ruth.ann.buenaventura@gmail.com">
+              <a
+                href="mailto:ruth.ann.buenaventura@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/calvarido.png"
+            alt="Grace A. Calvarido, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Grace A. Calvarido, MD
+          </h3>
+          <p>Family Medicine / Dermapathology</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Friday | 9:00 AM - 4:00 PM</p>
+          <p class="mt-3 text-black font-light">Sunday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:grace.calvarido@gmail.com">
+              <a
+                href="mailto:grace.calvarido@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/leyson.png"
+            alt="Cecil Leyson, MD"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Cecil Leyson, MD
+          </h3>
+          <p>Family Medicine / General Surgery</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">
+            Wednesday | 9:00 AM - 4:00 PM
+          </p>
+          <p class="mt-3 text-black font-light">Thursday | 9:00 AM - 4:00 PM</p>
+          <p class="mt-3 text-black font-light">Friday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:cecil.leyson@gmail.com">
+              <a
+                href="mailto:cecil.leyson@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="text-center text-gray-500 dark:text-gray-800">
+          <img
+            class="mx-auto mb-4 w-40 h-40 rounded-full"
+            src="/decastro.png"
+            alt="Jose Paolo M. De Castro, FPAFP, MMHoA"
+          />
+          <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-800">
+            Jose Paolo M. De Castro, FPAFP, MMHoA
+          </h3>
+          <p>Family Medicine / Geniatrics</p>
+          <p class="mt-3 text-black font-light">Schedule:</p>
+          <p class="mt-3 text-black font-light">Thursday | 9:00 AM - 4:00 PM</p>
+          <p class="mt-3 text-black font-light">Friday | 9:00 AM - 4:00 PM</p>
+          <p class="mt-3 text-black font-light">Sunday | 9:00 AM - 4:00 PM</p>
+          <ul class="flex justify-center mt-4 space-x-4">
+            <li class="mailto:john.paolo.decastro@gmail.com">
+              <a
+                href="mailto:john.paolo.decastro@gmail.com"
+                class="text-[#ea4c89] hover:text-gray-900"
+              >
+                <img
+                  class="w-6 h-6"
+                  src="https://mcbroad.com/build/assets/email.ec1bac39.svg"
+                  alt="email icon"
+                  srcset=""
+                />
+              </a>
+            </li>
+            <li class="tel:+639762053917">
+              <a
+                href="tel:+639762053917"
+                class="text-[#39569c] hover:text-gray-900"
+              >
+                <i class="fas fa-phone-alt"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- start our services -->
+    <section
+      class="relative px-4 sm:px-8 lg:px-16 xl:px-32 2xl:px-64 py-20"
+      id="our-services"
+    >
+      <div class="px-4 mx-auto max-w-screen-xl text-center lg:px-6">
+        <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
+          <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-800">
+            Our Services
+          </h2>
+          <p class="font-light text-gray-500 sm:text-xl dark:text-gray-800">
+            Our Patient-Centric Healthcare Services Tailored For Your Healthcare
+            Needs
+          </p>
+        </div>
+      </div>
+
+      <div class="max-w-screen-xl mx-auto">
+        <div
+          class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3"
+        >
+          <div
+            class="relative grid w-full mx-auto max-w-[20rem] h-[30rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://img.freepik.com/free-photo/young-male-psysician-with-patient-measuring-blood-pressure_1303-17879.jpg?size=626&ext=jpg&ga=GA1.1.1880011253.1699488000&semt=ais')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Family Medicine
+              </h2>
+            </div>
+          </div>
+          <div
+            class="relative grid h-[30rem] w-full mx-auto max-w-[20rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://canshospital.com/img/department/dermatology.jpg')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Dermatology
+              </h2>
+            </div>
+          </div>
+          <div
+            class="relative grid h-[30rem] w-full mx-auto max-w-[20rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://images.unsplash.com/photo-1664902275922-9cd136203ba1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Surgery
+              </h2>
+            </div>
+          </div>
+          <div
+            class="relative grid w-full mx-auto max-w-[20rem] h-[30rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://media.getmyuni.com/assets/images/articles/medical-certificate-format-for-students.webp')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Consultation with Medical Certificate
+              </h2>
+            </div>
+          </div>
+          <div
+            class="relative grid h-[30rem] w-full mx-auto max-w-[20rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://images.unsplash.com/photo-1618229745753-56040f55d7b1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Consultation with Antigen
+              </h2>
+            </div>
+          </div>
+          <div
+            class="relative grid h-[30rem] w-full mx-auto max-w-[20rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700"
+          >
+            <div
+              class="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-[url('https://media.istockphoto.com/id/1190794708/photo/doctor-or-physician-writing-diagnosis-and-giving-a-medical-prescription-to-male-patient.jpg?s=612x612&w=0&k=20&c=n5pElCFiR1L-meB8TOGNTdpt4uS2ChJgcMH2pLQpUb0=')] bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
+            >
+              <div
+                class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-t from-black/80 via-black/50"
+              ></div>
+            </div>
+            <div class="relative p-6 px-6 py-14 md:px-12">
+              <h2
+                class="mb-6 block font-sans text-4xl font-medium leading-[1.5] tracking-normal text-white antialiased"
+              >
+                Consultation with Medical Certificate and Antigen
+              </h2>
+            </div>
+          </div>
+          <!-- Add similar code for other cards here -->
+        </div>
+      </div>
+      <div class="text-center mt-20">
+        <button
+          class="mx-auto flex select-none items-center gap-3 rounded-lg bg-cyan-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          type="button"
+          data-ripple-light="true"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            aria-hidden="true"
+            class="h-5 w-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+            ></path>
+          </svg>
+          Book Appointment
+        </button>
+      </div>
+    </section>
+
+    <footer class="flex flex-col space-y-10 justify-center m-10">
+
+      <nav class="flex justify-center flex-wrap gap-6 text-gray-500 font-medium">
+          <a class="hover:text-gray-900" href="#home">Home</a>
+          <a class="hover:text-gray-900" href="#about-us">About</a>
+          <a class="hover:text-gray-900" href="#our-doctors">Our Doctors</a>
+          <a class="hover:text-gray-900" href="#our-services">Our Services</a>
+      </nav>
+      </div>
+      <p class="text-center text-gray-800 font-medium">&copy; 2022 SRMC. All rights reservered.</p>
+  </footer>
+
+    <button id="scrollToTop" onclick="scrollToTop()">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      // Show or hide the "Scroll to Top" button based on scroll position
+      window.onscroll = function () {
+        toggleScrollToTopButton();
+      };
+
+      function toggleScrollToTopButton() {
+        var scrollToTopButton = document.getElementById("scrollToTop");
+        if (
+          document.body.scrollTop > 20 ||
+          document.documentElement.scrollTop > 20
+        ) {
+          scrollToTopButton.style.display = "block";
+        } else {
+          scrollToTopButton.style.display = "none";
+        }
+      }
+
+      // Scroll smoothly to the top of the page
+      function scrollToTop() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+      }
+    </script>
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
+  </body>
+</html>

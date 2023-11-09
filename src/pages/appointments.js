@@ -471,9 +471,7 @@ const Appointments = () => {
             </Dialog>
 
             <Dialog open={openAcceptForm} size="xs" handler={handleAcceptForm}>
-                <DialogHeader>
-                    Accept Appointment #{currentAppointment.id}
-                </DialogHeader>
+                <DialogHeader>Accept Appointment?</DialogHeader>
                 <DialogBody> </DialogBody>
                 <DialogFooter>
                     <div className="inline-flex gap-1">
