@@ -70,9 +70,11 @@ const NewAppointment = () => {
                         value={`${time.start_time} - ${time.end_time}`}
                         key={time.id}>
                         {}
-                        {`${moment(time.start_time).format(
-                            'h:mm A',
-                        )} - ${moment(time.end_time).format('h:mm A')}`}
+                        {`${moment(time.start_time, 'HH:mm:ss').format(
+                            'hh:mm A',
+                        )} - ${moment(time.end_time, 'HH:mm:ss').format(
+                            'hh:mm A',
+                        )}`}
                     </Option>
                 )),
             )
