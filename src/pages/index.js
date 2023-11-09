@@ -10,6 +10,6 @@ export default function Home() {
     const { user } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
-        user ? router.push('/appointments') : (location.href = '/index.html')
+        user ? router.push('/appointments') : (location.href = '/landing.html')
     }, [])
 }
