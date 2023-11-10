@@ -88,6 +88,7 @@ const EditUser = () => {
         { value: 'patient', text: 'Patient' },
         { value: 'doctor', text: 'Doctor' },
         { value: 'admin', text: 'Admin' },
+        { value: 'staff', text: 'Staff' },
     ]
 
     const sexOptions = [
