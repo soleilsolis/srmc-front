@@ -147,6 +147,7 @@ const Users = () => {
                                             email_verified_at,
                                             date,
                                             custom_id,
+                                            profile_photo_path,
                                         },
                                         index,
                                     ) => {
@@ -165,11 +166,14 @@ const Users = () => {
                                                     <div className="flex items-center gap-3">
                                                         <Avatar
                                                             src={
-                                                                'https://ui-avatars.com/api/?name=' +
-                                                                name.replace(
-                                                                    ' ',
-                                                                    '+',
-                                                                )
+                                                                profile_photo_path !=
+                                                                null
+                                                                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${profile_photo_path}`
+                                                                    : 'https://ui-avatars.com/api/?name=' +
+                                                                      name.replace(
+                                                                          ' ',
+                                                                          '+',
+                                                                      )
                                                             }
                                                             alt={name}
                                                             size="sm"
