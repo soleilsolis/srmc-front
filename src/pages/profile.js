@@ -109,8 +109,9 @@ const EditUser = () => {
             setPatientType(user.patient_type)
 
             setCreateObjectURL(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.profile_photo_path}` ??
-                    'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
+                user.profile_photo_path != null
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.profile_photo_path}`
+                    : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
             )
         }
     }, [id])
