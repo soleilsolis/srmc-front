@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import AppLayout from '@/components/Layouts/AppLayout'
-import { useState, useEffect, createElement, createRef } from 'react'
+import { useState, useEffect, createRef } from 'react'
 import {
     CardBody,
     Card,
@@ -41,29 +41,8 @@ const EditUser = () => {
     const [createObjectURL, setCreateObjectURL] = useState()
 
     const imageRef = createRef()
-    const patientTypeOptions = [
-        {
-            value: null,
-            label: 'Regular',
-        },
-        {
-            value: 'PWD',
-            label: 'Person With Disability',
-        },
-        {
-            value: 'Senior',
-            label: 'Senior Citizen',
-        },
-    ]
-    const [errors, setErrors] = useState([])
 
-    const typeOptions = [
-        { value: '', text: 'Choose an option' },
-        { value: 'patient', text: 'Patient' },
-        { value: 'doctor', text: 'Doctor' },
-        { value: 'admin', text: 'Admin' },
-        { value: 'staff', text: 'Staff' },
-    ]
+    const [errors, setErrors] = useState([])
 
     const sexOptions = [
         { value: '', text: 'Choose an option' },
