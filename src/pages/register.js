@@ -21,7 +21,7 @@ const Register = () => {
 
     const patientTypeOptions = [
         {
-            value: null,
+            value: 'Regular',
             label: 'Regular',
         },
         {

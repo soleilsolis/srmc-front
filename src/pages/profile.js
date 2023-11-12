@@ -50,6 +50,21 @@ const EditUser = () => {
         { value: 'female', text: 'Female' },
     ]
 
+    const patientTypeOptions = [
+        {
+            value: 'Regular',
+            label: 'Regular',
+        },
+        {
+            value: 'PWD',
+            label: 'Person With Disability',
+        },
+        {
+            value: 'Senior',
+            label: 'Senior Citizen',
+        },
+    ]
+
     const submitForm = async event => {
         event.preventDefault()
 
@@ -246,6 +261,66 @@ const EditUser = () => {
                                             className="mt-2"
                                         />
                                     </div>
+
+                                    {type == 'patient' ? (
+                                        <div className="mb-6">
+                                            <Select
+                                                label="Patient Type"
+                                                name="patient_type"
+                                                value={patientType}
+                                                onChange={event => {
+                                                    setPatientType(event)
+                                                    setValidIdNumber(null)
+                                                }}
+                                                required>
+                                                {patientTypeOptions.map(
+                                                    option => (
+                                                        <Option
+                                                            key={option.value}
+                                                            value={
+                                                                option.value
+                                                            }>
+                                                            {option.label}
+                                                        </Option>
+                                                    ),
+                                                )}
+                                            </Select>
+
+                                            <InputError
+                                                messages={errors.patient_type}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+
+                                    {patientType != null &&
+                                    patientType != 'Regular' ? (
+                                        <div className="mb-6">
+                                            <Input
+                                                label="ID Number"
+                                                id="valid_id_number"
+                                                type="text"
+                                                value={valid_id_number}
+                                                className="block mt-1 w-full"
+                                                onChange={event =>
+                                                    setValidIdNumber(
+                                                        event.target.value,
+                                                    )
+                                                }
+                                            />
+
+                                            <InputError
+                                                messages={
+                                                    errors.valid_id_number
+                                                }
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
                                 </form>
 
                                 <Button
