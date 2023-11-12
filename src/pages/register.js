@@ -104,7 +104,7 @@ const Register = () => {
                         </Select>
                     </div>
 
-                    {patientType != null ? (
+                    {patientType != null && patientType != 'Regular' ? (
                         <div className="mt-4">
                             <Input
                                 label="ID Number"
