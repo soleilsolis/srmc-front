@@ -150,6 +150,9 @@ const EditUser = () => {
             {user ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
                     <div>
+                        <Typography variant="h5" className="my-6">
+                            Personal Information{' '}
+                        </Typography>
                         <Card>
                             <CardBody>
                                 <form>
