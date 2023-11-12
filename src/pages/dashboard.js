@@ -8,7 +8,7 @@ const Dashboard = () => {
     const { user } = useAuth({ middleware: 'auth' })
 
     useEffect(() => {
-        user ? router.push('/appointments') : (location.href = '/landing')
+        user ? router.push('/appointments') : (location.href = '/landing.html')
     }, [])
 
     return (

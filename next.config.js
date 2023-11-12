@@ -8,7 +8,7 @@ const nextConfig = {
         return [
             {
                 source: '/landing',
-                destination: '/index.html',
+                destination: '/landing.html',
             },
         ]
     },
