@@ -9,24 +9,45 @@ export const usePrescription = () => {
 
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
-    const newPrescription = async ({ setErrors, ...props }) => {
+    const newPrescription = async ({
+        setErrors,
+        prescriptions,
+        handleOpen,
+        ...props
+    }) => {
         await csrf()
 
         axios
             .post(`/api/prescription/appointment/${props.id}`, props, config)
-            .then(() => location.reload())
+            .then(res => {
+                prescriptions.push(res.data.data)
+                handleOpen()
+            })
             .catch(error => {
                 if (error.response.status !== 422) throw error
                 setErrors(error.response.data.errors)
             })
     }
 
-    const deletePrescription = async ({ setErrors, ...props }) => {
+    const deletePrescription = async ({
+        setErrors,
+        prescriptions,
+        setPrescriptions,
+        handleRemoveOpen,
+        ...props
+    }) => {
         await csrf()
 
         axios
             .delete(`/api/prescription/${props.id}`, props, config)
-            .then(() => location.reload())
+            .then(() => {
+                setPrescriptions(
+                    prescriptions.filter(
+                        prescription => prescription.id !== props.id,
+                    ),
+                )
+                handleRemoveOpen()
+            })
             .catch(error => {
                 if (error.response.status !== 422) throw error
                 setErrors(error.response.data.errors)

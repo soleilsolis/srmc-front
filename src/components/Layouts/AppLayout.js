@@ -22,7 +22,7 @@ const AppLayout = ({ header, children }) => {
 
             {/* Page Content */}
             <main className="max-w-screen-xl mx-auto ">
-                <div className="sm:px-6 ">{children}</div>
+                <div className="px-2">{children}</div>
             </main>
         </div>
     )

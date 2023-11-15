@@ -8,21 +8,23 @@ import {
     Select,
     Option,
     Button,
-    IconButton,
     Typography,
 } from '@material-tailwind/react'
 import { useUsers } from '@/hooks/users'
 import InputError from '@/components/InputError'
-import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
-import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 
 const EditUser = () => {
     const { user } = useAuth({ middleware: 'auth' })
 
     const id = user ? user.id : null
 
-    const { editUser, changePhoto, changePassword } = useUsers()
+    const {
+        editUser,
+        changePhoto,
+        changePassword,
+        changeSignature,
+    } = useUsers()
 
     const [name, setName] = useState()
     const [title, setTitle] = useState()
@@ -37,10 +39,13 @@ const EditUser = () => {
     const [patientType, setPatientType] = useState()
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
-    const [profile_photo, setProfilePhotoPath] = useState()
+    const [profile_photo, setProfilePhoto] = useState()
     const [createObjectURL, setCreateObjectURL] = useState()
-
     const imageRef = createRef()
+
+    const [signature_photo, setSignaturePhoto] = useState()
+    const [signatureUrl, setSignatureUrl] = useState()
+    const signatureRef = createRef()
 
     const [errors, setErrors] = useState([])
 
@@ -87,15 +92,33 @@ const EditUser = () => {
     const storePhoto = event => {
         if (event.target.files && event.target.files[0]) {
             const i = event.target.files[0]
-            setProfilePhotoPath(i)
+            setProfilePhoto(i)
             setCreateObjectURL(URL.createObjectURL(i))
         }
     }
+
     const submitPhoto = async event => {
         event.preventDefault()
 
         changePhoto({
             profile_photo,
+            setErrors,
+        })
+    }
+
+    const storeSignature = event => {
+        if (event.target.files && event.target.files[0]) {
+            const i = event.target.files[0]
+            setSignaturePhoto(i)
+            setSignatureUrl(URL.createObjectURL(i))
+        }
+    }
+
+    const submitSignature = async event => {
+        event.preventDefault()
+
+        changeSignature({
+            signature_photo,
             setErrors,
         })
     }
@@ -128,27 +151,24 @@ const EditUser = () => {
                     ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.profile_photo_path}`
                     : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
             )
+
+            setSignatureUrl(
+                user.signature_photo_path != null
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${user.signature_photo_path}`
+                    : 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg',
+            )
         }
     }, [id])
 
     return (
         <AppLayout
-            header={
-                <div className="inline-flex w-full gap-3">
-                    <Link href="/admin/users">
-                        <IconButton variant="text">
-                            <ArrowLongLeftIcon className="w-5" />
-                        </IconButton>
-                    </Link>
-                    Edit User
-                </div>
-            }>
+            header={<div className="inline-flex w-full gap-3">Edit User</div>}>
             <Head>
                 <title>Edit User - SRMC</title>
             </Head>
 
             {user ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-10 px-2">
                     <div>
                         <Typography variant="h5" className="my-6">
                             Personal Information{' '}
@@ -448,7 +468,60 @@ const EditUser = () => {
                                 </Button>
                             </CardBody>
                         </Card>
+
+                        <Typography variant="h5" className="my-6">
+                            E-Signature{' '}
+                        </Typography>
+                        <Card>
+                            <CardBody>
+                                {signatureUrl != null ? (
+                                    <img
+                                        className="h-52 w-52 mb-6 rounded-full object-cover object-center aspect-square"
+                                        src={signatureUrl}
+                                        alt="signature photo"
+                                    />
+                                ) : (
+                                    ''
+                                )}
+                                <form>
+                                    <input
+                                        type="file"
+                                        name="signature_photo"
+                                        ref={signatureRef}
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={storeSignature}
+                                    />
+
+                                    <div className="mb-6">
+                                        <Button
+                                            variant="gradient"
+                                            color="black"
+                                            className="rounded-full"
+                                            onClick={() =>
+                                                signatureRef.current.click()
+                                            }>
+                                            <span>Upload Signature Photo</span>
+                                        </Button>
+                                        <InputError
+                                            messages={errors.signature_photo}
+                                            className="mt-2"
+                                        />
+                                    </div>
+                                </form>
+
+                                <Button
+                                    variant="gradient"
+                                    color="cyan"
+                                    className="rounded-full"
+                                    onClick={submitSignature}>
+                                    <span>Save</span>
+                                </Button>
+                            </CardBody>
+                        </Card>
                     </div>
+
+                    <div></div>
                 </div>
             ) : (
                 ''

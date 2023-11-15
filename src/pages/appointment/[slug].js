@@ -45,6 +45,7 @@ const Page = () => {
         checkInAppointment,
         checkOutAppointment,
         newVitals,
+        cancelAppointment,
     } = useAppointment()
 
     const [findings, setFindings] = useState('')
@@ -67,12 +68,14 @@ const Page = () => {
     const [open, setOpen] = useState(false)
 
     const handleOpen = () => setOpen(!open)
-
     const [removeOpen, setRemoveOpen] = useState(false)
-
     const handleRemoveOpen = () => setRemoveOpen(!removeOpen)
 
+    const [openCancelForm, setOpenCancelForm] = useState(false)
+    const handleCancelForm = () => setOpenCancelForm(!openCancelForm)
+
     const [medicationName, setMedicationName] = useState()
+    const [genericName, setGenericName] = useState()
     const [dosage, setDosage] = useState('')
     const [unit, setUnit] = useState()
     const [frequency, setFrequency] = useState()
@@ -102,6 +105,7 @@ const Page = () => {
 
         newPrescription({
             medication_name: medicationName,
+            generic_name: genericName,
             dosage: dosage[0],
             unit,
             frequency,
@@ -109,6 +113,8 @@ const Page = () => {
             administration_type: administrationType,
             appointment_id: appointmentId,
             prescribed_at: prescribedAt,
+            prescriptions,
+            handleOpen,
             setErrors,
         })
     }
@@ -130,6 +136,9 @@ const Page = () => {
 
         deletePrescription({
             id: prescriptionId,
+            prescriptions,
+            handleRemoveOpen,
+            setPrescriptions,
             setErrors,
         })
     }
@@ -302,31 +311,34 @@ const Page = () => {
                                         ''
                                     )}
 
-                                    <div className="my-5">
+                                    {appointment.check_in !== null ? (
                                         <Typography
                                             color="blue-gray"
-                                            variant="lead">
+                                            variant="lead"
+                                            className="mt-5">
                                             Checked In:{' '}
-                                            {appointment.check_in !== null
-                                                ? moment(
-                                                      appointment.check_in,
-                                                      'HH:mm',
-                                                  ).format('h:mm A')
-                                                : ''}
+                                            {moment(
+                                                appointment.check_in,
+                                                'HH:mm',
+                                            ).format('h:mm A')}
                                         </Typography>
+                                    ) : (
+                                        ''
+                                    )}
 
+                                    {appointment.check_out !== null ? (
                                         <Typography
                                             color="blue-gray"
                                             variant="lead">
                                             Checked Out:{' '}
-                                            {appointment.check_out !== null
-                                                ? moment(
-                                                      appointment.check_out,
-                                                      'HH:mm',
-                                                  ).format('h:mm A')
-                                                : ''}
+                                            {moment(
+                                                appointment.check_out,
+                                                'HH:mm',
+                                            ).format('h:mm A')}
                                         </Typography>
-                                    </div>
+                                    ) : (
+                                        ''
+                                    )}
 
                                     {appointment.check_in === null &&
                                     user &&
@@ -353,20 +365,43 @@ const Page = () => {
                                         ''
                                     )}
 
-                                    {user && user.type === 'patient' ? (
-                                        <Link
-                                            href={`/appointment/reschedule/${id}`}>
-                                            <Button className="my-5 rounded-full">
-                                                Reschedule
-                                            </Button>
-                                        </Link>
+                                    {appointment.cancelled_at == null ? (
+                                        <>
+                                            {user && user.type === 'patient' ? (
+                                                <Link
+                                                    href={`/appointment/reschedule/${id}`}>
+                                                    <Button className="my-5 rounded-full">
+                                                        Reschedule
+                                                    </Button>
+                                                </Link>
+                                            ) : (
+                                                <Link
+                                                    href={`/appointment/follow/${id}`}>
+                                                    <Button className="block mt-5 rounded-full">
+                                                        Follow Up
+                                                    </Button>
+                                                </Link>
+                                            )}
+                                        </>
                                     ) : (
-                                        <Link
-                                            href={`/appointment/follow/${id}`}>
-                                            <Button className="block mt-5 rounded-full">
-                                                Follow Up
-                                            </Button>
-                                        </Link>
+                                        ''
+                                    )}
+
+                                    {user &&
+                                    user.type === 'patient' &&
+                                    appointment.cancelled_at == null &&
+                                    appointment.passed == false ? (
+                                        <Button
+                                            variant="gradient"
+                                            color="red"
+                                            className="rounded-full block"
+                                            onClick={() =>
+                                                handleCancelForm(appointment.id)
+                                            }>
+                                            <span>Cancel</span>
+                                        </Button>
+                                    ) : (
+                                        ''
                                     )}
                                 </CardBody>
                             </Card>
@@ -458,6 +493,9 @@ const Page = () => {
                                 <CardBody key={'n'}>
                                     {prescriptions.map(prescription => (
                                         <>
+                                            <div className="font-bold text-black uppercase">
+                                                {prescription.generic_name}
+                                            </div>
                                             <Typography
                                                 color="blue-gray"
                                                 variant="h6"
@@ -507,11 +545,15 @@ const Page = () => {
                                                 <span>Add Prescription</span>
                                             </Button>
 
-                                            <Button
-                                                className="block mt-5 rounded-full"
-                                                onClick={emailThis}>
-                                                Email to Patient
-                                            </Button>
+                                            {prescriptions[0] != 'undefined' ? (
+                                                <Button
+                                                    className="block mt-5 rounded-full"
+                                                    onClick={emailThis}>
+                                                    Email to Patient
+                                                </Button>
+                                            ) : (
+                                                ''
+                                            )}
 
                                             {alertz}
                                         </>
@@ -704,6 +746,50 @@ const Page = () => {
                                 </CardBody>
                             </Card>
                         </div>
+
+                        <Dialog
+                            open={openCancelForm}
+                            size="xs"
+                            handler={handleCancelForm}>
+                            <DialogHeader>Cancel Appointment</DialogHeader>
+                            <DialogBody>
+                                <Typography
+                                    variant="h4"
+                                    className="text-red-600">
+                                    Are you sure you want to cancel this
+                                    appointment?
+                                </Typography>
+                            </DialogBody>
+                            <DialogFooter>
+                                <div className="inline-flex gap-1">
+                                    {user && user.type === 'patient' ? (
+                                        <div className="inline-flex gap-1">
+                                            <Button
+                                                variant="gradient"
+                                                color="red"
+                                                className="rounded-full"
+                                                onClick={() => {
+                                                    cancelAppointment(
+                                                        appointment.id,
+                                                    )
+                                                }}>
+                                                <span>Yes, Cancel</span>
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+
+                                    <Button
+                                        variant="text"
+                                        color="black"
+                                        onClick={handleCancelForm}
+                                        className="mr-1 rounded-full">
+                                        <span>Close</span>
+                                    </Button>
+                                </div>
+                            </DialogFooter>
+                        </Dialog>
                     </div>
                 )}
             </div>
@@ -714,7 +800,7 @@ const Page = () => {
                     <form>
                         <div className="mb-6">
                             <Input
-                                label="Medication Name"
+                                label="Brand Name"
                                 name="medication_name"
                                 value={medicationName}
                                 onChange={event => {
@@ -724,6 +810,21 @@ const Page = () => {
                             />
                             <InputError
                                 messages={errors.medication_name}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <Input
+                                label="Generic Name"
+                                name="generic_name"
+                                value={genericName}
+                                onChange={event => {
+                                    setGenericName(event.target.value)
+                                    setErrors([])
+                                }}
+                            />
+                            <InputError
+                                messages={errors.generic_name}
                                 className="mt-2"
                             />
                         </div>

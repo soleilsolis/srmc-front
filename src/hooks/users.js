@@ -86,11 +86,27 @@ export const useUsers = () => {
     const changePhoto = async ({ setErrors, ...props }) => {
         await csrf()
 
-        console.log(props.profile_photo)
         const body = new FormData()
         body.append('profile_photo', props.profile_photo)
         axios
             .post(`/api/user/update/photo`, body, {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'multipart/form-data',
+            })
+            .then(() => location.reload())
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                setErrors(error.response.data.errors)
+            })
+    }
+
+    const changeSignature = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        const body = new FormData()
+        body.append('signature_photo', props.signature_photo)
+        axios
+            .post(`/api/user/update/signature`, body, {
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'multipart/form-data',
             })
@@ -108,5 +124,6 @@ export const useUsers = () => {
         editUser,
         changePassword,
         changePhoto,
+        changeSignature,
     }
 }

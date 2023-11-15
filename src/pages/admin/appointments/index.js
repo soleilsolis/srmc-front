@@ -48,7 +48,15 @@ const TABS = [
     },
 ]
 
-const TABLE_HEAD = ['', 'Patient', 'Doctor', 'Schedule', 'Status', 'Paid', '']
+const TABLE_HEAD = [
+    '',
+    'Patient',
+    'Doctor',
+    'Schedule',
+    'Status',
+    'Payment',
+    '',
+]
 
 const Appointments = () => {
     const { appointmentsQuery } = useAppointment()
