@@ -20,7 +20,6 @@ import {
     Avatar,
     IconButton,
     Tooltip,
-    Dialog,
 } from '@material-tailwind/react'
 import { useEffect, useState, createElement } from 'react'
 import { useAppointment } from '@/hooks/appointment'
