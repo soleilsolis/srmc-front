@@ -20,6 +20,7 @@ import {
     Card,
     CardBody,
     Alert,
+    Chip,
 } from '@material-tailwind/react'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -46,7 +47,11 @@ const Page = () => {
         checkOutAppointment,
         newVitals,
         cancelAppointment,
+        acceptAppointment,
     } = useAppointment()
+
+    const [color, setColor] = useState()
+    const [status, setStatus] = useState()
 
     const [findings, setFindings] = useState('')
     const [notes, setNotes] = useState('')
@@ -74,6 +79,9 @@ const Page = () => {
     const [openCancelForm, setOpenCancelForm] = useState(false)
     const handleCancelForm = () => setOpenCancelForm(!openCancelForm)
 
+    const [openAcceptForm, setOpenAcceptForm] = useState(false)
+    const handleAcceptForm = () => setOpenAcceptForm(!openAcceptForm)
+
     const [medicationName, setMedicationName] = useState()
     const [genericName, setGenericName] = useState()
     const [dosage, setDosage] = useState('')
@@ -81,6 +89,15 @@ const Page = () => {
     const [frequency, setFrequency] = useState()
     const [duration, setDuration] = useState()
     const [administrationType, setAdministrationType] = useState()
+
+    const submitAcceptForm = async event => {
+        event.preventDefault()
+
+        acceptAppointment({
+            id,
+            setErrors,
+        })
+    }
 
     const submitForm = async event => {
         event.preventDefault()
@@ -199,6 +216,35 @@ const Page = () => {
                         setNotes(appointment.diagnosis.notes)
                         setDiagnosisId(appointment.diagnosis.id)
                     }
+
+                    if (
+                        appointment.accepted_at != null &&
+                        appointment.cancelled_at == null
+                    ) {
+                        setColor('cyan')
+                        setStatus('accepted')
+                    }
+
+                    if (
+                        appointment.accepted_at == null &&
+                        appointment.cancelled_at == null
+                    ) {
+                        setColor('yellow')
+                        setStatus('pending')
+                    }
+
+                    if (appointment.cancelled_at != null) {
+                        setColor('red')
+                        setStatus('canceled')
+                    }
+
+                    if (
+                        appointment.cancelled_at == null &&
+                        appointment.check_out != null
+                    ) {
+                        setColor('green')
+                        setStatus('completed')
+                    }
                 })
             }
         }
@@ -208,13 +254,39 @@ const Page = () => {
     return (
         <AppLayout
             header={
-                <div className="inline-flex w-full gap-3">
+                <div className="inline-flex  w-full gap-3">
                     <Link href="/appointments">
                         <IconButton variant="text">
                             <ArrowLongLeftIcon className="w-5" />
                         </IconButton>
                     </Link>
                     Appointment {router.query.slug}
+                    {appointment ? (
+                        <>
+                            <Chip
+                                variant="ghost"
+                                size="sm"
+                                value={status}
+                                color={color}
+                            />
+                            <Chip
+                                variant="ghost"
+                                size="sm"
+                                value={
+                                    appointment && appointment.verified_at
+                                        ? 'Paid'
+                                        : 'Unpaid'
+                                }
+                                color={
+                                    appointment && appointment.verified_at
+                                        ? 'green'
+                                        : 'blue-gray'
+                                }
+                            />
+                        </>
+                    ) : (
+                        ''
+                    )}
                 </div>
             }>
             <Head>
@@ -232,7 +304,7 @@ const Page = () => {
                             </Typography>
                             <Card>
                                 <CardBody>
-                                    <div>
+                                    <div className="mb-2">
                                         <Typography
                                             variant="lead"
                                             color="blue-gray">
@@ -273,6 +345,18 @@ const Page = () => {
                                             )}
                                         </Typography>
                                     </div>
+
+                                    {appointment.accepted_at === null && (
+                                        <Button
+                                            variant="gradient"
+                                            color="cyan"
+                                            className="rounded-full"
+                                            onClick={() =>
+                                                handleAcceptForm(appointment.id)
+                                            }>
+                                            <span>Accept</span>
+                                        </Button>
+                                    )}
 
                                     {appointment.followed_up_at != null ? (
                                         <div className="my-5">
@@ -746,53 +830,45 @@ const Page = () => {
                                 </CardBody>
                             </Card>
                         </div>
-
-                        <Dialog
-                            open={openCancelForm}
-                            size="xs"
-                            handler={handleCancelForm}>
-                            <DialogHeader>Cancel Appointment</DialogHeader>
-                            <DialogBody>
-                                <Typography
-                                    variant="h4"
-                                    className="text-red-600">
-                                    Are you sure you want to cancel this
-                                    appointment?
-                                </Typography>
-                            </DialogBody>
-                            <DialogFooter>
-                                <div className="inline-flex gap-1">
-                                    {user && user.type === 'patient' ? (
-                                        <div className="inline-flex gap-1">
-                                            <Button
-                                                variant="gradient"
-                                                color="red"
-                                                className="rounded-full"
-                                                onClick={() => {
-                                                    cancelAppointment(
-                                                        appointment.id,
-                                                    )
-                                                }}>
-                                                <span>Yes, Cancel</span>
-                                            </Button>
-                                        </div>
-                                    ) : (
-                                        ''
-                                    )}
-
-                                    <Button
-                                        variant="text"
-                                        color="black"
-                                        onClick={handleCancelForm}
-                                        className="mr-1 rounded-full">
-                                        <span>Close</span>
-                                    </Button>
-                                </div>
-                            </DialogFooter>
-                        </Dialog>
                     </div>
                 )}
             </div>
+
+            <Dialog open={openCancelForm} size="xs" handler={handleCancelForm}>
+                <DialogHeader>Cancel Appointment</DialogHeader>
+                <DialogBody>
+                    <Typography variant="h4" className="text-red-600">
+                        Are you sure you want to cancel this appointment?
+                    </Typography>
+                </DialogBody>
+                <DialogFooter>
+                    <div className="inline-flex gap-1">
+                        {user && user.type === 'patient' ? (
+                            <div className="inline-flex gap-1">
+                                <Button
+                                    variant="gradient"
+                                    color="red"
+                                    className="rounded-full"
+                                    onClick={() => {
+                                        cancelAppointment(appointment.id)
+                                    }}>
+                                    <span>Yes, Cancel</span>
+                                </Button>
+                            </div>
+                        ) : (
+                            ''
+                        )}
+
+                        <Button
+                            variant="text"
+                            color="black"
+                            onClick={handleCancelForm}
+                            className="mr-1 rounded-full">
+                            <span>Close</span>
+                        </Button>
+                    </div>
+                </DialogFooter>
+            </Dialog>
 
             <Dialog open={open} size="xs" handler={handleOpen}>
                 <DialogHeader>Add Prescription</DialogHeader>
@@ -963,6 +1039,36 @@ const Page = () => {
                         onClick={removePrescription}>
                         <span>Confirm</span>
                     </Button>
+                </DialogFooter>
+            </Dialog>
+
+            <Dialog open={openAcceptForm} size="xs" handler={handleAcceptForm}>
+                <DialogHeader>Accept Appointment?</DialogHeader>
+                <DialogBody> </DialogBody>
+                <DialogFooter>
+                    <div className="inline-flex gap-1">
+                        {user && user.type === 'doctor' ? (
+                            <div className="inline-flex gap-1">
+                                <Button
+                                    variant="gradient"
+                                    color="cyan"
+                                    className="rounded-full"
+                                    onClick={submitAcceptForm}>
+                                    <span>Yes, Accept</span>
+                                </Button>
+                            </div>
+                        ) : (
+                            ''
+                        )}
+
+                        <Button
+                            variant="text"
+                            color="black"
+                            onClick={handleAcceptForm}
+                            className="mr-1 rounded-full">
+                            <span>Close</span>
+                        </Button>
+                    </div>
                 </DialogFooter>
             </Dialog>
         </AppLayout>

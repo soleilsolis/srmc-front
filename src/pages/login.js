@@ -1,11 +1,9 @@
 import ApplicationLogo from '@/components/ApplicationLogo'
 import AuthCard from '@/components/AuthCard'
 import AuthSessionStatus from '@/components/AuthSessionStatus'
-import Button from '@/components/Button'
 import GuestLayout from '@/components/Layouts/GuestLayout'
-import Input from '@/components/Input'
+import { Input, Button } from '@material-tailwind/react'
 import InputError from '@/components/InputError'
-import Label from '@/components/Label'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
@@ -59,15 +57,13 @@ const Login = () => {
                 <form onSubmit={submitForm}>
                     {/* Email Address */}
                     <div>
-                        <Label htmlFor="email">Email</Label>
-
                         <Input
+                            label="Email"
                             id="email"
                             type="email"
                             value={email}
                             className="block mt-1 w-full"
                             onChange={event => setEmail(event.target.value)}
-                            required
                             autoFocus
                         />
 
@@ -75,16 +71,14 @@ const Login = () => {
                     </div>
 
                     {/* Password */}
-                    <div className="mt-4">
-                        <Label htmlFor="password">Password</Label>
-
+                    <div className="mt-2">
                         <Input
+                            label="Password"
                             id="password"
                             type="password"
                             value={password}
                             className="block mt-1 w-full"
                             onChange={event => setPassword(event.target.value)}
-                            required
                             autoComplete="current-password"
                         />
 
@@ -116,13 +110,16 @@ const Login = () => {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
+                        <Button className="rounded-full w-full mb-4" type='submit'>
+                            Login
+                        </Button>
+                    </div>
+                    <div className="text-center">
                         <Link
                             href="/forgot-password"
                             className="underline text-sm text-gray-600 hover:text-gray-900">
                             Forgot your password?
                         </Link>
-
-                        <Button className="ml-3">Login</Button>
                     </div>
                 </form>
             </AuthCard>

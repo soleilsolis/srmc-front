@@ -24,6 +24,7 @@ import {
     UserGroupIcon,
     ArchiveBoxIcon,
     DocumentChartBarIcon,
+    CurrencyDollarIcon,
 } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/router'
 
@@ -129,6 +130,12 @@ const navListItems = [
         icon: ClipboardIcon,
         href: '/follow',
         type: ['doctor'],
+    },
+    {
+        label: 'Transactions',
+        icon: CurrencyDollarIcon,
+        href: '/admin/transactions/1',
+        type: ['admin', 'staff'],
     },
     {
         label: 'Users',

@@ -1,6 +1,6 @@
 const InputError = ({ messages = [], className = '' }) => (
     <>
-        {messages.length > 0 && (
+        {messages.length > 0 ? (
             <>
                 {messages.map((message, index) => (
                     <p
@@ -10,6 +10,8 @@ const InputError = ({ messages = [], className = '' }) => (
                     </p>
                 ))}
             </>
+        ) : (
+            <p className={`${className} text-sm text-red-600`}>{'\xa0'}</p>
         )}
     </>
 )
