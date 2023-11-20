@@ -1,4 +1,4 @@
-import { EyeIcon, PencilIcon } from '@heroicons/react/24/solid'
+import { EyeIcon } from '@heroicons/react/24/solid'
 import {
     ArrowDownTrayIcon,
     MagnifyingGlassIcon,
@@ -37,7 +37,6 @@ const TABLE_HEAD = [
 const Transactions = () => {
     const router = useRouter()
     const page = router.query.slug
-    const pages = useState([])
     const { transactionsQuery } = useTransaction()
     const [transactions, setTransactions] = useState([])
 
