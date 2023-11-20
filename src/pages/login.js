@@ -110,7 +110,9 @@ const Login = () => {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Button className="rounded-full w-full mb-4" type='submit'>
+                        <Button
+                            className="rounded-full w-full mb-4"
+                            type="submit">
                             Login
                         </Button>
                     </div>
