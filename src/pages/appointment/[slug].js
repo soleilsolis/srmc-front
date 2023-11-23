@@ -410,7 +410,7 @@ const Page = () => {
                                         ''
                                     )}
 
-                                    {appointment.check_out !== null ? (
+                                    {appointment.check_out !== null && (
                                         <Typography
                                             color="blue-gray"
                                             variant="lead">
@@ -420,34 +420,28 @@ const Page = () => {
                                                 'HH:mm',
                                             ).format('h:mm A')}
                                         </Typography>
-                                    ) : (
-                                        ''
                                     )}
 
                                     {appointment.check_in === null &&
-                                    user &&
-                                    user.type === 'doctor' ? (
-                                        <Button
-                                            className="rounded-full"
-                                            onClick={submitCheckIn}>
-                                            Check In
-                                        </Button>
-                                    ) : (
-                                        ''
-                                    )}
+                                        user &&
+                                        user.type === 'doctor' && (
+                                            <Button
+                                                className="rounded-full"
+                                                onClick={submitCheckIn}>
+                                                Check In
+                                            </Button>
+                                        )}
 
                                     {appointment.check_out === null &&
-                                    appointment.check_in !== null &&
-                                    user &&
-                                    user.type === 'doctor' ? (
-                                        <Button
-                                            className="rounded-full"
-                                            onClick={submitCheckOut}>
-                                            Check Out
-                                        </Button>
-                                    ) : (
-                                        ''
-                                    )}
+                                        appointment.check_in !== null &&
+                                        user &&
+                                        user.type === 'doctor' && (
+                                            <Button
+                                                className="rounded-full"
+                                                onClick={submitCheckOut}>
+                                                Check Out
+                                            </Button>
+                                        )}
 
                                     {appointment.cancelled_at == null ? (
                                         <>
@@ -472,21 +466,21 @@ const Page = () => {
                                     )}
 
                                     {user &&
-                                    user.type === 'patient' &&
-                                    appointment.cancelled_at == null &&
-                                    appointment.passed == false ? (
-                                        <Button
-                                            variant="gradient"
-                                            color="red"
-                                            className="rounded-full block"
-                                            onClick={() =>
-                                                handleCancelForm(appointment.id)
-                                            }>
-                                            <span>Cancel</span>
-                                        </Button>
-                                    ) : (
-                                        ''
-                                    )}
+                                        user.type === 'patient' &&
+                                        appointment.cancelled_at == null &&
+                                        appointment.passed == false && (
+                                            <Button
+                                                variant="gradient"
+                                                color="red"
+                                                className="rounded-full block"
+                                                onClick={() =>
+                                                    handleCancelForm(
+                                                        appointment.id,
+                                                    )
+                                                }>
+                                                <span>Cancel</span>
+                                            </Button>
+                                        )}
                                 </CardBody>
                             </Card>
 

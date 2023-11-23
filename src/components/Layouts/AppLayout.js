@@ -13,7 +13,7 @@ const AppLayout = ({ header, children }) => {
 
             {/* Page Heading */}
             <header>
-                <div className="max-w-screen-xl  mx-auto pt-6 pb-4 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-screen-xl mx-auto pt-6 pb-4 px-4 lg:px-2">
                     <Typography variant="h4" className="text-gray-800 ">
                         {header}
                     </Typography>
