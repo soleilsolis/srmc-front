@@ -468,57 +468,64 @@ const EditUser = () => {
                                 </Button>
                             </CardBody>
                         </Card>
+                        {user.type === 'doctor' && (
+                            <>
+                                <Typography variant="h5" className="my-6">
+                                    E-Signature{' '}
+                                </Typography>
+                                <Card>
+                                    <CardBody>
+                                        {signatureUrl != null ? (
+                                            <img
+                                                className="h-52 w-52 mb-6 rounded-full object-cover object-center aspect-square"
+                                                src={signatureUrl}
+                                                alt="signature photo"
+                                            />
+                                        ) : (
+                                            ''
+                                        )}
+                                        <form>
+                                            <input
+                                                type="file"
+                                                name="signature_photo"
+                                                ref={signatureRef}
+                                                accept="image/*"
+                                                className="hidden"
+                                                onChange={storeSignature}
+                                            />
 
-                        <Typography variant="h5" className="my-6">
-                            E-Signature{' '}
-                        </Typography>
-                        <Card>
-                            <CardBody>
-                                {signatureUrl != null ? (
-                                    <img
-                                        className="h-52 w-52 mb-6 rounded-full object-cover object-center aspect-square"
-                                        src={signatureUrl}
-                                        alt="signature photo"
-                                    />
-                                ) : (
-                                    ''
-                                )}
-                                <form>
-                                    <input
-                                        type="file"
-                                        name="signature_photo"
-                                        ref={signatureRef}
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={storeSignature}
-                                    />
+                                            <div className="mb-6">
+                                                <Button
+                                                    variant="gradient"
+                                                    color="black"
+                                                    className="rounded-full"
+                                                    onClick={() =>
+                                                        signatureRef.current.click()
+                                                    }>
+                                                    <span>
+                                                        Upload Signature Photo
+                                                    </span>
+                                                </Button>
+                                                <InputError
+                                                    messages={
+                                                        errors.signature_photo
+                                                    }
+                                                    className="mt-2"
+                                                />
+                                            </div>
+                                        </form>
 
-                                    <div className="mb-6">
                                         <Button
                                             variant="gradient"
-                                            color="black"
+                                            color="cyan"
                                             className="rounded-full"
-                                            onClick={() =>
-                                                signatureRef.current.click()
-                                            }>
-                                            <span>Upload Signature Photo</span>
+                                            onClick={submitSignature}>
+                                            <span>Save</span>
                                         </Button>
-                                        <InputError
-                                            messages={errors.signature_photo}
-                                            className="mt-2"
-                                        />
-                                    </div>
-                                </form>
-
-                                <Button
-                                    variant="gradient"
-                                    color="cyan"
-                                    className="rounded-full"
-                                    onClick={submitSignature}>
-                                    <span>Save</span>
-                                </Button>
-                            </CardBody>
-                        </Card>
+                                    </CardBody>
+                                </Card>
+                            </>
+                        )}
                     </div>
 
                     <div></div>
