@@ -40,7 +40,7 @@ const Transactions = () => {
         middleware: 'auth',
         type: ['admin', 'staff'],
     })
-    
+
     const router = useRouter()
     const page = router.query.slug
     const { transactionsQuery } = useTransaction()

@@ -120,7 +120,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated, type } = {}) => {
         )
             router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && user && type?.length > 0)
-            type.filter(data => data === user.type).length === 0 &&
+            if (type.filter(data => data === user.type).length === 0)
                 router.push('/404')
 
         if (middleware === 'guest' && redirectIfAuthenticated && user) {

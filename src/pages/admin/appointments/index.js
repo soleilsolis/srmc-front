@@ -1,9 +1,6 @@
 import Head from 'next/head'
 import AppLayout from '@/components/Layouts/AppLayout'
-import {
-    MagnifyingGlassIcon,
-    PlusCircleIcon,
-} from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import {
     Card,
     CardHeader,
@@ -17,12 +14,10 @@ import {
     TabsHeader,
     Tab,
     Avatar,
-    IconButton,
-    Tooltip,
 } from '@material-tailwind/react'
 import { useEffect, useState } from 'react'
 import { useAppointment } from '@/hooks/appointment'
-import Link from 'next/link'
+
 import moment from 'moment'
 import { useAuth } from '@/hooks/auth'
 
