@@ -21,6 +21,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useUsers } from '@/hooks/users'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/auth'
 
 const TABS = [
     {
@@ -50,7 +51,10 @@ const TABLE_HEAD = ['', 'User', '', 'Status', 'Joined', '']
 const Users = () => {
     const { usersQuery } = useUsers()
     const [users, setUsers] = useState([])
-
+    useAuth({
+        middleware: 'auth',
+        type: ['admin'],
+    })
     const getUsers = type => {
         usersQuery({ type }).then(res => setUsers(res.data.data))
     }

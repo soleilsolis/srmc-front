@@ -24,6 +24,7 @@ import { useEffect, useState } from 'react'
 import { useAppointment } from '@/hooks/appointment'
 import Link from 'next/link'
 import moment from 'moment'
+import { useAuth } from '@/hooks/auth'
 
 const TABS = [
     {
@@ -59,6 +60,10 @@ const TABLE_HEAD = [
 ]
 
 const Appointments = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
     const { appointmentsQuery } = useAppointment()
     const [appointments, setAppointments] = useState([])
 

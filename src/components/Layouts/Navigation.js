@@ -202,18 +202,18 @@ export default function Navigation() {
     return (
         <Navbar className="mx-auto max-w-screen-7xl p-2 mb-4 lg:pl-6">
             <div className="relative max-w-screen-3xl xl:px-16 md:px-0 mx-auto flex items-center text-blue-gray-900 ">
-                <Typography
-                    as="a"
-                    href="/dashboard"
-                    className="mr-4 ml-2 cursor-pointer py-1.5 font-medium inline-flex text-red-500 items-center gap-3 text-xl">
-                    <img
-                        className="h-10"
-                        src="/ic_splashlogo.png"
-                        alt="nature image"
-                    />
-                    {user && user.type === 'doctor' ? 'Doctor' : ''}
-                    {user && user.type === 'admin' ? 'Admin' : ''}
-                </Typography>
+                <Link href={user?.type === 'staff' || user?.type === 'admin' ? '/admin/dashboard' : '/appointments'  }>
+                    <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-medium inline-flex text-red-500 items-center gap-3 text-xl">
+                        <img
+                            className="h-10"
+                            src="/ic_splashlogo.png"
+                            alt="nature image"
+                        />
+                        {user?.type === 'doctor' && 'Doctor'}
+                        {user?.type === 'admin' && 'Admin'}
+                        {user?.type === 'staff' && 'Staff'}
+                    </Typography>
+                </Link>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
                     <NavList type={user ? user.type : ''} />
                 </div>

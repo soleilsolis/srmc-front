@@ -22,8 +22,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '@/hooks/auth'
 
 const EditSupply = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
+
     const router = useRouter()
     const id = router.query.slug
 

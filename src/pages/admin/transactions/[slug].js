@@ -23,6 +23,7 @@ import AppLayout from '@/components/Layouts/AppLayout'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import moment from 'moment'
+import { useAuth } from '@/hooks/auth'
 
 const TABLE_HEAD = [
     '',
@@ -35,6 +36,11 @@ const TABLE_HEAD = [
 ]
 
 const Transactions = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
+    
     const router = useRouter()
     const page = router.query.slug
     const { transactionsQuery } = useTransaction()

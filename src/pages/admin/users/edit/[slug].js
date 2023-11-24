@@ -29,9 +29,16 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { useSchedule } from '@/hooks/schedule'
+import { useAuth } from '@/hooks/auth'
+
 const TABLE_HEAD = ['Day', 'In', 'Out', 'Actions']
 
 const EditUser = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin'],
+    })
+
     const router = useRouter()
     const id = router.query.slug
 

@@ -15,8 +15,13 @@ import {
 import Link from 'next/link'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import InputError from '@/components/InputError'
+import { useAuth } from '@/hooks/auth'
 
 const NewAppointment = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
     const router = useRouter()
     const { newAppointment } = useAppointment()
 

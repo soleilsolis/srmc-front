@@ -4,8 +4,13 @@ import { Card, CardBody, Input, Button } from '@material-tailwind/react'
 import { useAppointment } from '@/hooks/appointment'
 import { useState } from 'react'
 import InputError from '@/components/InputError'
+import { useAuth } from '@/hooks/auth'
 
 const Summary = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
     const { getSummary } = useAppointment()
     const [start_date, setStartDate] = useState()
     const [end_date, setEndDate] = useState()

@@ -1,5 +1,6 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
+import { useAuth } from '@/hooks/auth'
 import { Card, CardBody, Typography, Spinner } from '@material-tailwind/react'
 import { useAppointment } from '@/hooks/appointment'
 import {
@@ -69,6 +70,10 @@ const data = {
 
 const Dashboard = () => {
     const { stats } = useAppointment()
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
 
     const userPieData = {
         labels: ['Admin', 'Staff', 'Doctor', 'Patient'],
@@ -126,10 +131,7 @@ const Dashboard = () => {
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
                 ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
                 borderWidth: 1,
             },
         ],
@@ -143,7 +145,7 @@ const Dashboard = () => {
             },
             title: {
                 display: true,
-                text: 'Appointments From 6 Months',
+                text: 'User Demographics',
             },
         },
     }
@@ -156,7 +158,7 @@ const Dashboard = () => {
             },
             title: {
                 display: true,
-                text: 'Appointments From 6 Months',
+                text: 'Patient Demographics',
             },
         },
     }
@@ -317,17 +319,26 @@ const Dashboard = () => {
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 mt-4">
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie options={userPieOptions} data={patientPieData} />
+                                    <Pie
+                                        options={userPieOptions}
+                                        data={patientPieData}
+                                    />
                                 </CardBody>
                             </Card>
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie options={patientPieOptions} data={userPieData} />
+                                    <Pie
+                                        options={patientPieOptions}
+                                        data={userPieData}
+                                    />
                                 </CardBody>
                             </Card>
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie options={supplyPieOptions} data={supplyPieData} />
+                                    <Pie
+                                        options={supplyPieOptions}
+                                        data={supplyPieData}
+                                    />
                                 </CardBody>
                             </Card>
                         </div>

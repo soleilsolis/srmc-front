@@ -3,7 +3,7 @@ import axios from '@/lib/axios'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
+export const useAuth = ({ middleware, redirectIfAuthenticated, type } = {}) => {
     const router = useRouter()
 
     const config = {
@@ -114,10 +114,15 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     useEffect(() => {
-        if (middleware === 'guest' && redirectIfAuthenticated && user)
-            user?.type === 'admin' || (user?.type === 'staff' && user)
+        if (middleware === 'auth' && user && type?.length > 0)
+            type.filter(data => data === user.type).length === 0 &&
+                router.push('/404')
+
+        if (middleware === 'guest' && redirectIfAuthenticated && user) {
+            user?.type === 'admin' || user?.type === 'staff'
                 ? router.push('/admin/dashboard')
                 : router.push(redirectIfAuthenticated)
+        }
 
         if (
             window.location.pathname === '/verify-email' &&

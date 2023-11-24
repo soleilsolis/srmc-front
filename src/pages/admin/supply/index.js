@@ -23,6 +23,7 @@ import {
     ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/auth'
 
 const TABS = [
     {
@@ -60,6 +61,11 @@ const TABLE_HEAD = [
 ]
 
 const Supply = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
+
     const { indexSupplies } = useSupply()
     const [supplies, setSupplies] = useState([])
 

@@ -15,8 +15,14 @@ import { useUsers } from '@/hooks/users'
 import InputError from '@/components/InputError'
 import Link from 'next/link'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '@/hooks/auth'
+
 const NewUser = () => {
     const { newUser } = useUsers()
+    useAuth({
+        middleware: 'auth',
+        type: ['admin'],
+    })
 
     const [name, setName] = useState()
     const [title, setTitle] = useState()

@@ -61,7 +61,11 @@ const TABLE_HEAD = [
 ]
 
 const Appointments = () => {
-    const { user } = useAuth({ middleware: 'auth' })
+    const { user } = useAuth({
+        middleware: 'auth',
+        type: ['patient', 'doctor'],
+    })
+
     const { appointmentsQuery } = useAppointment()
     const [appointments, setAppointments] = useState([])
 

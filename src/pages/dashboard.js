@@ -5,7 +5,10 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 const Dashboard = () => {
     const router = useRouter
-    const { user } = useAuth({ middleware: 'auth' })
+    const { user } = useAuth({
+        middleware: 'auth',
+        type: ['patient', 'doctor', 'admin', 'staff'],
+    })
 
     useEffect(() => {
         user ? router.push('/appointments') : (location.href = '/landing.html')

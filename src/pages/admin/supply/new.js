@@ -13,8 +13,13 @@ import { useEffect, useState } from 'react'
 import { useSupply } from '@/hooks/supply'
 import Link from 'next/link'
 import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
-
+import { useAuth } from '@/hooks/auth'
 const NewSupply = () => {
+    useAuth({
+        middleware: 'auth',
+        type: ['admin', 'staff'],
+    })
+
     const { indexSupplyCategories, newSupply } = useSupply()
     const [name, setName] = useState()
     const [supply_category_id, setSupplyCategoryId] = useState(1)
