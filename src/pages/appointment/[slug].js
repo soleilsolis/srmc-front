@@ -361,8 +361,14 @@ const Page = () => {
                                             </Button>
                                         )}
 
-                                    {appointment.followed_up_at != null ? (
+                                    {appointment.followed_up_at != null &&
+                                    appointment.end_time != null ? (
                                         <div className="my-5">
+                                            <Typography
+                                                variant="lead"
+                                                className="mb-3">
+                                                Follow Up
+                                            </Typography>
                                             <Typography
                                                 variant="h5"
                                                 color="blue-gray"
@@ -426,8 +432,7 @@ const Page = () => {
                                     )}
 
                                     {appointment.check_in === null &&
-                                        user &&
-                                        user.type === 'doctor' && (
+                                        user?.type === 'doctor' && (
                                             <Button
                                                 className="rounded-full"
                                                 onClick={submitCheckIn}>
@@ -455,12 +460,17 @@ const Page = () => {
                                                     </Button>
                                                 </Link>
                                             ) : (
-                                                <Link
-                                                    href={`/appointment/follow/${id}`}>
-                                                    <Button className="block mt-5 rounded-full">
-                                                        Follow Up
-                                                    </Button>
-                                                </Link>
+                                                appointment.followed_up_at ===
+                                                    null &&
+                                                appointment.check_out !==
+                                                    null && (
+                                                    <Link
+                                                        href={`/appointment/follow/${id}`}>
+                                                        <Button className="block mt-5 rounded-full">
+                                                            Follow Up
+                                                        </Button>
+                                                    </Link>
+                                                )
                                             )}
                                         </>
                                     ) : (
