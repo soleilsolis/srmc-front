@@ -345,9 +345,22 @@ const Page = () => {
                                             )}
                                         </Typography>
 
-                                        <IconButton color='blue' >
-                                            <LinkIcon className='w-5 h-5' />
-                                        </IconButton>
+                                        {appointment.meeting_link !== null &&
+                                            appointment.check_out === null && (
+                                                <Link
+                                                    href={
+                                                        appointment.meeting_link
+                                                    }
+                                                    target="_blank"
+                                                    referrerPolicy="no-referrer">
+                                                    <Button
+                                                        color="blue"
+                                                        className="my-3 inline-flex items-center rounded-full">
+                                                        <LinkIcon className="w-5 h-5 mr-2" />
+                                                        Join Meeting
+                                                    </Button>
+                                                </Link>
+                                            )}
                                     </div>
 
                                     {appointment.accepted_at === null &&
