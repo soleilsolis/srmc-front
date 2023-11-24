@@ -69,7 +69,7 @@ export const useAppointment = () => {
             .then(() => location.reload())
     }
 
-    const meetingLink = async ({setErrors, ...props}) => {
+    const meetingLink = async ({ setErrors, ...props }) => {
         await csrf()
         axios
             .patch(`/api/appointment/${props.id}/meetingLink`, props, config)
