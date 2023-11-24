@@ -21,6 +21,7 @@ import {
     CardBody,
     Alert,
     Chip,
+    CardFooter,
 } from '@material-tailwind/react'
 import { ArrowLongLeftIcon, LinkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -48,6 +49,7 @@ const Page = () => {
         newVitals,
         cancelAppointment,
         acceptAppointment,
+        meetingLink,
     } = useAppointment()
 
     const [color, setColor] = useState()
@@ -189,6 +191,17 @@ const Page = () => {
         })
     }
 
+    const [meeting_link, setMeetingLink] = useState()
+
+    const submitMeetingLink = async event => {
+        event.preventDefault()
+
+        meetingLink({
+            id: appointmentId,
+            meeting_link,
+            setErrors,
+        })
+    }
     const config = {
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -346,7 +359,8 @@ const Page = () => {
                                         </Typography>
 
                                         {appointment.meeting_link !== null &&
-                                            appointment.check_out === null && (
+                                            appointment.check_out === null &&
+                                            user?.type === 'patient' && (
                                                 <Link
                                                     href={
                                                         appointment.meeting_link
@@ -512,6 +526,40 @@ const Page = () => {
                                         )}
                                 </CardBody>
                             </Card>
+
+                            <Typography variant="h5" className="my-5">
+                                Meeting Link
+                            </Typography>
+
+                            {user?.type === 'doctor' && (
+                                <Card>
+                                    <CardBody>
+                                        <Input
+                                            label="Meeting Link"
+                                            id="meeting_link"
+                                            value={meeting_link}
+                                            onChange={event =>
+                                                setMeetingLink(
+                                                    event.target.value,
+                                                )
+                                            }
+                                        />
+                                        <InputError
+                                            messages={errors.meeting_link}
+                                            className="mt-2"
+                                        />
+                                    </CardBody>
+                                    <CardFooter>
+                                        <Button
+                                            className="rounded-full"
+                                            variant="gradient"
+                                            color="cyan"
+                                            onClick={submitMeetingLink}>
+                                            <span>Save</span>
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                            )}
 
                             <div className="my-2"></div>
 
