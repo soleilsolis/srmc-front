@@ -463,7 +463,8 @@ const Page = () => {
                                     )}
 
                                     {appointment.check_in === null &&
-                                        user?.type === 'doctor' && (
+                                        user?.type === 'doctor' &&
+                                        appointment.accepted_at !== null && (
                                             <Button
                                                 className="rounded-full"
                                                 onClick={submitCheckIn}>
