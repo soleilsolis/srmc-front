@@ -114,6 +114,11 @@ export const useAuth = ({ middleware, redirectIfAuthenticated, type } = {}) => {
     }
 
     useEffect(() => {
+        if (
+            window.location.pathname === '/verify-email' &&
+            user?.email_verified_at
+        )
+            router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && user && type?.length > 0)
             type.filter(data => data === user.type).length === 0 &&
                 router.push('/404')
@@ -124,11 +129,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated, type } = {}) => {
                 : router.push(redirectIfAuthenticated)
         }
 
-        if (
-            window.location.pathname === '/verify-email' &&
-            user?.email_verified_at
-        )
-            router.push(redirectIfAuthenticated)
         if (middleware === 'auth' && error) logout()
     }, [user, error])
 
