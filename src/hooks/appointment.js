@@ -1,7 +1,9 @@
 import axios from '@/lib/axios'
 import useSWR from 'swr'
+import { useAuth } from './auth'
 
 export const useAppointment = () => {
+    const { user } = useAuth({ middlware: 'auth' })
     const config = {
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -108,7 +110,11 @@ export const useAppointment = () => {
 
         axios
             .post('/api/appointment', props, config)
-            .then(() => (location.href = '/appointments'))
+            .then(() => {
+                user?.type === 'patient'
+                    ? (location.href = '/appointments')
+                    : (location.href = '/admin/appointments')
+            })
             .catch(error => {
                 if (error.response.status !== 422) throw error
                 setErrors(error.response.data.errors)

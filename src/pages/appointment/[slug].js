@@ -346,17 +346,20 @@ const Page = () => {
                                         </Typography>
                                     </div>
 
-                                    {appointment.accepted_at === null && (
-                                        <Button
-                                            variant="gradient"
-                                            color="cyan"
-                                            className="rounded-full"
-                                            onClick={() =>
-                                                handleAcceptForm(appointment.id)
-                                            }>
-                                            <span>Accept</span>
-                                        </Button>
-                                    )}
+                                    {appointment.accepted_at === null &&
+                                        user?.type === 'doctor' && (
+                                            <Button
+                                                variant="gradient"
+                                                color="cyan"
+                                                className="rounded-full"
+                                                onClick={() =>
+                                                    handleAcceptForm(
+                                                        appointment.id,
+                                                    )
+                                                }>
+                                                <span>Accept</span>
+                                            </Button>
+                                        )}
 
                                     {appointment.followed_up_at != null ? (
                                         <div className="my-5">
@@ -434,8 +437,7 @@ const Page = () => {
 
                                     {appointment.check_out === null &&
                                         appointment.check_in !== null &&
-                                        user &&
-                                        user.type === 'doctor' && (
+                                        user?.type === 'doctor' && (
                                             <Button
                                                 className="rounded-full"
                                                 onClick={submitCheckOut}>

@@ -308,16 +308,7 @@ const Appointments = () => {
                                                         />
                                                     </div>
                                                 </td>
-                                                <td className={classes}>
-                                                    <Link
-                                                        href={`/admin/appointments/new/${id}`}>
-                                                        <Tooltip content="New Appointment">
-                                                            <IconButton variant="text">
-                                                                <PlusCircleIcon className="h-4 w-4" />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </Link>
-                                                </td>
+                                                <td className={classes}></td>
                                             </tr>
                                         )
                                     },

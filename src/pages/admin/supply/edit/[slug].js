@@ -142,6 +142,7 @@ const EditSupply = () => {
                                 <Select
                                     name="supply_category_id"
                                     label="Category"
+                                    value={supply_category_id}
                                     onChange={event =>
                                         setSupplyCategoryId(event)
                                     }>

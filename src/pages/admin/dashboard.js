@@ -320,7 +320,7 @@ const Dashboard = () => {
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
                                     <Pie
-                                        options={userPieOptions}
+                                        options={patientPieOptions}
                                         data={patientPieData}
                                     />
                                 </CardBody>
@@ -328,7 +328,7 @@ const Dashboard = () => {
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
                                     <Pie
-                                        options={patientPieOptions}
+                                        options={userPieOptions}
                                         data={userPieData}
                                     />
                                 </CardBody>

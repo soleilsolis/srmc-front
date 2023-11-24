@@ -1,7 +1,11 @@
 import Head from 'next/head'
 import AppLayout from '@/components/Layouts/AppLayout'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
-import { PencilIcon, UserPlusIcon } from '@heroicons/react/24/solid'
+import {
+    PencilIcon,
+    UserPlusIcon,
+    PlusCircleIcon,
+} from '@heroicons/react/24/solid'
 import {
     Card,
     CardHeader,
@@ -244,6 +248,16 @@ const Users = () => {
                                                     </Typography>
                                                 </td>
                                                 <td className={classes}>
+                                                    {type === 'patient' && (
+                                                        <Link
+                                                            href={`/admin/appointments/new/${id}`}>
+                                                            <Tooltip content="New Appointment">
+                                                                <IconButton variant="text">
+                                                                    <PlusCircleIcon className="h-4 w-4" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </Link>
+                                                    )}
                                                     <Link
                                                         href={`/admin/users/edit/${id}`}>
                                                         <Tooltip content="Edit User">
