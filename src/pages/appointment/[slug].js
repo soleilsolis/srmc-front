@@ -22,7 +22,7 @@ import {
     Alert,
     Chip,
 } from '@material-tailwind/react'
-import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
+import { ArrowLongLeftIcon, LinkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import axios from '@/lib/axios'
 
@@ -344,6 +344,10 @@ const Page = () => {
                                                 <span>&nbsp;</span>
                                             )}
                                         </Typography>
+
+                                        <IconButton color='blue' >
+                                            <LinkIcon className='w-5 h-5' />
+                                        </IconButton>
                                     </div>
 
                                     {appointment.accepted_at === null &&
