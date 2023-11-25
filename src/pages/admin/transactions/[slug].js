@@ -39,11 +39,10 @@ const Transactions = () => {
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
-        typeof page !== 'undefined'
-            ? transactionsQuery({ type: page }).then(res =>
-                  setTransactions(res.data.data),
-              )
-            : ''
+        if (typeof page !== 'undefined')
+            transactionsQuery({ type: page }).then(res =>
+                setTransactions(res.data.data),
+            )
     }, [page])
 
     return (
