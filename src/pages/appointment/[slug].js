@@ -167,13 +167,9 @@ const Page = () => {
 
         sendPrescription({
             id: appointment.id,
+            setErrors,
+            setAlertz,
         })
-
-        setAlertz(
-            <Alert color="green" className="mt-5" onClick={() => setAlertz()}>
-                Email sent to patient.
-            </Alert>,
-        )
     }
 
     const submitVitals = async event => {
@@ -702,11 +698,18 @@ const Page = () => {
                                             </Button>
 
                                             {prescriptions[0] != 'undefined' ? (
-                                                <Button
-                                                    className="block mt-5 rounded-full"
-                                                    onClick={emailThis}>
-                                                    Email to Patient
-                                                </Button>
+                                                <>
+                                                    <Button
+                                                        className="block mt-5 rounded-full"
+                                                        onClick={emailThis}>
+                                                        Email to Patient
+                                                    </Button>
+
+                                                    <InputError
+                                                        messages={errors.email}
+                                                        className="mt-2"
+                                                    />
+                                                </>
                                             ) : (
                                                 ''
                                             )}
