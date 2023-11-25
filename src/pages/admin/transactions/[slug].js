@@ -1,8 +1,3 @@
-import { EyeIcon } from '@heroicons/react/24/solid'
-import {
-    ArrowDownTrayIcon,
-    MagnifyingGlassIcon,
-} from '@heroicons/react/24/outline'
 import {
     Card,
     CardHeader,
@@ -12,8 +7,6 @@ import {
     Chip,
     CardFooter,
     IconButton,
-    Tooltip,
-    Input,
 } from '@material-tailwind/react'
 
 import { useTransaction } from '@/hooks/transaction'
@@ -32,7 +25,6 @@ const TABLE_HEAD = [
     'Amount',
     'Date',
     'Status',
-    'Actions',
 ]
 
 const Transactions = () => {
@@ -47,12 +39,11 @@ const Transactions = () => {
     const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
-        return (
-            typeof page !== 'undefined' &&
-            transactionsQuery({ type: page }).then(res =>
-                setTransactions(res.data.data),
-            )
-        )
+        typeof page !== 'undefined'
+            ? transactionsQuery({ type: page }).then(res =>
+                  setTransactions(res.data.data),
+              )
+            : ''
     }, [page])
 
     return (
@@ -75,25 +66,6 @@ const Transactions = () => {
                                 className="mt-1 font-normal">
                                 These are details about the last transactions
                             </Typography>
-                        </div>
-                        <div className="flex w-full shrink-0 gap-2 md:w-max">
-                            <div className="w-full md:w-72">
-                                <Input
-                                    label="Search"
-                                    icon={
-                                        <MagnifyingGlassIcon className="h-5 w-5" />
-                                    }
-                                />
-                            </div>
-                            <Button
-                                className="flex items-center gap-3"
-                                size="sm">
-                                <ArrowDownTrayIcon
-                                    strokeWidth={2}
-                                    className="h-4 w-4"
-                                />{' '}
-                                Download
-                            </Button>
                         </div>
                     </div>
                 </CardHeader>
@@ -169,13 +141,6 @@ const Transactions = () => {
                                                             : 'blue-gray'
                                                     }
                                                 />
-                                            </td>
-                                            <td className={classes}>
-                                                <Tooltip content="View Summary">
-                                                    <IconButton variant="text">
-                                                        <EyeIcon className="h-5 w-5" />
-                                                    </IconButton>
-                                                </Tooltip>
                                             </td>
                                         </tr>
                                     )
