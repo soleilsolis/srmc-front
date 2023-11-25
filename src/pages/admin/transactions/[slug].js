@@ -131,12 +131,12 @@ const Transactions = () => {
                                                     size="sm"
                                                     className="w-max"
                                                     value={
-                                                        verified_at
+                                                        verified_at !== null
                                                             ? 'Verified'
                                                             : 'Unverified'
                                                     }
                                                     color={
-                                                        verified_at
+                                                        verified_at !== null
                                                             ? 'green'
                                                             : 'blue-gray'
                                                     }
