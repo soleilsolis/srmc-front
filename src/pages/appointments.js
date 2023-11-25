@@ -231,11 +231,14 @@ const Appointments = () => {
                                                     <div className="flex items-center gap-3">
                                                         <Avatar
                                                             src={
-                                                                'https://ui-avatars.com/api/?name=' +
-                                                                patient.name.replace(
-                                                                    ' ',
-                                                                    '+',
-                                                                )
+                                                                patient.profile_photo_path !=
+                                                                null
+                                                                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${patient.profile_photo_path}`
+                                                                    : 'https://ui-avatars.com/api/?name=' +
+                                                                      patient.name.replace(
+                                                                          ' ',
+                                                                          '+',
+                                                                      )
                                                             }
                                                             alt={patient.name}
                                                             size="sm"
@@ -260,11 +263,14 @@ const Appointments = () => {
                                                     <div className="flex items-center gap-3">
                                                         <Avatar
                                                             src={
-                                                                'https://ui-avatars.com/api/?name=' +
-                                                                doctor.name.replace(
-                                                                    ' ',
-                                                                    '+',
-                                                                )
+                                                                doctor.profile_photo_path !=
+                                                                null
+                                                                    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${doctor.profile_photo_path}`
+                                                                    : 'https://ui-avatars.com/api/?name=' +
+                                                                      doctor.name.replace(
+                                                                          ' ',
+                                                                          '+',
+                                                                      )
                                                             }
                                                             alt={doctor.name}
                                                             size="sm"
