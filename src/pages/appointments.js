@@ -174,7 +174,6 @@ const Appointments = () => {
                                             check_out,
                                             scheduled_at,
                                             start_time,
-                                            end_time,
                                             payment_link,
                                         },
                                         index,
@@ -301,12 +300,7 @@ const Appointments = () => {
                                                     {moment(
                                                         start_time,
                                                         'HH:mm',
-                                                    ).format('h:mm A') +
-                                                        ' - ' +
-                                                        moment(
-                                                            end_time,
-                                                            'HH:mm',
-                                                        ).format('h:mm A')}
+                                                    ).format('h:mm A')}
                                                 </td>
                                                 <td className={classes}>
                                                     <div className="w-max">

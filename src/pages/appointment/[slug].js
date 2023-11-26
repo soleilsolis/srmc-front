@@ -220,6 +220,10 @@ const Page = () => {
                         setPrescriptions(appointment.prescriptions)
                     }
 
+                    if (appointment.meeting_link != null) {
+                        setMeetingLink(appointment.meeting_link)
+                    }
+
                     if (appointment.diagnosis != null) {
                         setFindings(appointment.diagnosis.findings)
                         setNotes(appointment.diagnosis.notes)
@@ -334,19 +338,16 @@ const Page = () => {
                                         <Typography
                                             variant="small"
                                             color="blue-gray">
-                                            {appointment.doctor_name}
+                                            {appointment.doctor.name}
                                         </Typography>
                                         <Typography
                                             variant="lead"
                                             color="blue-gray">
+                                            {appointment.doctor.service.name}{' '}
+                                            <br />
                                             {appointment.start_time !== null ? (
                                                 moment(
                                                     appointment.start_time,
-                                                    'HH:mm',
-                                                ).format('h:mm A') +
-                                                ' - ' +
-                                                moment(
-                                                    appointment.end_time,
                                                     'HH:mm',
                                                 ).format('h:mm A')
                                             ) : (
@@ -389,7 +390,7 @@ const Page = () => {
                                         )}
 
                                     {appointment.followed_up_at != null &&
-                                    appointment.end_time != null ? (
+                                    appointment.check_out != null ? (
                                         <div className="my-5">
                                             <Typography
                                                 variant="lead"
@@ -415,11 +416,6 @@ const Page = () => {
                                                 null ? (
                                                     moment(
                                                         appointment.follow_up_start_time,
-                                                        'HH:mm',
-                                                    ).format('h:mm A') +
-                                                    ' - ' +
-                                                    moment(
-                                                        appointment.follow_up_end_time,
                                                         'HH:mm',
                                                     ).format('h:mm A')
                                                 ) : (
@@ -533,7 +529,7 @@ const Page = () => {
                                     <CardBody>
                                         <Input
                                             label="Meeting Link"
-                                            id="meeting_link"
+                                            name="meeting_link"
                                             value={meeting_link}
                                             onChange={event =>
                                                 setMeetingLink(

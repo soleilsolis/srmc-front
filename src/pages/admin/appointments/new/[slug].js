@@ -77,10 +77,8 @@ const NewAppointment = () => {
         axios.get(`/api/users/doctor/${id}/${date}/times`).then(res => {
             setTimeList(
                 res.data.data.map(time => (
-                    <Option
-                        value={`${time.start_time} - ${time.end_time}`}
-                        key={time.id}>
-                        {`${time.start_time} - ${time.end_time}`}
+                    <Option value={`${time.start_time}`} key={time.id}>
+                        {`${time.start_time}`}
                     </Option>
                 )),
             )

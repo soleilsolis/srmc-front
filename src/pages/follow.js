@@ -70,11 +70,6 @@ const Appointments = () => {
                                             moment(
                                                 appointment.follow_up_start_time,
                                                 'HH:mm',
-                                            ).format('h:mm A') +
-                                            ' - ' +
-                                            moment(
-                                                appointment.follow_up_end_time,
-                                                'HH:mm',
                                             ).format('h:mm A')
                                         ) : (
                                             <span>&nbsp;</span>
