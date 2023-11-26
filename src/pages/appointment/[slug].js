@@ -311,7 +311,7 @@ const Page = () => {
                 ) : (
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-10">
                         <div>
-                            <Typography variant="h5" className="mb-2">
+                            <Typography variant="h5" className="mb-5">
                                 Details
                             </Typography>
                             <Card>
@@ -342,16 +342,13 @@ const Page = () => {
                                         <Typography
                                             variant="lead"
                                             color="blue-gray">
-                                            {appointment.doctor.service.name}{' '}
-                                            <br />
-                                            {appointment.start_time !== null ? (
+                                            {appointment.doctor.service.name}
+                                            {' @ '}
+                                            {appointment.start_time !== null &&
                                                 moment(
                                                     appointment.start_time,
                                                     'HH:mm',
-                                                ).format('h:mm A')
-                                            ) : (
-                                                <span>&nbsp;</span>
-                                            )}
+                                                ).format('h:mm A')}
                                         </Typography>
 
                                         {appointment.meeting_link !== null &&
@@ -519,38 +516,40 @@ const Page = () => {
                                 </CardBody>
                             </Card>
 
-                            <Typography variant="h5" className="my-5">
-                                Meeting Link
-                            </Typography>
-
                             {user?.type === 'doctor' && (
-                                <Card>
-                                    <CardBody>
-                                        <Input
-                                            label="Meeting Link"
-                                            name="meeting_link"
-                                            value={meeting_link}
-                                            onChange={event =>
-                                                setMeetingLink(
-                                                    event.target.value,
-                                                )
-                                            }
-                                        />
-                                        <InputError
-                                            messages={errors.meeting_link}
-                                            className="mt-2"
-                                        />
-                                    </CardBody>
-                                    <CardFooter>
-                                        <Button
-                                            className="rounded-full"
-                                            variant="gradient"
-                                            color="cyan"
-                                            onClick={submitMeetingLink}>
-                                            <span>Save</span>
-                                        </Button>
-                                    </CardFooter>
-                                </Card>
+                                <>
+                                    {' '}
+                                    <Typography variant="h5" className="my-5">
+                                        Meeting Link
+                                    </Typography>
+                                    <Card className="mb-6">
+                                        <CardBody>
+                                            <Input
+                                                label="Meeting Link"
+                                                name="meeting_link"
+                                                value={meeting_link}
+                                                onChange={event =>
+                                                    setMeetingLink(
+                                                        event.target.value,
+                                                    )
+                                                }
+                                            />
+                                            <InputError
+                                                messages={errors.meeting_link}
+                                                className="mt-2"
+                                            />
+                                        </CardBody>
+                                        <CardFooter>
+                                            <Button
+                                                className="rounded-full"
+                                                variant="gradient"
+                                                color="cyan"
+                                                onClick={submitMeetingLink}>
+                                                <span>Save</span>
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>
+                                </>
                             )}
 
                             <div className="my-2"></div>
@@ -618,7 +617,7 @@ const Page = () => {
                                             <Typography
                                                 variant="paragraph"
                                                 className="mb-10">
-                                                {findings}
+                                                {findings ?? "Not Yet Available"}
                                             </Typography>
                                             <Typography variant="h6">
                                                 Notes
@@ -632,12 +631,13 @@ const Page = () => {
                             </Card>
                         </div>
                         <div>
-                            <Typography variant="h5" className="mb-2">
+                            <Typography variant="h5" className="mb-5">
                                 Prescriptions
                             </Typography>
 
-                            <Card className="my-2">
+                            <Card className="mt-2 mb-4">
                                 <CardBody key={'n'}>
+                                    {prescriptions.length === 0 && ("Not Yet Available")}
                                     {prescriptions.map(prescription => (
                                         <>
                                             <div className="font-bold text-black uppercase">
@@ -717,7 +717,7 @@ const Page = () => {
                                 </CardBody>
                             </Card>
 
-                            <Typography variant="h5" className="my-5">
+                            <Typography variant="h5" className="mb-5">
                                 Vital Signs
                             </Typography>
                             <Card>
