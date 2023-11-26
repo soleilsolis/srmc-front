@@ -617,7 +617,8 @@ const Page = () => {
                                             <Typography
                                                 variant="paragraph"
                                                 className="mb-10">
-                                                {findings ?? "Not Yet Available"}
+                                                {findings ??
+                                                    'Not Yet Available'}
                                             </Typography>
                                             <Typography variant="h6">
                                                 Notes
@@ -637,7 +638,8 @@ const Page = () => {
 
                             <Card className="mt-2 mb-4">
                                 <CardBody key={'n'}>
-                                    {prescriptions.length === 0 && ("Not Yet Available")}
+                                    {prescriptions.length === 0 &&
+                                        'Not Yet Available'}
                                     {prescriptions.map(prescription => (
                                         <>
                                             <div className="font-bold text-black uppercase">
