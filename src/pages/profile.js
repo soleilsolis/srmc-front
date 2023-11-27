@@ -24,6 +24,7 @@ const EditUser = () => {
         changePhoto,
         changePassword,
         changeSignature,
+        calendarLink,
     } = useUsers()
 
     const [name, setName] = useState()
@@ -38,7 +39,7 @@ const EditUser = () => {
     const [valid_id_number, setValidIdNumber] = useState()
     const [patientType, setPatientType] = useState()
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
-
+    const [calendar_link, setCalendarLink] = useState()
     const [profile_photo, setProfilePhoto] = useState()
     const [createObjectURL, setCreateObjectURL] = useState()
     const imageRef = createRef()
@@ -85,6 +86,14 @@ const EditUser = () => {
             sex,
             patient_type: patientType,
             valid_id_number,
+            setErrors,
+        })
+    }
+    const submitCalendarLink = async event => {
+        event.preventDefault()
+
+        calendarLink({
+            calendar_link,
             setErrors,
         })
     }
@@ -145,6 +154,7 @@ const EditUser = () => {
             setSex(user.sex)
             setValidIdNumber(user.valid_id_number)
             setPatientType(user.patient_type)
+            setCalendarLink(user.calendar_link)
 
             setCreateObjectURL(
                 user.profile_photo_path != null
@@ -526,6 +536,44 @@ const EditUser = () => {
                                 </Card>
                             </>
                         )}
+
+                        <div>
+                            <Typography variant="h5" className="my-6">
+                                Google Calendar Integration{' '}
+                            </Typography>
+                            <Card>
+                                <CardBody>
+                                    <div className="mb-6">
+                                        <Input
+                                            label="Google Calendar Public URL"
+                                            id="calendar_link"
+                                            value={calendar_link}
+                                            className="block mt-1 w-full"
+                                            onChange={event => {
+                                                setCalendarLink(
+                                                    event.target.value,
+                                                )
+                                            }}
+                                            required
+                                            autoComplete="new-password"
+                                        />
+
+                                        <InputError
+                                            messages={errors.calendar_link}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
+                                    <Button
+                                        variant="gradient"
+                                        color="cyan"
+                                        className="rounded-full"
+                                        onClick={submitCalendarLink}>
+                                        <span>Save</span>
+                                    </Button>
+                                </CardBody>
+                            </Card>
+                        </div>
                     </div>
 
                     <div></div>

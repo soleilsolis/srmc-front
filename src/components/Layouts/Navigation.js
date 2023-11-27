@@ -25,6 +25,7 @@ import {
     ArchiveBoxIcon,
     DocumentChartBarIcon,
     CurrencyDollarIcon,
+    CalendarDaysIcon,
 } from '@heroicons/react/24/outline'
 import { useRouter } from 'next/router'
 
@@ -182,6 +183,22 @@ function NavList(props) {
                         </Typography>
                     </Link>
                 ))}
+
+            {props.calendar_link && (
+                <Link href="/calendar" key="calendar">
+                    <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal">
+                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                            {createElement(CalendarDaysIcon, {
+                                className: 'h-[18px] w-[18px]',
+                            })}{' '}
+                            Google Calendar
+                        </MenuItem>
+                    </Typography>
+                </Link>
+            )}
         </ul>
     )
 }
@@ -220,7 +237,10 @@ export default function Navigation() {
                     </Typography>
                 </Link>
                 <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
-                    <NavList type={user ? user.type : ''} />
+                    <NavList
+                        type={user ? user.type : ''}
+                        calendar_link={user ? user.calendar_link : ''}
+                    />
                 </div>
                 <IconButton
                     size="sm"
