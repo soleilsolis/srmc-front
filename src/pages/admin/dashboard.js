@@ -264,7 +264,7 @@ const Dashboard = () => {
                             <Card>
                                 <CardBody>
                                     <Typography variant="h2" color="blue-gray">
-                                        {stats.completed}
+                                        {stats.senior}
                                     </Typography>
                                     <Typography variant="h6" color="blue-gray">
                                         Senior Patient

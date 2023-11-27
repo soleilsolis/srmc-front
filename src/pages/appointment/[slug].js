@@ -695,7 +695,9 @@ const Page = () => {
                                             <hr className="my-3" />
                                         </>
                                     ))}
-                                    {user && user.type === 'doctor' ? (
+                                    {user &&
+                                    user.type === 'doctor' &&
+                                    appointment.verified_at !== null ? (
                                         <>
                                             <Button
                                                 color="black"
