@@ -41,6 +41,7 @@ const NewUser = () => {
 
     const typeOptions = [
         { value: '', text: 'Choose an option' },
+        { value: 'staff', text: 'Staff' },
         { value: 'patient', text: 'Patient' },
         { value: 'doctor', text: 'Doctor' },
         { value: 'admin', text: 'Admin' },
@@ -103,6 +104,48 @@ const NewUser = () => {
                         </div>
 
                         <div className="mb-6">
+                            <Select
+                                label="Type"
+                                value={type}
+                                name="type"
+                                onChange={event => setType(event)}>
+                                {typeOptions.map(option => (
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+
+                            <InputError
+                                messages={errors.type}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
+                            <Select
+                                label="Sex"
+                                value={sex}
+                                name="sex"
+                                onChange={event => setSex(event)}>
+                                {sexOptions.map(option => (
+                                    <Option
+                                        value={option.value}
+                                        key={option.value}>
+                                        {option.text}
+                                    </Option>
+                                ))}
+                            </Select>
+
+                            <InputError
+                                messages={errors.sex}
+                                className="mt-2"
+                            />
+                        </div>
+
+                        <div className="mb-6">
                             <Input
                                 label="Title"
                                 value={title}
@@ -114,6 +157,7 @@ const NewUser = () => {
                                 className="mt-2"
                             />
                         </div>
+
                         <div className="mb-6">
                             <Input
                                 label="Email"
@@ -126,12 +170,14 @@ const NewUser = () => {
                                 className="mt-2"
                             />
                         </div>
+
                         <div className="mb-6">
                             <Switch
                                 label="Email Verified"
                                 onClick={handleVerified}
                             />
                         </div>
+
                         <div className="mb-6">
                             <Input
                                 label="Password"
@@ -190,48 +236,6 @@ const NewUser = () => {
                             />
                             <InputError
                                 messages={errors.address}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mb-6">
-                            <Select
-                                label="Sex"
-                                value={sex}
-                                name="sex"
-                                onChange={event => setSex(event)}>
-                                {sexOptions.map(option => (
-                                    <Option
-                                        value={option.value}
-                                        key={option.value}>
-                                        {option.text}
-                                    </Option>
-                                ))}
-                            </Select>
-
-                            <InputError
-                                messages={errors.type}
-                                className="mt-2"
-                            />
-                        </div>
-
-                        <div className="mb-6">
-                            <Select
-                                label="Type"
-                                value={type}
-                                name="type"
-                                onChange={event => setType(event)}>
-                                {typeOptions.map(option => (
-                                    <Option
-                                        value={option.value}
-                                        key={option.value}>
-                                        {option.text}
-                                    </Option>
-                                ))}
-                            </Select>
-
-                            <InputError
-                                messages={errors.type}
                                 className="mt-2"
                             />
                         </div>
