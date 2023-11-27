@@ -33,6 +33,7 @@ const NewUser = () => {
     const [address, setAddress] = useState()
     const [type, setType] = useState()
     const [sex, setSex] = useState()
+    const [service_id, setServiceId] = useState()
     const [verified, setVerified] = useState(false)
 
     const handleVerified = () => setVerified(!verified)
@@ -53,6 +54,14 @@ const NewUser = () => {
         { value: 'female', text: 'Female' },
     ]
 
+    const serviceOptions = [
+        { value: '', text: 'Choose a service' },
+        { value: '1', text: 'Family Medicine' },
+        { value: '2', text: 'Surgery' },
+        { value: '3', text: 'Derma' },
+        { value: '4', text: 'Checkup' },
+    ]
+
     const submitForm = async event => {
         event.preventDefault()
 
@@ -67,6 +76,7 @@ const NewUser = () => {
             type,
             sex,
             verified,
+            service_id,
             setErrors,
         })
     }
@@ -123,6 +133,28 @@ const NewUser = () => {
                                 className="mt-2"
                             />
                         </div>
+
+                        {type === 'doctor' && (
+                            <div className="mb-6">
+                                <Select
+                                    label="Service"
+                                    name="service_id"
+                                    onChange={event => setServiceId(event)}>
+                                    {serviceOptions.map(option => (
+                                        <Option
+                                            value={option.value}
+                                            key={option.value}>
+                                            {option.text}
+                                        </Option>
+                                    ))}
+                                </Select>
+
+                                <InputError
+                                    messages={errors.service_id}
+                                    className="mt-2"
+                                />
+                            </div>
+                        )}
 
                         <div className="mb-6">
                             <Select
