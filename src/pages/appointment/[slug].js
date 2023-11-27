@@ -956,7 +956,7 @@ const Page = () => {
 
             <Dialog open={open} size="xs" handler={handleOpen}>
                 <DialogHeader>Add Prescription</DialogHeader>
-                <DialogBody>
+                <DialogBody className="overflow-scroll max-h-[70vh]">
                     <form>
                         <div className="mb-6">
                             <Input
