@@ -56,7 +56,7 @@ export const useAppointment = () => {
     const appointmentsQuery = async ({ ...props } = {}) => {
         await csrf()
         return axios.get(
-            `/api/appointments/query/${props.status}?page=${props.page}`,
+            `/api/appointments/query/${props.status}?page=${props.page}&search=${props.search ?? ''}`,
             config,
         )
     }

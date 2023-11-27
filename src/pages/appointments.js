@@ -67,12 +67,13 @@ const Appointments = () => {
     })
 
     const [status, setStatus] = useState('all')
+    const [search, setSearch] = useState(null)
 
     const { appointmentsQuery } = useAppointment()
     const [pages, setPages] = useState([])
 
-    const getAppointments = (status, page) => {
-        appointmentsQuery({ status, page }).then(res => {
+    const getAppointments = (status, page, search = null) => {
+        appointmentsQuery({ status, page, search }).then(res => {
             setPages(res.data.data)
         })
     }
@@ -131,7 +132,11 @@ const Appointments = () => {
                                             value={value}
                                             onClick={() => {
                                                 setStatus(value)
-                                                getAppointments(value, 1)
+                                                getAppointments(
+                                                    value,
+                                                    1,
+                                                    search,
+                                                )
                                             }}>
                                             &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                         </Tab>
@@ -144,6 +149,14 @@ const Appointments = () => {
                                     icon={
                                         <MagnifyingGlassIcon className="h-5 w-5" />
                                     }
+                                    onChange={event => {
+                                        setSearch(event.target.value)
+                                        getAppointments(
+                                            status,
+                                            1,
+                                            event.target.value,
+                                        )
+                                    }}
                                 />
                             </div>
                         </div>
@@ -410,6 +423,7 @@ const Appointments = () => {
                                                 getAppointments(
                                                     status,
                                                     pages.current_page - 1,
+                                                    search,
                                                 )
                                             }}>
                                             Previous
@@ -424,6 +438,7 @@ const Appointments = () => {
                                                 getAppointments(
                                                     status,
                                                     pages.current_page + 1,
+                                                    search,
                                                 )
                                             }}>
                                             Next
