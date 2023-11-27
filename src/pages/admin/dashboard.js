@@ -243,7 +243,7 @@ const Dashboard = () => {
                             <Card>
                                 <CardBody>
                                     <Typography variant="h2" color="blue-gray">
-                                        {stats.canceled}
+                                        {stats.regular}
                                     </Typography>
                                     <Typography variant="h6" color="blue-gray">
                                         Regular Patient

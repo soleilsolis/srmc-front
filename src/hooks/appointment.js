@@ -10,10 +10,6 @@ export const useAppointment = () => {
         },
     }
 
-    const { data: doctors } = useSWR('/api/users/doctors', () =>
-        axios.get('/api/users/doctors', config).then(res => res.data.data),
-    )
-
     const { data: stats } = useSWR('/api/appointments/stats', () =>
         axios.get('/api/appointments/stats', config).then(res => res.data.data),
     )
@@ -59,7 +55,10 @@ export const useAppointment = () => {
 
     const appointmentsQuery = async ({ ...props } = {}) => {
         await csrf()
-        return axios.get(`/api/appointments/query/${props.type}/1`, config)
+        return axios.get(
+            `/api/appointments/query/${props.status}?page=${props.page}`,
+            config,
+        )
     }
 
     const cancelAppointment = async id => {
@@ -158,7 +157,6 @@ export const useAppointment = () => {
     }
 
     return {
-        doctors,
         stats,
         cancelAppointment,
         acceptAppointment,

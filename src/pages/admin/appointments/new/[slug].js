@@ -90,7 +90,7 @@ const NewAppointment = () => {
             setDoctorList(
                 res.data.data.map(doctor => (
                     <Option value={doctor.id} key={doctor.id}>
-                        {doctor.name}
+                        {doctor.name} - {doctor.service.name}
                     </Option>
                 )),
             )
