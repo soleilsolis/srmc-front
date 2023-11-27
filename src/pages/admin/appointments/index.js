@@ -65,7 +65,6 @@ const Appointments = () => {
     const [pages, setPages] = useState([])
 
     const { appointmentsQuery } = useAppointment()
-    const [appointments, setAppointments] = useState([])
 
     const getAppointments = (status, page, search = null) => {
         appointmentsQuery({ status, page, search }).then(res => {
