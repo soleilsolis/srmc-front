@@ -121,7 +121,7 @@ export const useUsers = () => {
         await csrf()
 
         axios
-            .patch(`/api/user/calendarLink/`, props, config)
+            .patch(`/api/user/calendarLink`, props, config)
             .then(() => location.reload())
             .catch(error => {
                 if (error.response.status !== 422) throw error
