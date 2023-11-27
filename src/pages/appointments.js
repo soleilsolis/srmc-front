@@ -67,7 +67,6 @@ const Appointments = () => {
     })
 
     const [status, setStatus] = useState('all')
-    const [page, setPage] = useState(1)
 
     const { appointmentsQuery } = useAppointment()
     const [pages, setPages] = useState([])
@@ -408,7 +407,6 @@ const Appointments = () => {
                                             variant="outlined"
                                             size="sm"
                                             onClick={() => {
-                                                setPage(pages.current_page - 1)
                                                 getAppointments(
                                                     status,
                                                     pages.current_page - 1,
@@ -423,7 +421,6 @@ const Appointments = () => {
                                             variant="outlined"
                                             size="sm"
                                             onClick={() => {
-                                                setPage(pages.current_page + 1)
                                                 getAppointments(
                                                     status,
                                                     pages.current_page + 1,
