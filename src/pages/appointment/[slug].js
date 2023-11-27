@@ -473,14 +473,18 @@ const Page = () => {
 
                                     {appointment.cancelled_at == null ? (
                                         <>
-                                            {user && user.type === 'patient' ? (
-                                                <Link
-                                                    href={`/appointment/reschedule/${id}`}>
-                                                    <Button className="mb-5 rounded-full">
-                                                        Reschedule
-                                                    </Button>
-                                                </Link>
-                                            ) : (
+                                            {user?.type === 'patient' &&
+                                                appointment.check_in !=
+                                                    null && (
+                                                    <Link
+                                                        href={`/appointment/reschedule/${id}`}>
+                                                        <Button className="mb-5 rounded-full">
+                                                            Reschedule
+                                                        </Button>
+                                                    </Link>
+                                                )}
+
+                                            {user?.type === 'doctor' &&
                                                 appointment.followed_up_at ===
                                                     null &&
                                                 appointment.check_out !==
@@ -491,8 +495,7 @@ const Page = () => {
                                                             Follow Up
                                                         </Button>
                                                     </Link>
-                                                )
-                                            )}
+                                                )}
                                         </>
                                     ) : (
                                         ''
