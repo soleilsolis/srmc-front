@@ -341,7 +341,8 @@ const Page = () => {
                                         </Typography>
                                         <Typography
                                             variant="lead"
-                                            color="blue-gray">
+                                            color="blue-gray"
+                                            className="my-2">
                                             {appointment.doctor.service.name}
                                             {' @ '}
                                             {appointment.start_time !== null &&
@@ -475,7 +476,7 @@ const Page = () => {
                                             {user && user.type === 'patient' ? (
                                                 <Link
                                                     href={`/appointment/reschedule/${id}`}>
-                                                    <Button className="my-5 rounded-full">
+                                                    <Button className="mb-5 rounded-full">
                                                         Reschedule
                                                     </Button>
                                                 </Link>
@@ -516,41 +517,46 @@ const Page = () => {
                                 </CardBody>
                             </Card>
 
-                            {user?.type === 'doctor' && (
-                                <>
-                                    {' '}
-                                    <Typography variant="h5" className="my-5">
-                                        Meeting Link
-                                    </Typography>
-                                    <Card className="mb-6">
-                                        <CardBody>
-                                            <Input
-                                                label="Meeting Link"
-                                                name="meeting_link"
-                                                value={meeting_link}
-                                                onChange={event =>
-                                                    setMeetingLink(
-                                                        event.target.value,
-                                                    )
-                                                }
-                                            />
-                                            <InputError
-                                                messages={errors.meeting_link}
-                                                className="mt-2"
-                                            />
-                                        </CardBody>
-                                        <CardFooter>
-                                            <Button
-                                                className="rounded-full"
-                                                variant="gradient"
-                                                color="cyan"
-                                                onClick={submitMeetingLink}>
-                                                <span>Save</span>
-                                            </Button>
-                                        </CardFooter>
-                                    </Card>
-                                </>
-                            )}
+                            {user?.type === 'doctor' &&
+                                appointment.type !== 'In Person' && (
+                                    <>
+                                        {' '}
+                                        <Typography
+                                            variant="h5"
+                                            className="my-5">
+                                            Meeting Link
+                                        </Typography>
+                                        <Card className="mb-6">
+                                            <CardBody>
+                                                <Input
+                                                    label="Meeting Link"
+                                                    name="meeting_link"
+                                                    value={meeting_link}
+                                                    onChange={event =>
+                                                        setMeetingLink(
+                                                            event.target.value,
+                                                        )
+                                                    }
+                                                />
+                                                <InputError
+                                                    messages={
+                                                        errors.meeting_link
+                                                    }
+                                                    className="mt-2"
+                                                />
+                                            </CardBody>
+                                            <CardFooter>
+                                                <Button
+                                                    className="rounded-full"
+                                                    variant="gradient"
+                                                    color="cyan"
+                                                    onClick={submitMeetingLink}>
+                                                    <span>Save</span>
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    </>
+                                )}
 
                             <div className="my-2"></div>
 
@@ -639,6 +645,7 @@ const Page = () => {
                             <Card className="mt-2 mb-4">
                                 <CardBody key={'n'}>
                                     {prescriptions.length === 0 &&
+                                        user?.type === 'patient' &&
                                         'Not Yet Available'}
                                     {prescriptions.map(prescription => (
                                         <>
