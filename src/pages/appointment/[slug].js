@@ -474,7 +474,7 @@ const Page = () => {
                                     {appointment.cancelled_at == null ? (
                                         <>
                                             {user?.type === 'patient' &&
-                                                appointment.check_in !=
+                                                appointment.check_in ===
                                                     null && (
                                                     <Link
                                                         href={`/appointment/reschedule/${id}`}>
