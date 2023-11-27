@@ -184,21 +184,19 @@ function NavList(props) {
                     </Link>
                 ))}
 
-            {props.calendar_link && (
-                <Link href="/calendar" key="calendar">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal">
-                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                            {createElement(CalendarDaysIcon, {
-                                className: 'h-[18px] w-[18px]',
-                            })}{' '}
-                            Google Calendar
-                        </MenuItem>
-                    </Typography>
-                </Link>
-            )}
+            <Link href="/calendar" key="calendar">
+                <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal">
+                    <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                        {createElement(CalendarDaysIcon, {
+                            className: 'h-[18px] w-[18px]',
+                        })}{' '}
+                        Google Calendar
+                    </MenuItem>
+                </Typography>
+            </Link>
         </ul>
     )
 }
