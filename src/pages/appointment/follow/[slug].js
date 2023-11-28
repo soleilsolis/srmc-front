@@ -65,7 +65,10 @@ const NewAppointment = () => {
             setTimeList(
                 res.data.data.map(time => (
                     <Option value={`${time.start_time}`} key={time.id}>
-                        {`${time.start_time}`}
+                        {}
+                        {`${moment(time.start_time, 'HH:mm:ss').format(
+                            'hh:mm A',
+                        )}`}
                     </Option>
                 )),
             )
