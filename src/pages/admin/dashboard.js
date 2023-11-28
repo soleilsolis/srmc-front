@@ -41,39 +41,41 @@ const options = {
     },
 }
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
-
-const data = {
-    labels,
-    datasets: [
-        {
-            label: 'Accepted',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        },
-        {
-            label: 'Canceled',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-
-        {
-            label: 'Rescheduled',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
-            borderColor: '#000000',
-            backgroundColor: '#000000',
-        },
-    ],
-}
-
 const Dashboard = () => {
     const { stats } = useAppointment()
     useAuth({
         middleware: 'auth',
         type: ['admin', 'staff'],
     })
+
+    const labels = stats?.appointment_labels ?? []
+    const totalAppointmentValues = stats?.total_appointment_values ?? []
+    const completedAppointmentValues = stats?.completed_appointment_values ?? []
+    const canceledAppointmentValues = stats?.canceled_appointment_values ?? []
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Total',
+                data: totalAppointmentValues.map(value => value),
+                borderColor: 'rgb(53, 162, 235)',
+                backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            },
+            {
+                label: 'Completed',
+                data: completedAppointmentValues.map(value => value),
+                borderColor: 'rgb(27 94 32)',
+                backgroundColor: 'rgb(76 175 80)',
+            },
+            {
+                label: 'Canceled',
+                data: canceledAppointmentValues.map(value => value),
+                backgroundColor: 'rgb(244 67 54 / 0.2)',
+                borderColor: 'rgb(183 28 28)',
+            },
+        ],
+    }
 
     const userPieData = {
         labels: ['Admin', 'Staff', 'Doctor', 'Patient'],
