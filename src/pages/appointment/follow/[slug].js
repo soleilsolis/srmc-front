@@ -11,7 +11,7 @@ import { ArrowLongLeftIcon } from '@heroicons/react/24/outline'
 import InputError from '@/components/InputError'
 
 import { useRouter } from 'next/router'
-
+import moment from 'moment'
 const NewAppointment = () => {
     const router = useRouter()
     const { followUpAppointment } = useAppointment()
