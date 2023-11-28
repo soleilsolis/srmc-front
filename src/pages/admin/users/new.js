@@ -34,6 +34,7 @@ const NewUser = () => {
     const [type, setType] = useState()
     const [sex, setSex] = useState()
     const [service_id, setServiceId] = useState()
+    const [license_number, setLicenseNumber] = useState()
     const [verified, setVerified] = useState(false)
 
     const handleVerified = () => setVerified(!verified)
@@ -76,6 +77,7 @@ const NewUser = () => {
             sex,
             verified,
             service_id,
+            license_number,
             setErrors,
         })
     }
@@ -134,26 +136,43 @@ const NewUser = () => {
                         </div>
 
                         {type === 'doctor' && (
-                            <div className="mb-6">
-                                <Select
-                                    label="Service"
-                                    name="service_id"
-                                    required
-                                    onChange={event => setServiceId(event)}>
-                                    {serviceOptions.map(option => (
-                                        <Option
-                                            value={option.value}
-                                            key={option.value}>
-                                            {option.text}
-                                        </Option>
-                                    ))}
-                                </Select>
+                            <>
+                                <div className="mb-6">
+                                    <Select
+                                        label="Service"
+                                        name="service_id"
+                                        required
+                                        onChange={event => setServiceId(event)}>
+                                        {serviceOptions.map(option => (
+                                            <Option
+                                                value={option.value}
+                                                key={option.value}>
+                                                {option.text}
+                                            </Option>
+                                        ))}
+                                    </Select>
 
-                                <InputError
-                                    messages={errors.service_id}
-                                    className="mt-2"
-                                />
-                            </div>
+                                    <InputError
+                                        messages={errors.service_id}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <Input
+                                        label="License Number"
+                                        value={license_number}
+                                        name="license_number"
+                                        onChange={event =>
+                                            setLicenseNumber(event.target.value)
+                                        }
+                                    />
+                                    <InputError
+                                        messages={errors.license_number}
+                                        className="mt-2"
+                                    />
+                                </div>
+                            </>
                         )}
 
                         <div className="mb-6">

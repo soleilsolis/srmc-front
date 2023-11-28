@@ -67,6 +67,8 @@ const EditUser = () => {
     const [valid_id_number, setValidIdNumber] = useState()
     const [patientType, setPatientType] = useState()
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
+    const [license_number, setLicenseNumber] = useState()
+    const [service_id, setServiceId] = useState()
 
     const patientTypeOptions = [
         {
@@ -104,6 +106,13 @@ const EditUser = () => {
         { value: 'female', text: 'Female' },
     ]
 
+    const serviceOptions = [
+        { value: '1', text: 'Family Medicine' },
+        { value: '2', text: 'Surgery' },
+        { value: '3', text: 'Derma' },
+        { value: '4', text: 'Checkup' },
+    ]
+
     const submitForm = async event => {
         event.preventDefault()
 
@@ -119,6 +128,8 @@ const EditUser = () => {
             sex,
             patient_type: patientType,
             valid_id_number,
+            license_number,
+            service_id,
             setErrors,
         })
     }
@@ -165,6 +176,8 @@ const EditUser = () => {
                 setType,
                 setValidIdNumber,
                 setPatientType,
+                setServiceId,
+                setLicenseNumber,
                 setSex,
             })
 
@@ -352,6 +365,51 @@ const EditUser = () => {
                                         className="mt-2"
                                     />
                                 </div>
+
+                                {type === 'doctor' && (
+                                    <>
+                                        <div className="mb-6">
+                                            <Select
+                                                label="Service"
+                                                name="service_id"
+                                                value={service_id}
+                                                required
+                                                onChange={event =>
+                                                    setServiceId(event)
+                                                }>
+                                                {serviceOptions.map(option => (
+                                                    <Option
+                                                        value={option.value}
+                                                        key={option.value}>
+                                                        {option.text}
+                                                    </Option>
+                                                ))}
+                                            </Select>
+
+                                            <InputError
+                                                messages={errors.service_id}
+                                                className="mt-2"
+                                            />
+                                        </div>
+
+                                        <div className="mb-6">
+                                            <Input
+                                                label="License Number"
+                                                value={license_number}
+                                                name="license_number"
+                                                onChange={event =>
+                                                    setLicenseNumber(
+                                                        event.target.value,
+                                                    )
+                                                }
+                                            />
+                                            <InputError
+                                                messages={errors.license_number}
+                                                className="mt-2"
+                                            />
+                                        </div>
+                                    </>
+                                )}
 
                                 {type == 'patient' ? (
                                     <div className="mb-6">

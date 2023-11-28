@@ -43,6 +43,7 @@ const EditUser = () => {
     const [profile_photo, setProfilePhoto] = useState()
     const [createObjectURL, setCreateObjectURL] = useState()
     const imageRef = createRef()
+    const [license_number, setLicenseNumber] = useState()
 
     const [signature_photo, setSignaturePhoto] = useState()
     const [signatureUrl, setSignatureUrl] = useState()
@@ -86,6 +87,7 @@ const EditUser = () => {
             sex,
             patient_type: patientType,
             valid_id_number,
+            license_number,
             setErrors,
         })
     }
@@ -155,6 +157,7 @@ const EditUser = () => {
             setValidIdNumber(user.valid_id_number)
             setPatientType(user.patient_type)
             setCalendarLink(user.calendar_link)
+            setLicenseNumber(user.license_number)
 
             setCreateObjectURL(
                 user.profile_photo_path != null
@@ -295,6 +298,29 @@ const EditUser = () => {
                                         />
                                     </div>
 
+                                    {type === 'doctor' && (
+                                        <>
+                                            <div className="mb-6">
+                                                <Input
+                                                    label="License Number"
+                                                    value={license_number}
+                                                    name="license_number"
+                                                    onChange={event =>
+                                                        setLicenseNumber(
+                                                            event.target.value,
+                                                        )
+                                                    }
+                                                />
+                                                <InputError
+                                                    messages={
+                                                        errors.license_number
+                                                    }
+                                                    className="mt-2"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+
                                     {type == 'patient' ? (
                                         <div className="mb-6">
                                             <Select
@@ -354,6 +380,8 @@ const EditUser = () => {
                                     ) : (
                                         ''
                                     )}
+
+                                    {}
                                 </form>
 
                                 <Button
