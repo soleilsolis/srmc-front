@@ -55,7 +55,6 @@ const NewUser = () => {
     ]
 
     const serviceOptions = [
-        { value: '', text: 'Choose a service' },
         { value: '1', text: 'Family Medicine' },
         { value: '2', text: 'Surgery' },
         { value: '3', text: 'Derma' },
@@ -139,6 +138,7 @@ const NewUser = () => {
                                 <Select
                                     label="Service"
                                     name="service_id"
+                                    required
                                     onChange={event => setServiceId(event)}>
                                     {serviceOptions.map(option => (
                                         <Option
