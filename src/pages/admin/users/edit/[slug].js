@@ -107,10 +107,11 @@ const EditUser = () => {
     ]
 
     const serviceOptions = [
-        { value: '1', text: 'Family Medicine' },
-        { value: '2', text: 'Surgery' },
-        { value: '3', text: 'Derma' },
-        { value: '4', text: 'Checkup' },
+        { value: '', text: 'Choose an option' },
+        { value: 1, text: 'Family Medicine' },
+        { value: 2, text: 'Surgery' },
+        { value: 3, text: 'Derma' },
+        { value: 4, text: 'Checkup' },
     ]
 
     const submitForm = async event => {

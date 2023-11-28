@@ -58,7 +58,7 @@ export const useAppointment = () => {
         return axios.get(
             `/api/appointments/query/${props.status}?page=${
                 props.page
-            }&search=${props.search ?? ''}`,
+            }&search=${props.search ?? ''}&type=${props.type ?? ''}`,
             config,
         )
     }

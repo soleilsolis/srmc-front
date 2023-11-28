@@ -44,6 +44,25 @@ const TABS = [
     },
 ]
 
+const TABS2 = [
+    {
+        label: 'All Types',
+        value: null,
+    },
+    {
+        label: 'Teleconsultation',
+        value: 'Teleconsultation',
+    },
+    {
+        label: 'In Person',
+        value: 'In Person',
+    },
+    {
+        label: 'Walk In',
+        value: 'Walk In',
+    },
+]
+
 const TABLE_HEAD = [
     '',
     'Patient',
@@ -63,11 +82,12 @@ const Appointments = () => {
     const [status, setStatus] = useState('all')
     const [search, setSearch] = useState(null)
     const [pages, setPages] = useState([])
+    const [type, setType] = useState(null)
 
     const { appointmentsQuery } = useAppointment()
 
-    const getAppointments = (status, page, search = null) => {
-        appointmentsQuery({ status, page, search }).then(res => {
+    const getAppointments = (status, page, search = null, type = null) => {
+        appointmentsQuery({ status, page, search, type }).then(res => {
             setPages(res.data.data)
         })
     }
@@ -99,25 +119,48 @@ const Appointments = () => {
                             </div>
                         </div>
                         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                            <Tabs value="all" className="w-full md:w-max">
-                                <TabsHeader>
-                                    {TABS.map(({ label, value }) => (
-                                        <Tab
-                                            key={value}
-                                            value={value}
-                                            onClick={() => {
-                                                setStatus(value)
-                                                getAppointments(
-                                                    value,
-                                                    1,
-                                                    search,
-                                                )
-                                            }}>
-                                            &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                        </Tab>
-                                    ))}
-                                </TabsHeader>
-                            </Tabs>
+                            <div>
+                                <Tabs value="all" className="w-full ">
+                                    <TabsHeader>
+                                        {TABS.map(({ label, value }) => (
+                                            <Tab
+                                                key={value}
+                                                value={value}
+                                                onClick={() => {
+                                                    setStatus(value)
+                                                    getAppointments(
+                                                        value,
+                                                        1,
+                                                        search,
+                                                        type,
+                                                    )
+                                                }}>
+                                                &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                            </Tab>
+                                        ))}
+                                    </TabsHeader>
+                                </Tabs>
+                                <Tabs value="all" className="w-full mt-6">
+                                    <TabsHeader>
+                                        {TABS2.map(({ label, value }) => (
+                                            <Tab
+                                                key={value}
+                                                value={value}
+                                                onClick={() => {
+                                                    setType(value)
+                                                    getAppointments(
+                                                        status,
+                                                        1,
+                                                        search,
+                                                        value,
+                                                    )
+                                                }}>
+                                                &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                            </Tab>
+                                        ))}
+                                    </TabsHeader>
+                                </Tabs>
+                            </div>
                             <div className="w-full md:w-72">
                                 <Input
                                     label="Search"
@@ -365,6 +408,7 @@ const Appointments = () => {
                                                     status,
                                                     pages.current_page - 1,
                                                     search,
+                                                    type,
                                                 )
                                             }}>
                                             Previous
@@ -380,6 +424,7 @@ const Appointments = () => {
                                                     status,
                                                     pages.current_page + 1,
                                                     search,
+                                                    type,
                                                 )
                                             }}>
                                             Next
