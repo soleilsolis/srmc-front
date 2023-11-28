@@ -1,117 +1,468 @@
-import AppLayout from '@/components/Layouts/AppLayout'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import axios from '@/lib/axios'
-import moment from 'moment'
-import Link from 'next/link'
+import AppLayout from '@/components/Layouts/AppLayout'
+import {
+    MagnifyingGlassIcon,
+    EyeIcon,
+    PlusIcon,
+} from '@heroicons/react/24/outline'
 import {
     Card,
-    CardBody,
-    CardFooter,
+    CardHeader,
+    Input,
     Typography,
     Button,
-    Spinner,
+    CardBody,
+    Chip,
+    CardFooter,
+    Tabs,
+    TabsHeader,
+    Tab,
+    Avatar,
+    IconButton,
+    Tooltip,
 } from '@material-tailwind/react'
+import { useEffect, useState, createElement } from 'react'
+import { useAppointment } from '@/hooks/appointment'
+import { useAuth } from '@/hooks/auth'
+import Link from 'next/link'
+import moment from 'moment'
 
-import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+const TABS2 = [
+    {
+        label: 'All Types',
+        value: null,
+    },
+    {
+        label: 'Teleconsultation',
+        value: 'Teleconsultation',
+    },
+    {
+        label: 'In Person',
+        value: 'In Person',
+    },
+    {
+        label: 'Walk In',
+        value: 'Walk In',
+    },
+]
+
+const TABLE_HEAD = [
+    '',
+    'Patient',
+    'Doctor',
+    'Schedule',
+    'Status',
+    'Payment',
+    '',
+]
 
 const Appointments = () => {
-    const [appointments, getAppointments] = useState(
-        <Spinner className="mx-auto mt-10 h-12 w-12" color="cyan" />,
-    )
+    const { user } = useAuth({
+        middleware: 'auth',
+        type: ['patient', 'doctor'],
+    })
 
-    const config = {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        },
+    const [status, setStatus] = useState('completed')
+    const [search, setSearch] = useState(null)
+    const [type, setType] = useState(null)
+
+    const { appointmentsQuery } = useAppointment()
+    const [pages, setPages] = useState([])
+
+    const getAppointments = (
+        status,
+        page,
+        search = null,
+        type = null,
+        followed_up_at = null,
+    ) => {
+        appointmentsQuery({ status, page, search, type, followed_up_at }).then(
+            res => {
+                setPages(res.data.data)
+            },
+        )
     }
 
-    const csrf = () => axios.get('/sanctum/csrf-cookie', config)
-
-    const fetch = async () => {
-        await csrf()
-
-        axios
-            .get('/api/appointments/followUp')
-            .then(res => {
-                getAppointments(
-                    <div className="grid lg:grid-cols-3 gap-2 md:gap-4 md:grid-cols-2 grid-cols-1">
-                        {res.data.data.map(appointment => (
-                            <Card
-                                key={appointment.id}
-                                className="transition ease-in-out mt-6 w-full">
-                                <CardBody>
-                                    <Typography
-                                        variant="medium"
-                                        color="blue-gray">
-                                        #{appointment.id}
-                                    </Typography>
-                                    <Typography
-                                        variant="h5"
-                                        color="blue-gray"
-                                        className="inline-flex items-center gap-2">
-                                        <CalendarDaysIcon
-                                            strokeWidth={1}
-                                            className="h-8 w-8"
-                                        />
-                                        {moment(
-                                            appointment.followed_up_at,
-                                        ).format('MMM Do, YYYY')}
-                                    </Typography>
-                                    <Typography
-                                        variant="small"
-                                        color="blue-gray">
-                                        {appointment.doctor_name}
-                                    </Typography>
-                                    <Typography
-                                        variant="large"
-                                        color="blue-gray">
-                                        {appointment.start_time !== null ? (
-                                            moment(
-                                                appointment.follow_up_start_time,
-                                                'HH:mm',
-                                            ).format('h:mm A')
-                                        ) : (
-                                            <span>&nbsp;</span>
-                                        )}
-                                    </Typography>
-                                </CardBody>
-                                <CardFooter className="pt-0 inline-flex gap-2 flex-row-reverse md:flex-row">
-                                    <Link
-                                        href={'/appointment/' + appointment.id}>
-                                        <Button
-                                            variant="text"
-                                            className="rounded-full"
-                                            color="cyan">
-                                            Details
-                                        </Button>
-                                    </Link>
-                                </CardFooter>
-                            </Card>
-                        ))}
-                    </div>,
-                )
-            })
-            .catch(error => {
-                if (error.response.status !== 409) throw error
-            })
-    }
-
-    useEffect(() => {
-        fetch()
-    }, [])
+    useEffect(() => getAppointments(status, 1), [])
 
     return (
-        <AppLayout
-            header={
-                <div className="inline-flex w-full">Follow-Up Appointments</div>
-            }>
+        <AppLayout>
             <Head>
-                <title>Follow-Up Appointments - SRMC</title>
+                <title>Appointments - SRMC</title>
             </Head>
 
-            <div className="px-2 overflow-hidden">
-                <div className="pb-10">{appointments}</div>
+            <div className="md:px-0 px-2 pb-10">
+                <Card className="h-full w-full">
+                    <CardHeader
+                        floated={false}
+                        shadow={false}
+                        className="rounded-none">
+                        <div className="mb-8 flex items-center justify-between gap-8">
+                            <div>
+                                <Typography variant="h5" color="blue-gray">
+                                    Follow Up Appointments List
+                                </Typography>
+                                <Typography
+                                    color="gray"
+                                    className="mt-1 font-normal">
+                                    See information about all Follow Up
+                                    Appointments
+                                </Typography>
+                            </div>
+
+                            <div>
+                                {user && user.type === 'patient' ? (
+                                    <Link
+                                        href="/new-appointment"
+                                        className=" ml-auto">
+                                        <Button
+                                            color="cyan"
+                                            className="flex items-center gap-3 rounded-full">
+                                            {createElement(PlusIcon, {
+                                                className: 'h-[18px] w-[18px]',
+                                            })}
+                                            New
+                                        </Button>
+                                    </Link>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                            <div>
+                                <Tabs
+                                    value="all"
+                                    className="w-[500px] max-w-[500px] mt-6">
+                                    <TabsHeader>
+                                        {TABS2.map(({ label, value }) => (
+                                            <Tab
+                                                key={value}
+                                                value={value}
+                                                onClick={() => {
+                                                    setType(value)
+                                                    setStatus('completed')
+                                                    getAppointments(
+                                                        'completed',
+                                                        1,
+                                                        search,
+                                                        value,
+                                                    )
+                                                }}>
+                                                &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                            </Tab>
+                                        ))}
+                                    </TabsHeader>
+                                </Tabs>
+                            </div>
+                            <div className="w-full md:w-72">
+                                <Input
+                                    label="Search"
+                                    icon={
+                                        <MagnifyingGlassIcon className="h-5 w-5" />
+                                    }
+                                    onChange={event => {
+                                        setSearch(event.target.value)
+                                        getAppointments(
+                                            status,
+                                            1,
+                                            event.target.value,
+                                        )
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardBody className="overflow-scroll px-0">
+                        <table className="mt-4 w-full min-w-max table-auto text-left">
+                            <thead>
+                                <tr>
+                                    {TABLE_HEAD.map(head => (
+                                        <th
+                                            key={head}
+                                            className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal leading-none opacity-70">
+                                                {head}
+                                            </Typography>
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pages.data &&
+                                    pages.data.map(
+                                        (
+                                            {
+                                                id,
+                                                patient,
+                                                doctor,
+                                                accepted_at,
+                                                cancelled_at,
+                                                verified_at,
+                                                check_out,
+                                                scheduled_at,
+                                                start_time,
+                                                payment_link,
+                                            },
+                                            index,
+                                        ) => {
+                                            const isLast =
+                                                index === pages.data.length - 1
+                                            const classes = isLast
+                                                ? 'p-4'
+                                                : 'p-4 border-b border-blue-gray-50'
+
+                                            let color = ''
+                                            let status = ''
+
+                                            if (
+                                                accepted_at != null &&
+                                                cancelled_at == null
+                                            ) {
+                                                color = 'cyan'
+                                                status = 'accepted'
+                                            }
+
+                                            if (
+                                                accepted_at == null &&
+                                                cancelled_at == null
+                                            ) {
+                                                color = 'yellow'
+                                                status = 'pending'
+                                            }
+
+                                            if (cancelled_at != null) {
+                                                color = 'red'
+                                                status = 'canceled'
+                                            }
+
+                                            if (
+                                                cancelled_at == null &&
+                                                check_out != null
+                                            ) {
+                                                color = 'green'
+                                                status = 'completed'
+                                            }
+
+                                            return (
+                                                <tr key={id}>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal">
+                                                            #{id}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="flex items-center gap-3">
+                                                            <Avatar
+                                                                src={
+                                                                    patient.profile_photo_path !=
+                                                                    null
+                                                                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${patient.profile_photo_path}`
+                                                                        : 'https://ui-avatars.com/api/?name=' +
+                                                                          patient.name.replace(
+                                                                              ' ',
+                                                                              '+',
+                                                                          )
+                                                                }
+                                                                alt={
+                                                                    patient.name
+                                                                }
+                                                                size="sm"
+                                                            />
+                                                            <div className="flex flex-col">
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal">
+                                                                    {
+                                                                        patient.name
+                                                                    }
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal opacity-70">
+                                                                    {
+                                                                        patient.email
+                                                                    }
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="flex items-center gap-3">
+                                                            <Avatar
+                                                                src={
+                                                                    doctor.profile_photo_path !=
+                                                                    null
+                                                                        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/${doctor.profile_photo_path}`
+                                                                        : 'https://ui-avatars.com/api/?name=' +
+                                                                          doctor.name.replace(
+                                                                              ' ',
+                                                                              '+',
+                                                                          )
+                                                                }
+                                                                alt={
+                                                                    doctor.name
+                                                                }
+                                                                size="sm"
+                                                            />
+                                                            <div className="flex flex-col">
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal">
+                                                                    {
+                                                                        doctor.name
+                                                                    }
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal opacity-70">
+                                                                    {
+                                                                        doctor.email
+                                                                    }
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        {moment(
+                                                            scheduled_at,
+                                                        ).format(
+                                                            'MMM Do, YYYY',
+                                                        )}{' '}
+                                                        <br />
+                                                        {moment(
+                                                            start_time,
+                                                            'HH:mm',
+                                                        ).format('h:mm A')}
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="w-max">
+                                                            <Chip
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                value={status}
+                                                                color={color}
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="w-max">
+                                                            <Chip
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                value={
+                                                                    verified_at
+                                                                        ? 'Paid'
+                                                                        : 'Unpaid'
+                                                                }
+                                                                color={
+                                                                    verified_at
+                                                                        ? 'green'
+                                                                        : 'blue-gray'
+                                                                }
+                                                            />
+
+                                                            {user &&
+                                                            user.type ==
+                                                                'patient' &&
+                                                            verified_at ===
+                                                                null &&
+                                                            accepted_at !==
+                                                                null &&
+                                                            cancelled_at ===
+                                                                null ? (
+                                                                <a
+                                                                    href={
+                                                                        payment_link
+                                                                    }
+                                                                    target="_blank"
+                                                                    rel="noreferrer">
+                                                                    <Button
+                                                                        variant="gradient"
+                                                                        className="rounded-full mt-2"
+                                                                        size="sm"
+                                                                        color="cyan">
+                                                                        Pay Now
+                                                                    </Button>
+                                                                </a>
+                                                            ) : (
+                                                                ''
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Link
+                                                            href={`/appointment/${id}`}>
+                                                            <Tooltip content="View Appointment">
+                                                                <IconButton variant="text">
+                                                                    <EyeIcon className="h-5 w-5" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        },
+                                    )}
+                            </tbody>
+                        </table>
+                    </CardBody>
+                    {pages && (
+                        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+                            <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal">
+                                Page {pages.current_page} of {pages.last_page}
+                            </Typography>
+                            {pages.total > 1 && (
+                                <div className="flex gap-2">
+                                    {pages.current_page > 1 && (
+                                        <Button
+                                            variant="outlined"
+                                            size="sm"
+                                            onClick={() => {
+                                                getAppointments(
+                                                    status,
+                                                    pages.current_page - 1,
+                                                    search,
+                                                    type,
+                                                )
+                                            }}>
+                                            Previous
+                                        </Button>
+                                    )}
+
+                                    {pages.last_page > pages.current_page && (
+                                        <Button
+                                            variant="outlined"
+                                            size="sm"
+                                            onClick={() => {
+                                                getAppointments(
+                                                    status,
+                                                    pages.current_page + 1,
+                                                    search,
+                                                    type,
+                                                )
+                                            }}>
+                                            Next
+                                        </Button>
+                                    )}
+                                </div>
+                            )}
+                        </CardFooter>
+                    )}
+                </Card>
             </div>
         </AppLayout>
     )
