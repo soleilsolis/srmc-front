@@ -50,7 +50,7 @@ export const useUsers = () => {
             setValidIdNumber(res.data.data.valid_id_number)
             setPatientType(res.data.data.patient_type)
             setServiceId(res.data.data.service_id)
-            setLicenseNumber(res.data.data.patient_type)
+            setLicenseNumber(res.data.data.license_number)
         })
     }
 

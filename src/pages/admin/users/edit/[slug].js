@@ -42,7 +42,7 @@ const EditUser = () => {
     const router = useRouter()
     const id = router.query.slug
 
-    const { editUser, getUser } = useUsers()
+    const { editUser, getUser, changePassword } = useUsers()
     const { getDays } = useDay()
     const { newSchedule, editSchedule, deleteSchedule } = useSchedule()
 
@@ -159,6 +159,17 @@ const EditUser = () => {
 
         deleteSchedule({
             id: schedule_id,
+        })
+    }
+
+    const submitPassword = async event => {
+        event.preventDefault()
+
+        changePassword({
+            id,
+            password,
+            password_confirmation: passwordConfirmation,
+            setErrors,
         })
     }
 
@@ -532,7 +543,8 @@ const EditUser = () => {
                             <Button
                                 variant="gradient"
                                 color="cyan"
-                                className="rounded-full">
+                                className="rounded-full"
+                                onClick={submitPassword}>
                                 <span>Submit</span>
                             </Button>
                         </CardBody>
