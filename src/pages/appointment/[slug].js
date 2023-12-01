@@ -91,6 +91,27 @@ const Page = () => {
     const [duration, setDuration] = useState()
     const [administrationType, setAdministrationType] = useState()
 
+    const genericNameOptions = [
+        { value: 'aceprometazine', label: 'aceprometazine' },
+        { value: 'acetamide', label: 'acetamide' },
+        {
+            value: 'chloropyramine hydrochloride',
+            label: 'chloropyramine hydrochloride',
+        },
+        { value: 'gadopiclenol', label: 'gadopiclenol' },
+        {
+            value: 'collagenase clostridium histolyticum',
+            label: 'collagenase clostridium histolyticum',
+        },
+        {
+            value: 'corydalis yanhusuo whole extract',
+            label: 'corydalis yanhusuo whole extract',
+        },
+        { value: 'nafarelin acetate', label: 'nafarelin acetate' },
+        { value: 'phenylbutazone', label: 'phenylbutazone' },
+        { value: 'piperazine hexahydrate', label: 'piperazine hexahydrate' },
+        { value: 'tenecteplase', label: 'tenecteplase' },
+    ]
     const submitAcceptForm = async event => {
         event.preventDefault()
 
@@ -960,6 +981,28 @@ const Page = () => {
                 <DialogBody className="overflow-scroll max-h-[70vh]">
                     <form>
                         <div className="mb-6">
+                            <Select
+                                label="Generic Name"
+                                name="generic_name"
+                                required
+                                onChange={event => {
+                                    setGenericName(event.target.value)
+                                    setErrors([])
+                                }}>
+                                {genericNameOptions.map(option => (
+                                    <Option
+                                        key={option.value}
+                                        value={option.value}>
+                                        {option.label}
+                                    </Option>
+                                ))}
+                            </Select>
+                            <InputError
+                                messages={errors.generic_name}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mb-6">
                             <Input
                                 label="Brand Name"
                                 name="medication_name"
@@ -971,21 +1014,6 @@ const Page = () => {
                             />
                             <InputError
                                 messages={errors.medication_name}
-                                className="mt-2"
-                            />
-                        </div>
-                        <div className="mb-6">
-                            <Input
-                                label="Generic Name"
-                                name="generic_name"
-                                value={genericName}
-                                onChange={event => {
-                                    setGenericName(event.target.value)
-                                    setErrors([])
-                                }}
-                            />
-                            <InputError
-                                messages={errors.generic_name}
                                 className="mt-2"
                             />
                         </div>
