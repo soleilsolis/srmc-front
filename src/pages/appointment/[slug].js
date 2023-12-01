@@ -151,7 +151,7 @@ const Page = () => {
             dosage: dosage[0],
             unit,
             frequency,
-            duration,
+            duration: duration[0],
             administration_type: administrationType,
             appointment_id: appointmentId,
             prescribed_at: prescribedAt,
