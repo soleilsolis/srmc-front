@@ -21,6 +21,8 @@ import {
     CardBody,
     Chip,
     CardFooter,
+    Select,
+    Option,
 } from '@material-tailwind/react'
 import { ArrowLongLeftIcon, LinkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -112,6 +114,7 @@ const Page = () => {
         { value: 'piperazine hexahydrate', label: 'piperazine hexahydrate' },
         { value: 'tenecteplase', label: 'tenecteplase' },
     ]
+
     const submitAcceptForm = async event => {
         event.preventDefault()
 
@@ -986,7 +989,7 @@ const Page = () => {
                                 name="generic_name"
                                 required
                                 onChange={event => {
-                                    setGenericName(event.target.value)
+                                    setGenericName(event)
                                     setErrors([])
                                 }}>
                                 {genericNameOptions.map(option => (
@@ -1072,10 +1075,21 @@ const Page = () => {
                             <Input
                                 label="Duration (Days)"
                                 name="duration"
+                                type="text"
                                 value={duration}
-                                onChange={event =>
-                                    setDuration(event.target.value)
-                                }
+                                onInput={event => {
+                                    let text = event.target.value.match(
+                                        /^[0-9]{0,11}/g,
+                                    )
+
+                                    text == ''
+                                        ? setDuration(
+                                              event.target.value == ''
+                                                  ? ''
+                                                  : duration,
+                                          )
+                                        : setDuration(text)
+                                }}
                             />
                             <InputError
                                 messages={errors.duration}
