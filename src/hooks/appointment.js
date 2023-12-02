@@ -37,7 +37,7 @@ export const useAppointment = () => {
             .then(() => location.reload())
     }
 
-    const getSummary = async ({ setErrors, ...props }) => {
+    const getSummary = async ({ ...props }) => {
         await csrf()
 
         config['responseType'] = 'blob'
@@ -53,7 +53,7 @@ export const useAppointment = () => {
             })
     }
 
-    const getSummary2 = async ({ setErrors, ...props }) => {
+    const getSummary2 = async ({ ...props }) => {
         await csrf()
 
         config['responseType'] = 'blob'
