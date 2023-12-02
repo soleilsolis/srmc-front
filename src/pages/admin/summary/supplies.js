@@ -11,22 +11,24 @@ const Summary = () => {
         middleware: 'auth',
         type: ['admin', 'staff'],
     })
-    const { getSummary } = useAppointment()
+    const { getSummary2 } = useAppointment()
     const [start_date, setStartDate] = useState()
     const [end_date, setEndDate] = useState()
     const [errors, setErrors] = useState([])
 
-    const submitForm = () =>
-        getSummary({
+    const submitForm = async e => {
+        e.preventDefault()
+        getSummary2({
             start_date,
             end_date,
             setErrors,
         })
+    }
 
     return (
-        <AppLayout header="Export Appointment Summary to Excel File">
+        <AppLayout header="Export Supply Summary to Excel File">
             <Head>
-                <title>Export Summary - SRMC</title>
+                <title>Export Supply Summary - SRMC</title>
             </Head>
             <div className="md:px-0 px-2 pb-10">
                 <Card>
@@ -59,14 +61,13 @@ const Summary = () => {
                                     }
                                 />
                             </div>
+                            <Button
+                                color="cyan"
+                                onClick={submitForm}
+                                className="rounded-full">
+                                Download
+                            </Button>
                         </form>
-
-                        <Button
-                            color="cyan"
-                            onClick={submitForm}
-                            className="rounded-full">
-                            Download
-                        </Button>
                     </CardBody>
                 </Card>
             </div>

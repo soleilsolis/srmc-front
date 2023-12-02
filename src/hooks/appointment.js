@@ -49,7 +49,23 @@ export const useAppointment = () => {
             })
             .catch(error => {
                 if (error.response.status !== 422) throw error
-                setErrors(error.response.data.errors)
+                console.log(error.response.data)
+            })
+    }
+
+    const getSummary2 = async ({ setErrors, ...props }) => {
+        await csrf()
+
+        config['responseType'] = 'blob'
+        axios
+            .post(`/api/appointments/export2`, props, config)
+            .then(res => {
+                const href = URL.createObjectURL(res.data)
+                open(href)
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
+                console.log(error.response.data)
             })
     }
 
@@ -170,6 +186,7 @@ export const useAppointment = () => {
         followUpAppointment,
         appointmentsQuery,
         getSummary,
+        getSummary2,
         checkInAppointment,
         checkOutAppointment,
         newVitals,

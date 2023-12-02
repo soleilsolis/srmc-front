@@ -151,9 +151,15 @@ const navListItems = [
         type: ['admin', 'staff'],
     },
     {
-        label: 'Summary',
+        label: 'Appointment Summary',
         icon: DocumentChartBarIcon,
-        href: '/admin/summary',
+        href: '/admin/summary/appointments',
+        type: ['admin', 'staff'],
+    },
+    {
+        label: 'Supply Summary',
+        icon: DocumentChartBarIcon,
+        href: '/admin/summary/supplies',
         type: ['admin', 'staff'],
     },
 ]
