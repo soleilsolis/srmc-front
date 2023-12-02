@@ -545,46 +545,41 @@ const Page = () => {
                                 </CardBody>
                             </Card>
 
-                            {user?.type === 'doctor' &&
-                                appointment.type !== 'In Person' && (
-                                    <>
-                                        {' '}
-                                        <Typography
-                                            variant="h5"
-                                            className="my-5">
-                                            Meeting Link
-                                        </Typography>
-                                        <Card className="mb-6">
-                                            <CardBody>
-                                                <Input
-                                                    label="Meeting Link"
-                                                    name="meeting_link"
-                                                    value={meeting_link}
-                                                    onChange={event =>
-                                                        setMeetingLink(
-                                                            event.target.value,
-                                                        )
-                                                    }
-                                                />
-                                                <InputError
-                                                    messages={
-                                                        errors.meeting_link
-                                                    }
-                                                    className="mt-2"
-                                                />
-                                            </CardBody>
-                                            <CardFooter>
-                                                <Button
-                                                    className="rounded-full"
-                                                    variant="gradient"
-                                                    color="cyan"
-                                                    onClick={submitMeetingLink}>
-                                                    <span>Save</span>
-                                                </Button>
-                                            </CardFooter>
-                                        </Card>
-                                    </>
-                                )}
+                            {user?.type === 'doctor' && (
+                                <>
+                                    {' '}
+                                    <Typography variant="h5" className="my-5">
+                                        Meeting Link
+                                    </Typography>
+                                    <Card className="mb-6">
+                                        <CardBody>
+                                            <Input
+                                                label="Meeting Link"
+                                                name="meeting_link"
+                                                value={meeting_link}
+                                                onChange={event =>
+                                                    setMeetingLink(
+                                                        event.target.value,
+                                                    )
+                                                }
+                                            />
+                                            <InputError
+                                                messages={errors.meeting_link}
+                                                className="mt-2"
+                                            />
+                                        </CardBody>
+                                        <CardFooter>
+                                            <Button
+                                                className="rounded-full"
+                                                variant="gradient"
+                                                color="cyan"
+                                                onClick={submitMeetingLink}>
+                                                <span>Save</span>
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>
+                                </>
+                            )}
 
                             <div className="my-2"></div>
 
