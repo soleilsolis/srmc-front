@@ -545,7 +545,7 @@ const Page = () => {
                                 </CardBody>
                             </Card>
 
-                            {user?.type === 'doctor' && (
+                            {user?.type === 'doctor' && appointment.type !== 'Teleconsultation' && (
                                 <>
                                     {' '}
                                     <Typography variant="h5" className="my-5">
