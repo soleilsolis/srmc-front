@@ -546,7 +546,7 @@ const Page = () => {
                             </Card>
 
                             {user?.type === 'doctor' &&
-                                appointment.type !== 'Teleconsultation' && (
+                                appointment.type === 'Teleconsultation' && (
                                     <>
                                         {' '}
                                         <Typography
