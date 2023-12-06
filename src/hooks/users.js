@@ -64,7 +64,7 @@ export const useUsers = () => {
                 setErrors(error.response.data.errors)
             })
     }
-    const deleteUser = async ({ setErrors, ...props }) => {
+    const deleteUser = async ({ ...props }) => {
         await csrf()
         axios
             .delete(`/api/user/${props.id}`, props, config)
