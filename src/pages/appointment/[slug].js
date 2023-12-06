@@ -803,14 +803,6 @@ const Page = () => {
                                                                 className="mt-2"
                                                             />
                                                         </div>
-                                                        <Button
-                                                            color="cyan"
-                                                            className="rounded-full"
-                                                            onClick={
-                                                                submitForm
-                                                            }>
-                                                            Save
-                                                        </Button>
                                                     </>
                                                 ) : (
                                                     <>
@@ -861,6 +853,13 @@ const Page = () => {
                                                         <hr className="my-3" />
                                                     </>
                                                 )}
+
+                                                <Button
+                                                    color="cyan"
+                                                    className="rounded-full"
+                                                    onClick={submitForm}>
+                                                    Save
+                                                </Button>
                                             </form>
                                         </>
                                     )}
