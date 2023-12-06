@@ -200,7 +200,7 @@ const Page = () => {
     }
     const config = {
         headers: {
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': "https://srmc-front.mcbroad.com/",
         },
     }
     const searchable = name => {
