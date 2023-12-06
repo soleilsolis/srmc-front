@@ -150,6 +150,16 @@ const navListItems = [
         href: '/admin/supply',
         type: ['admin', 'staff'],
     },
+
+    {
+        label: 'Google Calendar',
+        icon: CalendarDaysIcon,
+        href: '/calendar',
+        type: ['patient', 'doctor'],
+    },
+]
+
+const navListItems2 = [
     {
         label: 'Appointment Summary',
         icon: DocumentChartBarIcon,
@@ -189,20 +199,91 @@ function NavList(props) {
                         </Typography>
                     </Link>
                 ))}
+            {props.type == 'admin' && (
+                <Menu>
+                    <MenuHandler>
+                        <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal">
+                            <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                                {createElement(DocumentChartBarIcon, {
+                                    className: 'h-[18px] w-[18px]',
+                                })}{' '}
+                                Summaries
+                            </MenuItem>
+                        </Typography>
+                    </MenuHandler>
+                    <MenuList>
+                        {navListItems2
+                            .filter(item => {
+                                return (
+                                    item.type.find(
+                                        element => element == props.type,
+                                    ) !== undefined
+                                )
+                            })
+                            .map(({ label, icon, href }) => (
+                                <Link href={href} key={label}>
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal">
+                                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                                            {createElement(icon, {
+                                                className: 'h-[18px] w-[18px]',
+                                            })}{' '}
+                                            {label}
+                                        </MenuItem>
+                                    </Typography>
+                                </Link>
+                            ))}
+                    </MenuList>
+                </Menu>
+            )}
 
-            <Link href="/calendar" key="calendar">
-                <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal">
-                    <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                        {createElement(CalendarDaysIcon, {
-                            className: 'h-[18px] w-[18px]',
-                        })}{' '}
-                        Google Calendar
-                    </MenuItem>
-                </Typography>
-            </Link>
+            {props.type == 'staff' && (
+                <Menu>
+                    <MenuHandler>
+                        <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal">
+                            <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                                {createElement(DocumentChartBarIcon, {
+                                    className: 'h-[18px] w-[18px]',
+                                })}{' '}
+                                Summaries
+                            </MenuItem>
+                        </Typography>
+                    </MenuHandler>
+                    <MenuList>
+                        {navListItems2
+                            .filter(item => {
+                                return (
+                                    item.type.find(
+                                        element => element == props.type,
+                                    ) !== undefined
+                                )
+                            })
+                            .map(({ label, icon, href }) => (
+                                <Link href={href} key={label}>
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal">
+                                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                                            {createElement(icon, {
+                                                className: 'h-[18px] w-[18px]',
+                                            })}{' '}
+                                            {label}
+                                        </MenuItem>
+                                    </Typography>
+                                </Link>
+                            ))}
+                    </MenuList>
+                </Menu>
+            )}
         </ul>
     )
 }

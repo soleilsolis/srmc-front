@@ -42,7 +42,7 @@ const EditUser = () => {
     const router = useRouter()
     const id = router.query.slug
 
-    const { editUser, getUser, changePassword } = useUsers()
+    const { editUser, getUser, changePassword, deleteUser } = useUsers()
     const { getDays } = useDay()
     const { newSchedule, editSchedule, deleteSchedule } = useSchedule()
 
@@ -92,6 +92,9 @@ const EditUser = () => {
     const [openDelete, setOpenDelete] = useState()
     const handleDelete = () => setOpenDelete(!openDelete)
 
+    const [openDestroy, setOpenDestroy] = useState()
+    const handleDestroy = () => setOpenDestroy(!openDestroy)
+
     const typeOptions = [
         { value: '', text: 'Choose an option' },
         { value: 'patient', text: 'Patient' },
@@ -131,6 +134,15 @@ const EditUser = () => {
             valid_id_number,
             license_number,
             service_id,
+            setErrors,
+        })
+    }
+
+    const submitDeleteUser = async event => {
+        event.preventDefault()
+
+        deleteUser({
+            id,
             setErrors,
         })
     }
@@ -549,6 +561,19 @@ const EditUser = () => {
                             </Button>
                         </CardBody>
                     </Card>
+                    <Typography variant="h5" className="my-6">
+                        Delete User{' '}
+                    </Typography>
+                    <Card>
+                        <CardBody>
+                            <Button
+                                variant="gradient"
+                                color="red"
+                                className="rounded-full" onClick={handleDestroy}>
+                                <span>Delete User</span>
+                            </Button>
+                        </CardBody>
+                    </Card>
                 </div>
                 <div>
                     {user.type === 'patient' ? (
@@ -762,6 +787,31 @@ const EditUser = () => {
                         color="cyan"
                         onClick={submitSchedule}>
                         Save
+                    </Button>
+                </DialogFooter>
+            </Dialog>
+
+            <Dialog handler={handleDestroy} open={openDestroy}>
+                <DialogHeader>Delete Schedule</DialogHeader>
+                <DialogBody>
+                    <Typography variant="h3" color="red">
+                        Are You Sure?
+                    </Typography>
+                </DialogBody>
+                <DialogFooter>
+                    <Button
+                        className="rounded-full mr-2"
+                        color="cyan"
+                        variant="text"
+                        onClick={handleDestroy}>
+                        cancel
+                    </Button>
+
+                    <Button
+                        className="rounded-full"
+                        color="red"
+                        onClick={submitDeleteUser}>
+                        Delete
                     </Button>
                 </DialogFooter>
             </Dialog>

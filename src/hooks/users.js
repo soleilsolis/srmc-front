@@ -64,6 +64,13 @@ export const useUsers = () => {
                 setErrors(error.response.data.errors)
             })
     }
+    const deleteUser = async ({ setErrors, ...props }) => {
+        await csrf()
+        axios
+            .delete(`/api/user/${props.id}`, props, config)
+            .then(() => router.push(`/admin/users`))
+    }
+
     const editUser = async ({ setErrors, ...props }) => {
         await csrf()
         axios
@@ -142,5 +149,6 @@ export const useUsers = () => {
         changePhoto,
         changeSignature,
         calendarLink,
+        deleteUser,
     }
 }
