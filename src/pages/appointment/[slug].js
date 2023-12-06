@@ -48,7 +48,6 @@ const Page = () => {
     const {
         checkInAppointment,
         checkOutAppointment,
-        newVitals,
         cancelAppointment,
         acceptAppointment,
         meetingLink,
@@ -200,17 +199,10 @@ const Page = () => {
     }
     const config = {
         headers: {
-            'Access-Control-Allow-Origin': "https://srmc-front.mcbroad.com/",
+            'Access-Control-Allow-Origin': '*',
         },
     }
-    const searchable = name => {
-        axios
-            .get(
-                `https://rxnav.nlm.nih.gov/REST/Prescribe/drugs.json?name=${name}`,
-                config,
-            )
-            .then(res => console.log(res))
-    }
+
     const csrf = () => axios.get('/sanctum/csrf-cookie', config)
 
     useEffect(() => {
@@ -270,6 +262,29 @@ const Page = () => {
         }
         fetchData(id)
     }, [id])
+
+    const [searching, setSearching] = useState(false)
+    const searchable = name => {
+        fetch(
+            `https://rxnav.nlm.nih.gov/REST/Prescribe/drugs.json?name=${name}`,
+        )
+            .then(res => res.json())
+            .catch()
+            .then(res => {
+                const conceptGroup = res.drugGroup.conceptGroup
+
+                const array = []
+                conceptGroup &&
+                    conceptGroup.map(concept => {
+                        concept.conceptProperties &&
+                            concept.conceptProperties.map(conceptProperty =>
+                                array.push(conceptProperty),
+                            )
+                    })
+
+                    setBrandNames(array)
+            })
+    }
 
     return (
         <AppLayout
@@ -853,16 +868,15 @@ const Page = () => {
                                                         <hr className="my-3" />
                                                     </>
                                                 )}
-
-                                                <Button
-                                                    color="cyan"
-                                                    className="rounded-full"
-                                                    onClick={submitForm}>
-                                                    Save
-                                                </Button>
                                             </form>
                                         </>
                                     )}
+                                    <Button
+                                        color="cyan"
+                                        className="rounded-full"
+                                        onClick={submitForm}>
+                                        Save
+                                    </Button>
                                 </CardBody>
                             </Card>
                         </div>
@@ -1009,8 +1023,15 @@ const Page = () => {
                                 onChange={event => {
                                     setGenericName(event.target.value)
                                     setErrors([])
-                                    searchable(event.target.value)
+                                    setBrandNames([])
                                 }}></Input>
+
+                            <Button className='mt-3'
+                                onClick={event => {
+                                    searchable(genericName)
+                                }}>
+                                Search
+                            </Button>
                             <InputError
                                 messages={errors.generic_name}
                                 className="mt-2"
@@ -1020,19 +1041,11 @@ const Page = () => {
                             <Select
                                 label="Brand Name"
                                 name="medication_name"
-                                value={medicationName}
                                 onChange={event => {
                                     setMedicationName(event)
                                     setErrors([])
                                 }}>
-                                {' '}
-                                {brandNames.map(option => (
-                                    <Option
-                                        key={option.value}
-                                        value={option.value}>
-                                        {option.label}
-                                    </Option>
-                                ))}{' '}
+                                {brandNames.map(brand => (<Option key={brand.name} value={brand.name}>{brand.name}</Option>))}
                             </Select>
                             <InputError
                                 messages={errors.medication_name}
