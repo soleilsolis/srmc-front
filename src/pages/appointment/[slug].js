@@ -1017,7 +1017,7 @@ const Page = () => {
                     <form>
                         <div className="mb-6">
                             <Input
-                                label="Generic Name"
+                                label="Search"
                                 name="generic_name"
                                 required
                                 onChange={event => {
@@ -1039,7 +1039,7 @@ const Page = () => {
                         </div>
                         <div className="mb-6">
                             <Select
-                                label="Brand Name"
+                                label="Generic + Brand Name"
                                 name="medication_name"
                                 onChange={event => {
                                     setMedicationName(event)
