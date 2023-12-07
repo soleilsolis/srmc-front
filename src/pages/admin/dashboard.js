@@ -247,7 +247,7 @@ const Dashboard = () => {
                             variant="h5"
                             color="blue-gray"
                             className="my-4">
-                            Appointments (All Time)
+                            Appointments
                         </Typography>
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
                             <Card>
