@@ -9,12 +9,13 @@ import {
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend,
     ArcElement,
 } from 'chart.js'
-import { Line, Pie } from 'react-chartjs-2'
+import { Line, Bar } from 'react-chartjs-2'
 
 ChartJS.register(
     ArcElement,
@@ -22,6 +23,7 @@ ChartJS.register(
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend,
@@ -163,6 +165,20 @@ const Dashboard = () => {
                 text: 'User Demographics',
             },
         },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value) {
+                            if (value % 1 === 0) {
+                                return value
+                            }
+                        },
+                    },
+                },
+            ],
+        },
     }
 
     const patientPieOptions = {
@@ -176,6 +192,20 @@ const Dashboard = () => {
                 text: 'Patient Demographics',
             },
         },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value) {
+                            if (value % 1 === 0) {
+                                return value
+                            }
+                        },
+                    },
+                },
+            ],
+        },
     }
 
     const supplyPieOptions = {
@@ -188,6 +218,20 @@ const Dashboard = () => {
                 display: true,
                 text: 'Supply Summary',
             },
+        },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value) {
+                            if (value % 1 === 0) {
+                                return value
+                            }
+                        },
+                    },
+                },
+            ],
         },
     }
 
@@ -334,7 +378,7 @@ const Dashboard = () => {
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 mt-4">
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie
+                                    <Bar
                                         options={patientPieOptions}
                                         data={patientPieData}
                                     />
@@ -342,7 +386,7 @@ const Dashboard = () => {
                             </Card>
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie
+                                    <Bar
                                         options={userPieOptions}
                                         data={userPieData}
                                     />
@@ -350,7 +394,7 @@ const Dashboard = () => {
                             </Card>
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
-                                    <Pie
+                                    <Bar
                                         options={supplyPieOptions}
                                         data={supplyPieData}
                                     />

@@ -588,7 +588,7 @@ const Page = () => {
                             <div className="my-2"></div>
 
                             <Typography variant="h5" className="my-5">
-                                Diagnosis
+                                Prognosis
                             </Typography>
                             <Card>
                                 <CardBody>
