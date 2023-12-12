@@ -56,6 +56,33 @@ const options = {
     },
 }
 
+const sexOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top',
+        },
+        title: {
+            display: true,
+            text: 'Male to Female Patient Ratio',
+        },
+    },
+    scales: {
+        yAxes: [
+            {
+                ticks: {
+                    beginAtZero: true,
+                    callback: function (value) {
+                        if (value % 1 === 0) {
+                            return value
+                        }
+                    },
+                },
+            },
+        ],
+    },
+}
+
 const Dashboard = () => {
     const { stats } = useAppointment()
     useAuth({
@@ -154,6 +181,22 @@ const Dashboard = () => {
         ],
     }
 
+    const sexData = {
+        labels: ['Male', 'Female'],
+        datasets: [
+            {
+                label: 'Male',
+                data: stats ? [stats.vaccine, stats.medical_supply] : [],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                ],
+                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                borderWidth: 1,
+            },
+        ],
+    }
+
     const userPieOptions = {
         responsive: true,
         plugins: {
@@ -234,6 +277,84 @@ const Dashboard = () => {
             ],
         },
     }
+
+    const prognosis_head = ['Most Common findings ', '']
+
+    const prognosis_rows = [
+        {
+            name: 'Cold',
+            job: 'Manager',
+            date: '23/04/18',
+            count: 123,
+        },
+        {
+            name: 'Conjunctivitis',
+            job: 'Developer',
+            date: '23/04/18',
+            count: 77,
+        },
+        {
+            name: 'Diarrhea',
+            job: 'Executive',
+            date: '19/09/17',
+            count: 50,
+        },
+        {
+            name: 'Headaches',
+            job: 'Developer',
+            date: '24/12/08',
+            count: 23,
+        },
+        {
+            name: 'Sinusitis',
+            job: 'Manager',
+            date: '04/10/21',
+            count: 11,
+        },
+
+        {
+            name: 'Allergy (Shrimp)',
+            job: 'Manager',
+            date: '04/10/21',
+            count: 3,
+        },
+    ]
+
+    const supply_head = ['Latest Supply Change ', 'Quantity', 'Price']
+
+    const supply_body = [
+        {
+            name: 'AstraZeneca',
+            count: 5,
+            price: 'PHP 2000',
+        },
+        {
+            name: 'Pfizer-BioNTech',
+            count: 9,
+            price: 'PHP 3000',
+        },
+        {
+            name: 'Sinovac',
+            count: 50,
+            price: 'PHP 2567',
+        },
+        {
+            name: 'Sputnik V',
+            count: 23,
+            price: 'PHP 4040',
+        },
+        {
+            name: 'Moderna',
+            count: 11,
+            price: 'PHP 9783',
+        },
+
+        {
+            name: 'Moderna',
+            count: 3,
+            price: 'PHP 3000',
+        },
+    ]
 
     return (
         <AppLayout header={<div className="inline-flex w-full">Dashboard</div>}>
@@ -375,6 +496,138 @@ const Dashboard = () => {
                                 <Line options={options} data={data} />
                             </CardBody>
                         </Card>
+
+                        <Card className="my-6">
+                            <CardBody>
+                                <Bar options={sexOptions} data={sexData} />
+                            </CardBody>
+                        </Card>
+
+                        <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-4">
+                            <Card className="h-full w-full overflow-scroll">
+                                <table className="w-full min-w-max table-auto text-left">
+                                    <thead>
+                                        <tr>
+                                            {prognosis_head.map(head => (
+                                                <th
+                                                    key={head}
+                                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal leading-none opacity-70">
+                                                        {head}
+                                                    </Typography>
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {prognosis_rows.map(
+                                            ({ name, count }, index) => {
+                                                const isLast =
+                                                    index ===
+                                                    prognosis_rows.length - 1
+                                                const classes = isLast
+                                                    ? 'p-4'
+                                                    : 'p-4 border-b border-blue-gray-50'
+
+                                                return (
+                                                    <tr key={name}>
+                                                        <td className={classes}>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="font-normal">
+                                                                {name}
+                                                            </Typography>
+                                                        </td>
+
+                                                        <td className={classes}>
+                                                            <Typography
+                                                                as="a"
+                                                                href="#"
+                                                                variant="h5"
+                                                                color="blue-gray"
+                                                                className="font-medium">
+                                                                {count}
+                                                            </Typography>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            },
+                                        )}
+                                    </tbody>
+                                </table>
+                            </Card>
+                            <Card className="h-full w-full overflow-scroll">
+                                <table className="w-full min-w-max table-auto text-left">
+                                    <thead>
+                                        <tr>
+                                            {supply_head.map(head => (
+                                                <th
+                                                    key={head}
+                                                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal leading-none opacity-70">
+                                                        {head}
+                                                    </Typography>
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {supply_body.map(
+                                            ({ name, count, price }, index) => {
+                                                const isLast =
+                                                    index ===
+                                                    supply_body.length - 1
+                                                const classes = isLast
+                                                    ? 'p-4'
+                                                    : 'p-4 border-b border-blue-gray-50'
+
+                                                return (
+                                                    <tr key={name}>
+                                                        <td className={classes}>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="font-normal">
+                                                                {name}
+                                                            </Typography>
+                                                        </td>
+
+                                                        <td className={classes}>
+                                                            <Typography
+                                                                as="a"
+                                                                href="#"
+                                                                variant="h5"
+                                                                color="blue-gray"
+                                                                className="font-medium">
+                                                                {count}
+                                                            </Typography>
+                                                        </td>
+                                                        <td className={classes}>
+                                                            <Typography
+                                                                as="a"
+                                                                href="#"
+                                                                variant="h5"
+                                                                color="blue-gray"
+                                                                className="font-medium">
+                                                                {price}
+                                                            </Typography>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            },
+                                        )}
+                                    </tbody>
+                                </table>
+                            </Card>
+                        </div>
                         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 mt-4">
                             <Card className="h-full w-full lg:col-span-2 col-span-4">
                                 <CardBody>
