@@ -52,6 +52,32 @@ const TABS = [
 
 const TABLE_HEAD = ['', 'User', '', 'Status', 'Joined', '']
 
+const SEX_TABS = [
+    {
+        label: 'Male',
+        value: 'all',
+    },
+    {
+        label: 'Female',
+        value: 'patient',
+    },
+]
+
+const TYPE_TABS = [
+    {
+        label: 'Regular',
+        value: 'all',
+    },
+    {
+        label: 'Senior',
+        value: 'patient',
+    },
+    {
+        label: 'PWD',
+        value: 'patient',
+    },
+]
+
 const Users = () => {
     const { usersQuery } = useUsers()
     const [users, setUsers] = useState([])
@@ -106,6 +132,26 @@ const Users = () => {
                             <Tabs value="all" className="w-full md:w-max">
                                 <TabsHeader>
                                     {TABS.map(({ label, value }) => (
+                                        <Tab
+                                            key={value}
+                                            value={value}
+                                            onClick={() => getUsers(value)}>
+                                            &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                        </Tab>
+                                    ))}
+                                </TabsHeader>
+                                <TabsHeader>
+                                    {SEX_TABS.map(({ label, value }) => (
+                                        <Tab
+                                            key={value}
+                                            value={value}
+                                            onClick={() => getUsers(value)}>
+                                            &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                        </Tab>
+                                    ))}
+                                </TabsHeader>
+                                <TabsHeader>
+                                    {TYPE_TABS.map(({ label, value }) => (
                                         <Tab
                                             key={value}
                                             value={value}
