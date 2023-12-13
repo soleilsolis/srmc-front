@@ -168,10 +168,10 @@ const Users = () => {
                                         <MagnifyingGlassIcon className="h-5 w-5" />
                                     }
                                 />
-                                <div className='my-4'>
+                                <div className="my-4">
                                     <Input label="Age From" className="" />
                                 </div>
-                                <div className='my-4'>
+                                <div className="my-4">
                                     <Input label="Age To " className="" />
                                 </div>
                             </div>
